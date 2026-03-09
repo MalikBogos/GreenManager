@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="GreenManager - ASP.NET CORE/GreenManager - ASP.NET CORE.csproj" Id="dfe47367-6b8e-4fcb-8c7c-fe073998c1e0" />
+  <Project Path="GreenManager - MAUI/GreenManager - MAUI.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="GreenManager - WPF/GreenManager - WPF.csproj" Id="bdca20a9-8956-4e0c-b27e-cbd1eca9f0c6" />
+  <Project Path="Models/Models.csproj" />
+</Solution>

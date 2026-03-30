@@ -22,5 +22,10 @@ namespace GreenManager___WPF
 		{
 			InitializeComponent();
 		}
+
+		public ExpenseReportPage(object data):this()
+		{
+			this.DataContext = data;
+		}
 	}
 }

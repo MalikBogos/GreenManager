@@ -6,9 +6,14 @@ using System.Text;
 
 namespace Models.Entities
 {
-	[Owned]
 	public class Address
 	{
+		[Key]
+		public int Id { get; set; }
+
+		public int CustomerId { get; set; }
+		public Customer Customer { get; set; } = null!;
+
 		// Voorbeeldstraat 31A
 		[Required(ErrorMessage = "Street is required")]
 		[StringLength(200)]

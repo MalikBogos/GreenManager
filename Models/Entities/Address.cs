@@ -32,5 +32,14 @@ namespace Models.Entities
 		[Required(ErrorMessage = "Country is required")]
 		[StringLength(100)]
 		public string Country { get; set; } = "Belgium";
+
+		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+
+		public bool IsDeleted { get; set; } = false;
+
+		[StringLength(250)]
+		public string? DeletedReason { get; set; }
+
+		public DateTime? DeletedAt { get; set; }
 	}
 }

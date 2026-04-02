@@ -22,7 +22,7 @@ namespace Models.Entities
 		public bool IsBlocked { get; set; } = false;
 
 		[StringLength(250, ErrorMessage = "Block reason should be 250 characters at most")]
-		public string? BlockReason { get; set; }
+		public string? BlockedReason { get; set; }
 
 		public DateTime? BlockedAt { get; set; }
 

@@ -36,13 +36,15 @@ namespace Models.Entities
 		public bool IsBlocked { get; set; } = false;
 
 		[StringLength(250, ErrorMessage = "Block reason should be 250 characters at most")]
-		public string? BlockReason { get; set; }
+		public string? BlockedReason { get; set; }
 
 		public DateTime? BlockedAt { get; set; }
 
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
 		public bool IsDeleted { get; set; } = false;
+
+		public string? DeletedReason { get; set; }
 
 		public DateTime? DeletedAt { get; set; }
 	}

@@ -9,30 +9,37 @@ namespace Models.Entities
 	public class Customer
 	{
 		[Key]
-		public required int Id { get; init; }
+		public int Id { get; init; }
 
-		[Required(ErrorMessage = "Customer's FirstName is required")]
+		[Required(ErrorMessage = "Customer's FirstName is required. Cannot properly set up project without First Name")]
 		[StringLength(100)]
 		public required string FirstName { get; set; }
 
-		
-		[Required(ErrorMessage = "Customer's LastName is required")]
+		[Required(ErrorMessage = "Customer's LastName is required. Cannot properly set up project without Last Name")]
 		[StringLength(100)]
 		public required string LastName { get; set; }
 
-		[Required(ErrorMessage = "Customer's Email is required")]
+		[Required(ErrorMessage = "Customer's Email is required. Cannot communicate without Email")]
 		[StringLength(200)]
 		[EmailAddress]
 		public required string Email { get; set; }
 
-		[ProtectedPersonalData]
+		[Required(ErrorMessage = "Customer's PhoneNumber is required. Cannot contact customer without Customer's PhoneNumber")]
 		[Phone]
-		[Required(ErrorMessage = "Cannot contact customer without Customer's PhoneNumber")]
 		public required string PhoneNumber { get; set; }
 
-		[Required(ErrorMessage = "Customer's Address is required")] // Cannot work without knowing the address
-		public required string Address { get; set; }
-		
+		[Required(ErrorMessage = "Customer's Address is required. Cannot carry out work without knowing Customer's Address")]
+		//[StringLength(250)]
+		public required Address Address { get; set; }
+
+		// For example in case a customer is problematic
+		public bool IsBlocked { get; set; } = false;
+
+		[StringLength(250, ErrorMessage = "Block reason should be 250 characters at most")]
+		public string? BlockReason { get; set; }
+
+		public DateTime? BlockedAt { get; set; }
+
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
 		public bool IsDeleted { get; set; } = false;

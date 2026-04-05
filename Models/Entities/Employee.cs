@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Models.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Models.Entities
 {
-	public class Employee
+	public class Employee : BaseEntity
 	{
 		[Key]
 		public int Id { get; set; }

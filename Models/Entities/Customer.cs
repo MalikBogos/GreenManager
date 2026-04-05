@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Models.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,10 +7,8 @@ using System.Text;
 
 namespace Models.Entities
 {
-	public class Customer
+	public class Customer : BaseEntity
 	{
-		[Key]
-		public int Id { get; set; }
 
 		[Required(ErrorMessage = "Customer's FirstName is required. Cannot properly set up project without First Name")]
 		[StringLength(100)]
@@ -41,13 +40,5 @@ namespace Models.Entities
 		public string? BlockedReason { get; set; }
 
 		public DateTime? BlockedAt { get; set; }
-
-		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
-
-		public bool IsDeleted { get; set; } = false;
-
-		public string? DeletedReason { get; set; }
-
-		public DateTime? DeletedAt { get; set; }
 	}
 }

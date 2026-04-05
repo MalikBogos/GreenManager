@@ -34,7 +34,12 @@ namespace Models.Entities
 		//[Required(ErrorMessage = "IsDeleted of Application User is required")]
 		public bool IsDeleted { get; set; } = false;
 
+		[StringLength(250)]
+		public string? DeletedReason { get; set; }
+
 		// Necessary information for account info
 		public DateTime? DeletedAt { get; set; }
+
+		public Employee? Employee { get; set; }
 	}
 }

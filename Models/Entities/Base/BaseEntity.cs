@@ -7,9 +7,6 @@ namespace Models.Entities.Base
 {
 	public abstract class BaseEntity
 	{
-		[Key]
-		public int Id { get; set; }
-
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
 		public bool IsDeleted { get; set; } = false;

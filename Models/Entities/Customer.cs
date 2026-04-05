@@ -9,6 +9,8 @@ namespace Models.Entities
 {
 	public class Customer : BaseEntity
 	{
+		[Key]
+		public int Id { get; set; }
 
 		[Required(ErrorMessage = "Customer's FirstName is required. Cannot properly set up project without First Name")]
 		[StringLength(100)]

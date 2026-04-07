@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Models.Entities.Base
 {
-	public abstract class BaseEntity
+	public abstract class BaseEntity<TId> where TId : notnull
 	{
+		[Key]
+		public TId Id { get; init; } = default!;
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
 		public DateTime? UpdatedAt { get; set; }

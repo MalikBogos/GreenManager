@@ -6,11 +6,8 @@ using System.Text;
 
 namespace Models.Entities
 {
-	public class Employee : BaseEntity
+	public class Employee : BaseEntity<int>
 	{
-		[Key]
-		public int Id { get; set; }
-
 		[Required]
 		public required string ApplicationUserId { get; set; }
 		public ApplicationUser User { get; set; } = null!;

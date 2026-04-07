@@ -8,6 +8,8 @@ namespace Models.Entities
 {
 	public class ApplicationUser : IdentityUser
 	{
+		public Employee? Employee { get; set; }
+
 		//[ProtectedPersonalData]
 		[Required(ErrorMessage = "FirstName is required")]
 		[StringLength(50)] //Programming standard
@@ -26,22 +28,17 @@ namespace Models.Entities
 
 		public DateTime? BlockedAt { get; set; }
 
-		// Necessary information for account info
 		//[Required(ErrorMessage = "Application User creation date is required")]
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
 		public DateTime? UpdatedAt { get; set; }
 
 		// Soft-delete
-		//[Required(ErrorMessage = "IsDeleted of Application User is required")]
 		public bool IsDeleted { get; set; } = false;
 
 		[StringLength(250)]
 		public string? DeletedReason { get; set; }
 
-		// Necessary information for account info
 		public DateTime? DeletedAt { get; set; }
-
-		public Employee? Employee { get; set; }
 	}
 }

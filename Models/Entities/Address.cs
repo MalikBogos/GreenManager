@@ -7,11 +7,8 @@ using System.Text;
 
 namespace Models.Entities
 {
-	public class Address : BaseEntity
+	public class Address : BaseEntity<int>
 	{
-		[Key]
-		public int Id { get; set; }
-
 		public int? CustomerId { get; set; }
 		public Customer? Customer { get; set; }
 

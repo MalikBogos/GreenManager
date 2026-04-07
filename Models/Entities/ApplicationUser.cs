@@ -30,6 +30,8 @@ namespace Models.Entities
 		//[Required(ErrorMessage = "Application User creation date is required")]
 		public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
+		public DateTime? UpdatedAt { get; set; }
+
 		// Soft-delete
 		//[Required(ErrorMessage = "IsDeleted of Application User is required")]
 		public bool IsDeleted { get; set; } = false;

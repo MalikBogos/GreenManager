@@ -16,6 +16,16 @@ namespace Models.Entities
 		[StringLength(20)]
 		public required string EmployeeNumber { get; set; }
 
+		public ICollection<EmployeeWageHistory> WageHistory { get; set; } = new List<EmployeeWageHistory>();
+		// Handy computed property voor het huidige tarief
+		public decimal? CurrentHourlyWage =>
+			WageHistory.Where(w => w.EffectiveTo == null || w.EffectiveTo > DateTime.Now)
+					   .OrderByDescending(w => w.EffectiveFrom)
+					   .FirstOrDefault()?.HourlyWage;
+
+		// .Include(e => e.WageHistory).?
+
+
 		public DateTime HireDate { get; set; }
 		public DateTime? DateOfBirth { get; set; }
 

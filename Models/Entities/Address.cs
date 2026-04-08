@@ -10,10 +10,10 @@ namespace Models.Entities
 	public class Address : BaseEntity<int>
 	{
 		public int? CustomerId { get; set; }
-		public Customer? Customer { get; set; }
+		public Customer? Customer { get; set; } // Attention
 
 		public int? EmployeeId { get; set; }
-		public Employee? Employee { get; set; }
+		public Employee? Employee { get; set; } // Attention: maybe possible to make an exclusive implementation to lock out either one of the options in case one is assigned?
 
 		// Voorbeeldstraat 31A
 		[Required(ErrorMessage = "Street is required")]

@@ -9,7 +9,6 @@ namespace Models.Entities
 {
 	public class Customer : BaseEntity<int>
 	{
-
 		[Required(ErrorMessage = "Customer's FirstName is required. Cannot properly set up project without First Name")]
 		[StringLength(100)]
 		public required string FirstName { get; set; }
@@ -29,9 +28,11 @@ namespace Models.Entities
 
 		//[Required(ErrorMessage = "Customer's Address is required. Cannot carry out work without knowing Customer's Address")]
 		//[StringLength(250)]
-		public ICollection<Address> Addresses { get; set; } = new List<Address>(); // Removed 'required' to enable lazy loading?
+		public ICollection<Address> Addresses { get; set; } = new List<Address>();
 
 		public Address? CurrentAddress => Addresses.FirstOrDefault(a => !a.IsDeleted);
+
+		public ICollection<Project> Projects { get; set; } = new List<Project>();
 
 		// For example in case a customer is problematic
 		public bool IsBlocked { get; set; } = false;

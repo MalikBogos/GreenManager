@@ -17,6 +17,7 @@ namespace Models.Entities
 		public required string EmployeeNumber { get; set; }
 
 		public ICollection<EmployeeWageHistory> WageHistory { get; set; } = new List<EmployeeWageHistory>();
+
 		// Handy computed property voor het huidige tarief
 		public decimal? CurrentHourlyWage =>
 			WageHistory.Where(w => w.EffectiveTo == null || w.EffectiveTo > DateTime.Now)
@@ -25,8 +26,8 @@ namespace Models.Entities
 
 		// .Include(e => e.WageHistory).?
 
-
 		public DateTime HireDate { get; set; }
+
 		public DateTime? DateOfBirth { get; set; }
 
 		[StringLength(100)]
@@ -44,5 +45,9 @@ namespace Models.Entities
 
 		public ICollection<Address> Addresses { get; set; } = new List<Address>();
 		public Address? CurrentAddress => Addresses.FirstOrDefault(a => !a.IsDeleted);
+
+		public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
+
+		public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>();
 	}
 }

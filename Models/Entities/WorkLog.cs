@@ -30,7 +30,7 @@ namespace Models.Entities
 
 		// Bonus?
 
-		[StringLength(250)]
+		[StringLength(1500)]
 		public string? Notes { get; set; }
 
 		[Column(TypeName = "decimal(18,2)")]

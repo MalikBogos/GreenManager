@@ -17,6 +17,13 @@ namespace Models.Entities
 		[StringLength(100)]
 		public required string LastName { get; set; }
 
+		public string? CompanyName { get; set; }
+
+		public string? VATNumber { get; set; }
+
+		[StringLength(1500)]
+		public string? Notes { get; set; }
+
 		[Required(ErrorMessage = "Customer's Email is required. Cannot communicate without Email")]
 		[StringLength(200)]
 		[EmailAddress]

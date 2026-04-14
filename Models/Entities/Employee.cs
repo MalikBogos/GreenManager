@@ -49,5 +49,9 @@ namespace Models.Entities
 		public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
 
 		public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>();
+
+		[StringLength(1500)]
+		public string? Notes { get; set; }
+
 	}
 }

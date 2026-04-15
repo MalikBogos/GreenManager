@@ -6,10 +6,11 @@ namespace Models.Enums
 {
 	public enum QuoteStatus
 	{
-		Pending,
-		Active,
-		Paused,
-		Completed,
+		Draft,
+		Sent,
+		Accepted,
+		Rejected,
+		Expired,
 		Cancelled
 	}
 }

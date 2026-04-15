@@ -25,6 +25,10 @@ namespace Models.Entities
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; } = null!;
 
+		public string? ProjectAddress { get; set; }
+
+		public decimal? Budget { get; set; }
+
 		public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
 		public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
 		public ICollection<ProjectMaterial> ProjectMaterials { get; set; } = new List<ProjectMaterial>();

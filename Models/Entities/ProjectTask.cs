@@ -17,6 +17,8 @@ namespace Models.Entities
 		[StringLength(250)]
 		public required string Title { get; set; }
 
+		public DateTime DueDate { get; set; }
+
 		[StringLength(1500)]
 		public string? Description { get; set; }
 

@@ -36,6 +36,7 @@ namespace Models.Entities
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal HourlyWageAtTime { get; set; }
 
+		[NotMapped]
 		public decimal LaborCost => HoursWorked * HourlyWageAtTime;
 
 		// context.WorkLogs

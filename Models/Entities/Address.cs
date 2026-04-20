@@ -38,5 +38,8 @@ namespace Models.Entities
 		[Required(ErrorMessage = "Country is required")]
 		[StringLength(100)]
 		public string Country { get; set; } = "Belgium";
+
+		[StringLength(50)]
+		public string AddressType { get; set; } = "Home";
 	}
 }

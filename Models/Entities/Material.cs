@@ -15,6 +15,7 @@ namespace Models.Entities
 		[StringLength(1500)]
 		public string? Description { get; set; }
 
+		[StringLength(20)]
 		public string? Unit { get; set; } // bijv. "m²", "stuk", "liter"
 
 		[Column(TypeName = "decimal(18,2)")]

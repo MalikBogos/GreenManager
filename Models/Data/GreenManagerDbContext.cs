@@ -28,6 +28,11 @@ namespace Models.Data
 		public DbSet<QuoteItem> QuoteItems { get; set; }
 		public DbSet<WorkLog> WorkLogs { get; set; }
 
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;IntegratedSecurity=True;");
+		}
+
 
 	}
 }

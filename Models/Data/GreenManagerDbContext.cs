@@ -9,6 +9,9 @@ namespace Models.Data
 {
 	public class GreenManagerDbContext : IdentityDbContext<ApplicationUser>
 	{
+
+		public GreenManagerDbContext() { }
+
 		public GreenManagerDbContext(DbContextOptions<GreenManagerDbContext> options) : base(options) 
 		{
 
@@ -30,7 +33,10 @@ namespace Models.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;IntegratedSecurity=True;");
+			if (!optionsBuilder.IsConfigured)
+			{
+				optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Database=GreenManagerDb;Integrated Security=True;");
+			}
 		}
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Models.Entities;
 
 namespace Models.Data
@@ -189,7 +190,16 @@ namespace Models.Data
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Database=GreenManagerDb;Integrated Security=True;");
+				// 1. Maak verbinding met het geheime bestand via de ID in je .csproj
+				IConfigurationRoot configuration = new ConfigurationBuilder()
+					.AddUserSecrets<GreenManagerDbContext>()
+					.Build();
+
+				// 2. Haal de string op die we in secrets.json hebben gezet[cite: 3]
+				var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+				// 3. Vertel Entity Framework welke database het moet gebruiken[cite: 3]
+				optionsBuilder.UseSqlServer(connectionString);
 			}
 		}
 

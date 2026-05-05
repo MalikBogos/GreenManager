@@ -50,8 +50,8 @@ namespace Models.Data
 					FirstName = "Admin",
 					LastName = "User",
 					EmailConfirmed = true,
-					CreatedAt = seedDate, // Gebruik de statische variabele
-					SecurityStamp = "STATIC_STAMP_1", // Voeg deze toe voor extra stabiliteit
+					CreatedAt = seedDate, 
+					SecurityStamp = "STATIC_STAMP_1", 
 					ConcurrencyStamp = "STATIC_CONCURRENCY_1"
 				},
 				new ApplicationUser
@@ -70,12 +70,11 @@ namespace Models.Data
 				}
 			);
 
-			// STAP 2: Nu kun je de Employees toevoegen
 			modelBuilder.Entity<Employee>().HasData(
 				new Employee
 				{
 					Id = 1,
-					ApplicationUserId = "admin-uuid-1", // Nu vindt de database deze ID wel!
+					ApplicationUserId = "admin-uuid-1", 
 					EmployeeNumber = "EMP001",
 					HireDate = seedDate,
 					JobTitle = "Hoofd Tuinman",
@@ -97,7 +96,7 @@ namespace Models.Data
 				new Customer
 				{
 					Id = 1,
-					FirstName = "Malik",
+					FirstName = "Bob",
 					LastName = "Bogos",
 					Email = "malik@example.com",
 					PhoneNumber = "0488123456",
@@ -115,9 +114,6 @@ namespace Models.Data
 				}
 			);
 
-
-
-			// 3. Seed Materialen
 			modelBuilder.Entity<Material>().HasData(
 				new Material
 				{
@@ -139,13 +135,12 @@ namespace Models.Data
 				}
 			);
 
-			// 4. Seed Projecten (Gekoppeld aan de Id's van Customers)
 			modelBuilder.Entity<Project>().HasData(
 				new Project
 				{
 					Id = 1,
 					Name = "Aanleg Stadstuin Antwerpen",
-					CustomerId = 1, // Gekoppeld aan Malik
+					CustomerId = 1, // Bob
 					StartDate = seedDate,
 					Status = Models.Enums.ProjectStatus.Active,
 					ProjectAddress = "Kerkstraat 1, 2000 Antwerpen",
@@ -155,7 +150,7 @@ namespace Models.Data
 				{
 					Id = 2,
 					Name = "Onderhoud Park Gent",
-					CustomerId = 2, // Gekoppeld aan Sara
+					CustomerId = 2, // Sara
 					StartDate = seedDate,
 					Status = Models.Enums.ProjectStatus.Pending,
 					ProjectAddress = "Veldstraat 10, 9000 Gent",
@@ -190,15 +185,12 @@ namespace Models.Data
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				// 1. Maak verbinding met het geheime bestand via de ID in je .csproj
 				IConfigurationRoot configuration = new ConfigurationBuilder()
 					.AddUserSecrets<GreenManagerDbContext>()
 					.Build();
 
-				// 2. Haal de string op die we in secrets.json hebben gezet[cite: 3]
 				var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-				// 3. Vertel Entity Framework welke database het moet gebruiken[cite: 3]
 				optionsBuilder.UseSqlServer(connectionString);
 			}
 		}

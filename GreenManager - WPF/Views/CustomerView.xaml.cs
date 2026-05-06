@@ -1,4 +1,6 @@
 ﻿using GreenManager___WPF.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,21 +15,14 @@ using System.Windows.Shapes;
 namespace GreenManager___WPF.Views
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for CustomerView.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class CustomerView : UserControl
 	{
-		public MainWindow()
+		public CustomerView()
 		{
 			InitializeComponent();
-			this.DataContext = new MainViewModel();
+			this.DataContext = new CustomerViewModel();
 		}
-
-		private void BtnKlanten_Click(object sender, RoutedEventArgs e)
-		{
-			// Verander de inhoud (Content) van de ContentControl naar jouw CustomerView
-			MainContent.Content = new CustomerView();
-		}
-
 	}
 }

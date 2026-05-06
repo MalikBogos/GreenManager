@@ -12,12 +12,12 @@ namespace GreenManager___WPF.ViewModels
 	{
 		public MainViewModel()
 		{
-			Customer malik = new Customer() { FirstName = "Malik", LastName = "Bogos", Email = "malikbogos@gmail.com", PhoneNumber = "23844848023" };
-			Customer malik2 = new Customer() { FirstName = "Malikd2a", LastName = "Bogos", Email = "malikbogos2a@gmail.com", PhoneNumber = "23844848023" };
-			Customer malik3 = new Customer() { FirstName = "Malikd3a", LastName = "Bogos", Email = "malikbogos3a@gmail.com", PhoneNumber = "23844848023" };
-			Customer malik4 = new Customer() { FirstName = "Malik4a", LastName = "Bogos", Email = "malikbogos4a@gmail.com", PhoneNumber = "23844848023" };
-			Customer malik5 = new Customer() { FirstName = "Malik5a", LastName = "Bogos", Email = "malikbogos5a@gmail.com", PhoneNumber = "23844848023" };
-			Customer malik6 = new Customer() { FirstName = "Malik6a", LastName = "Bogos", Email = "malikbogos6a@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob = new Customer() { FirstName = "Bob", LastName = "Bogos", Email = "Bobbogos@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob2 = new Customer() { FirstName = "Bobd2a", LastName = "Bogos", Email = "Bobbogos2a@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob3 = new Customer() { FirstName = "Bobd3a", LastName = "Bogos", Email = "Bobbogos3a@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob4 = new Customer() { FirstName = "Bob4a", LastName = "Bogos", Email = "Bobbogos4a@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob5 = new Customer() { FirstName = "Bob5a", LastName = "Bogos", Email = "Bobbogos5a@gmail.com", PhoneNumber = "23844848023" };
+			Customer Bob6 = new Customer() { FirstName = "Bob6a", LastName = "Bogos", Email = "Bobbogos6a@gmail.com", PhoneNumber = "23844848023" };
 
 			using (var context = new GreenManagerDbContext())
 			{
@@ -27,12 +27,12 @@ namespace GreenManager___WPF.ViewModels
 				// Only add if the table is empty
 				//if (!context.Customers.Any())
 				//{
-					context.Customers.Add(malik);
-					context.Customers.Add(malik2);
-					context.Customers.Add(malik3);
-					context.Customers.Add(malik4);
-					context.Customers.Add(malik5);
-					context.Customers.Add(malik6);
+					context.Customers.Add(Bob);
+					context.Customers.Add(Bob2);
+					context.Customers.Add(Bob3);
+					context.Customers.Add(Bob4);
+					context.Customers.Add(Bob5);
+					context.Customers.Add(Bob6);
 					context.SaveChanges();
 				//}
 

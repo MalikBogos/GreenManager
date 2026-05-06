@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="GreenManager___WPF.Views.CustomerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="White">
+
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Titel van het scherm -->
+		<TextBlock Text="Klantenbeheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+
+		<!-- De Tabel die de lijst met klanten laat zien -->
+		<!-- ItemsSource is gekoppeld aan de 'Customers' lijst in je ViewModel -->
+		<DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding Customers}" 
+                  AutoGenerateColumns="True" 
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="All">
+		</DataGrid>
+	</Grid>
+</UserControl>

@@ -42,12 +42,12 @@
 			<StackPanel Margin="0,20,0,0">
 				<TextBlock Text="🌱 GreenManager" Foreground="White" FontSize="22" FontWeight="Bold" Margin="20,0,0,40"/>
 
-				<Button Content="🏠  Dashboard" Style="{StaticResource NavButton}"/>
-				<Button Content="👥  Klanten" Style="{StaticResource NavButton}" Click="BtnKlanten_Click"/>
-				<Button Content="📁  Projecten" Style="{StaticResource NavButton}"/>
-				<Button Content="📦  Materialen" Style="{StaticResource NavButton}"/>
-				<Button Content="👷  Werknemers" Style="{StaticResource NavButton}"/>
-				<Button Content="⚙️  Instellingen" Style="{StaticResource NavButton}"/>
+				<Button Content="🏠  Dashboard" Style="{StaticResource NavButton}" Click="BtnDashboard_Click"/>
+				<Button Content="👥  Customers" Style="{StaticResource NavButton}" Click="BtnClients_Click"/>
+				<Button Content="📁  Projects" Style="{StaticResource NavButton}" Click="BtnProjects_Click"/>
+				<Button Content="📦  Materials" Style="{StaticResource NavButton}" Click="BtnMaterials_Click"/>
+				<Button Content="👷  Employees" Style="{StaticResource NavButton}" Click="BtnEmployees_Click"/>
+				<Button Content="⚙️  Settings" Style="{StaticResource NavButton}" Click="BtnSettings_Click"/>
 			</StackPanel>
 		</Border>
 
@@ -59,17 +59,17 @@
 
 			<Border Grid.Row="0" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
 				<Grid>
-					<TextBlock Text="Welkom, Admin" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold" Foreground="#333"/>
+					<TextBlock Text="Welcome, Admin" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold" Foreground="#333"/>
 
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0">
-						<TextBlock Text="✅ Volledig Gesynchroniseerd" Foreground="#27AE60" VerticalAlignment="Center" FontWeight="SemiBold"/>
+						<TextBlock Text="✅ Fully Synchronised" Foreground="#27AE60" VerticalAlignment="Center" FontWeight="SemiBold"/>
 					</StackPanel>
 				</Grid>
 			</Border>
 
 			<ContentControl x:Name="MainContent" Grid.Row="1" Margin="30">
 				<Border Background="White" CornerRadius="10" Padding="50">
-					<TextBlock Text="Welkom bij GreenManager. Kies een optie in het menu." 
+					<TextBlock Text="Welcome to GreenManager. Choose an option in the menu." 
                                Foreground="#7F8C8D" FontSize="18" 
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Border>

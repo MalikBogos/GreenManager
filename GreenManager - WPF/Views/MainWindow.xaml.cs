@@ -1,14 +1,5 @@
 ﻿using GreenManager___WPF.ViewModels;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GreenManager___WPF.Views
 {
@@ -23,11 +14,37 @@ namespace GreenManager___WPF.Views
 			this.DataContext = new MainViewModel();
 		}
 
-		private void BtnKlanten_Click(object sender, RoutedEventArgs e)
+		private void BtnDashboard_Click(object sender, RoutedEventArgs e)
+		{
+			MainContent.Content = new DashboardView();
+		}
+
+		private void BtnClients_Click(object sender, RoutedEventArgs e)
 		{
 			// Verander de inhoud (Content) van de ContentControl naar jouw CustomerView
 			MainContent.Content = new CustomerView();
 		}
 
+		private void BtnProjects_Click(object sender, RoutedEventArgs e)
+		{
+			// Verander de inhoud (Content) van de ContentControl naar jouw CustomerView
+			MainContent.Content = new ProjectView();
+		}
+
+		private void BtnMaterials_Click(object sender, RoutedEventArgs e)
+		{
+			MainContent.Content = new MaterialView();
+		}
+
+
+		private void BtnEmployees_Click(object sender, RoutedEventArgs e)
+		{
+			MainContent.Content = new EmployeeView();
+		}
+
+		private void BtnSettings_Click(object sender, RoutedEventArgs e)
+		{
+			MainContent.Content = new SettingsView();
+		}
 	}
 }

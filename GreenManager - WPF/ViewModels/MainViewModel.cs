@@ -21,20 +21,20 @@ namespace GreenManager___WPF.ViewModels
 
 			using (var context = new GreenManagerDbContext())
 			{
-				//context.Database.EnsureDeleted();
-				//context.Database.EnsureCreated();
+				context.Database.EnsureDeleted();
+				context.Database.EnsureCreated();
 
 				// Only add if the table is empty
 				//if (!context.Customers.Any())
-				//{
-					context.Customers.Add(Bob);
-					context.Customers.Add(Bob2);
-					context.Customers.Add(Bob3);
-					context.Customers.Add(Bob4);
-					context.Customers.Add(Bob5);
-					context.Customers.Add(Bob6);
-					context.SaveChanges();
-				//}
+				{
+				context.Customers.Add(Bob);
+				context.Customers.Add(Bob2);
+				context.Customers.Add(Bob3);
+				context.Customers.Add(Bob4);
+				context.Customers.Add(Bob5);
+				context.Customers.Add(Bob6);
+				context.SaveChanges();
+				}
 
 				//var voorbeeld1 = context.Customers.ToList();
 
@@ -47,7 +47,7 @@ namespace GreenManager___WPF.ViewModels
 				//}
 			}
 
-			
+
 		}
 	}
 }

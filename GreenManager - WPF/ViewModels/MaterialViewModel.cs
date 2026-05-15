@@ -1,4 +1,5 @@
 ﻿using GreenManager___WPF.Commands;
+using GreenManager___WPF.Views;
 using Models.Data;
 using Models.Entities;
 using System;
@@ -12,18 +13,12 @@ namespace GreenManager___WPF.ViewModels
 	public class MaterialViewModel
 	{
 		public ObservableCollection<Material> Materials { get; set; }
-
-		public string NewName { get; set; } = "";
-		public string NewUnit { get; set; } = "";
-		public decimal NewPrice { get; set; }
-		public decimal NewStock { get; set; }
-
-		public ICommand SaveCommand { get; }
+		public ICommand OpenAddWindowCommand { get; }
 
 		public MaterialViewModel()
 		{
 			Materials = new ObservableCollection<Material>();
-			SaveCommand = new RelayCommand(SaveMaterial);
+			OpenAddWindowCommand = new RelayCommand(OpenAddWindow);
 			LoadMaterials();
 		}
 
@@ -33,6 +28,8 @@ namespace GreenManager___WPF.ViewModels
 			{
 				var MaterialsFromDb = context.Materials.ToList();
 
+				Materials.Clear();
+
 				foreach(var materials in MaterialsFromDb)
 				{
 					Materials.Add(materials);
@@ -40,26 +37,21 @@ namespace GreenManager___WPF.ViewModels
 			}
 		}
 
-		private void SaveMaterial()
+		private void OpenAddWindow()
 		{
-			if (string.IsNullOrWhiteSpace(NewName)) return;
+			var addWindow = new AddMaterialWindow();
 
-			using (var context = new GreenManagerDbContext())
+			if(addWindow.ShowDialog() == true)
 			{
-				var m = new Material
+				using (var context = new GreenManagerDbContext())
 				{
-					Name = NewName,
-					Unit = NewUnit,
-					PurchasePrice = NewPrice,
-					StockQuantity = NewPrice,
-					CreatedAt = DateTime.UtcNow
-				};
+					var materialToSave = addWindow.NewMaterial;
 
-				context.Materials.Add(m);
-				context.SaveChanges();
+					context.Materials.Add(materialToSave);
+					context.SaveChanges();
+				}
+				LoadMaterials();
 			}
-
-			LoadMaterials();
 		}
 	}
 }

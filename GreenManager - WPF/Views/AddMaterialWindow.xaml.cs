@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using GreenManager___WPF.ViewModels;
+using Models.Entities;
+
+namespace GreenManager___WPF.Views
+{
+	/// <summary>
+	/// Interaction logic for AddMaterialWindow.xaml
+	/// </summary>
+	public partial class AddMaterialWindow : Window
+	{
+		public Material NewMaterial { get; set; }
+
+		public AddMaterialWindow()
+		{
+			InitializeComponent();
+
+			NewMaterial = new Material { Name = " " };
+
+			this.DataContext = this;
+		}
+
+		private void BtnSave_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = true;
+		}
+
+		private void BtnCancel_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = false;
+		}
+
+	}
+}

@@ -25,7 +25,7 @@ namespace GreenManager___WPF.Views
 		{
 			InitializeComponent();
 
-			NewMaterial = new Material { Name = " " };
+			NewMaterial = new Material { Name = "Voorbeeld", Description = "Dit is een description", PurchasePrice = 3, StockQuantity = 20, Unit = "Dit is een unit", Notes = "Dit zijn notities", };
 
 			this.DataContext = this;
 		}

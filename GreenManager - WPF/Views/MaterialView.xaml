@@ -15,16 +15,34 @@
 
 		<TextBlock Text="📦 Voorraad &amp; Materialen" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
 
-		<Button Grid.Row="1" Content="+ Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}" 
-        HorizontalAlignment="Left" Padding="15,10" Margin="0,0,0,15" 
-        Background="#2980B9" Foreground="White" FontWeight="Bold"/>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+			<Button Content="+ Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}" 
+                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 
-		<DataGrid Grid.Row="2" ItemsSource="{Binding Materials}" AutoGenerateColumns="False" IsReadOnly="True">
+			<Button Content="✏️ Bewerken" Command="{Binding EditCommand}" 
+                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCommand}" 
+                    Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+		</StackPanel>
+
+		<DataGrid Grid.Row="2" 
+                  ItemsSource="{Binding Materials}" 
+                  SelectedItem="{Binding SelectedMaterial}" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="#E0E0E0"
+                  RowHeight="35">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Naam" Binding="{Binding Name}" Width="*"/>
-				<DataGridTextColumn Header="Voorraad" Binding="{Binding StockQuantity}" Width="100"/>
-				<DataGridTextColumn Header="Eenheid" Binding="{Binding Unit}" Width="100"/>
-				<DataGridTextColumn Header="Inkoopprijs" Binding="{Binding PurchasePrice, StringFormat={}{0:C}}" Width="100"/>
+				<DataGridTextColumn Header="Beschrijving" Binding="{Binding Description}" Width="220"/>
+				<DataGridTextColumn Header="Voorraad" Binding="{Binding StockQuantity}" Width="60"/>
+				<DataGridTextColumn Header="Eenheid" Binding="{Binding Unit}" Width="55"/>
+				<DataGridTextColumn Header="Inkoopprijs" Binding="{Binding PurchasePrice, StringFormat={}{0:C}}" Width="70"/>
+				<DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

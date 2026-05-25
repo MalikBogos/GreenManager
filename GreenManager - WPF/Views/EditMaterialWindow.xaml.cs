@@ -49,5 +49,10 @@ namespace GreenManager___WPF.Views
 		{
 			this.DialogResult = false;
 		}
+
+		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+
+		}
 	}
 }

@@ -43,10 +43,10 @@
 			<TextBox Text="{Binding NewMaterial.Unit}" Margin="0,5,0,15" Padding="5"/>
 
 			<TextBlock Text="Interne Notities (Optioneel)"/>
-			<TextBox Text="{Binding NewMaterial.Notes}" Height="50" TextWrapping="Wrap" Margin="0,5,0,15" Padding="5"/>
+			<TextBox Text="{Binding NewMaterial.Notes}" Height="Auto" TextWrapping="Wrap" Margin="0,5,0,15" Padding="5"/>
 		</StackPanel>
 
-		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" Background="#E74C3C" Foreground="White" Click="BtnCancel_Click"/>
 			<Button Content="Opslaan" Width="100" Padding="10" Background="#27AE60" Foreground="White" Click="BtnSave_Click"/>
 		</StackPanel>

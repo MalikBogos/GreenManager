@@ -26,5 +26,15 @@ namespace GreenManager___WPF.Views
 		{
 
 		}
+
+		private void BtnSave_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = true;
+		}
+
+		private void BtnCancel_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = false;
+		}
 	}
 }

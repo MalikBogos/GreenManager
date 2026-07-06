@@ -7,18 +7,27 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
 
-	<Grid Margin="10">
+	<Grid Margin="20">
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<!-- Titel van het scherm -->
 		<TextBlock Text="Klantenbeheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
 
-		<!-- De Tabel die de lijst met klanten laat zien -->
-		<!-- ItemsSource is gekoppeld aan de 'Customers' lijst in je ViewModel -->
-		<DataGrid Grid.Row="1" 
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+			<Button Content="+ Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}" 
+            Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="✏️ Bewerken" Command="{Binding EditCommand}" 
+            Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCommand}" 
+            Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+		</StackPanel>
+
+		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Customers}" 
                   AutoGenerateColumns="True" 
                   IsReadOnly="True"

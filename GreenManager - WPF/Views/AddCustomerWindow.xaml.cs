@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +18,13 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class AddCustomerWindow : Window
 	{
+		public Customer NewCustomer { get; set; }
+
 		public AddCustomerWindow()
 		{
 			InitializeComponent();
+			NewCustomer = new Customer { FirstName = "Tester", LastName="Code", CompanyName="Code testers", VATNumber="31414", Notes="Het is een voorbeeld", Email = "dsaiiw@gmail.com", PhoneNumber = "3442234233", IsBlocked = false, BlockedReason = null, };
+			this.DataContext = this;
 		}
 
 		private void CheckBox_Checked(object sender, RoutedEventArgs e)

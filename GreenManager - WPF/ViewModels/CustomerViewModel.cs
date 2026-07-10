@@ -45,7 +45,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			var addWindow = new AddCustomerWindow();
 
-			while (addWindow.ShowDialog() == true)
+			if(addWindow.ShowDialog() == true)
 			{
 				using (var context = new GreenManagerDbContext())
 				{

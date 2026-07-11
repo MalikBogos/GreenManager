@@ -29,7 +29,7 @@ namespace GreenManager___WPF.Views
 
 		private void CheckBox_Checked(object sender, RoutedEventArgs e)
 		{
-
+				NewCustomer.IsBlocked = true;
 		}
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)

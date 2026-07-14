@@ -14,7 +14,7 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0" Margin="0,0,0,20">
-			<TextBlock Text="👤 Nieuwe Klant Registreren" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="👤 Bestaande klant bewerken" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
 			<TextBlock Text="Velden gemarkeerd met een * zijn verplicht volgens het systeem." Foreground="#7F8C8D"/>
 		</StackPanel>
 

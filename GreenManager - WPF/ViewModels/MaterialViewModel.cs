@@ -88,14 +88,12 @@ namespace GreenManager___WPF.ViewModels
 
 		private void DeleteMaterial()
 		{
-			// 1. Controleer of er wel iets is geselecteerd
 			if (SelectedMaterial == null)
 			{
 				MessageBox.Show("Selecteer eerst een materiaal uit de lijst.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
-			// 2. Vraag om bevestiging (Best practice!)
 			var result = MessageBox.Show($"Weet je zeker dat je '{SelectedMaterial.Name}' wilt verwijderen?", "Verwijderen bevestigen", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
 			if (result == MessageBoxResult.Yes)
@@ -106,7 +104,6 @@ namespace GreenManager___WPF.ViewModels
 					context.SaveChanges();
 				}
 
-				// 3. Ververs de lijst zodat hij van het scherm verdwijnt
 				LoadMaterials();
 			}
 		}

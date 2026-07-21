@@ -14,7 +14,6 @@ namespace GreenManager___WPF.ViewModels
 	{
 		public ObservableCollection<Customer> Customers { get; set; }
 
-
 		public ICommand OpenAddWindowCommand { get; }
 
 		public ICommand EditCommand { get; }
@@ -33,6 +32,8 @@ namespace GreenManager___WPF.ViewModels
 			using (var context = new GreenManagerDbContext())
 			{
 				var customersFromDb = context.Customers.ToList();
+
+				Customers.Clear();
 
 				foreach (var customer in customersFromDb)
 				{

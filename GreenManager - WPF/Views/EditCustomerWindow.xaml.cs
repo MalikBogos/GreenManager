@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +18,44 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class EditCustomerWindow : Window
 	{
-		public EditCustomerWindow()
+		public Customer EditedCustomer { get; set; }
+
+		public EditCustomerWindow(Customer selectedCustomer)
 		{
 			InitializeComponent();
+
+			EditedCustomer = new Customer
+			{
+				Id = selectedCustomer.Id,
+				FirstName = selectedCustomer.FirstName,
+				LastName = selectedCustomer.LastName,
+				CompanyName = selectedCustomer.CompanyName,
+				VATNumber = selectedCustomer.VATNumber,
+				Email = selectedCustomer.Email,
+				PhoneNumber = selectedCustomer.PhoneNumber,
+				Notes = selectedCustomer.Notes,
+				IsBlocked = selectedCustomer.IsBlocked,
+				BlockedReason = selectedCustomer.BlockedReason,
+				BlockedAt = selectedCustomer.BlockedAt,
+				CreatedAt = selectedCustomer.CreatedAt
+			};
+
+			this.DataContext = this;
+		}
+
+		private void BtnCancel_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = false;
+		}
+
+		private void BtnSave_Click(object sender, RoutedEventArgs e)
+		{
+			this.DialogResult = true;
+		}
+
+		private void CheckBox_Checked(object sender, RoutedEventArgs e)
+		{
+			EditedCustomer.IsBlocked = true;
 		}
 	}
 }

@@ -37,51 +37,51 @@
 
 				<StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,15">
 					<TextBlock Text="Voornaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.FirstName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.FirstName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,15">
 					<TextBlock Text="Bedrijfsnaam (Optioneel)" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.CompanyName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.CompanyName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,15">
 					<TextBlock Text="Achternaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.LastName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.LastName}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,15">
 					<TextBlock Text="BTW Nummer (Optioneel)" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.VATNumber}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.VATNumber}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,15">
 					<TextBlock Text="E-mailadres *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.Email}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.Email}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,15">
 					<TextBlock Text="Telefoonnummer *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.PhoneNumber}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.PhoneNumber}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<Border Grid.Row="3" Grid.ColumnSpan="3" Height="1" Background="#DCDDE1" Margin="0,10,0,20"/>
 
 				<StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,15">
 					<TextBlock Text="Klant Status" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<CheckBox Content="Klant is geblokkeerd" IsChecked="{Binding NewCustomer.IsBlocked}" 
-                          Foreground="#E74C3C" FontWeight="Bold" Margin="0,8,0,0" Cursor="Hand" Checked="CheckBox_Checked"/>
+					<CheckBox Content="Klant is geblokkeerd" IsChecked="{Binding EditedCustomer.IsBlocked}" 
+                          Foreground="#E74C3C" FontWeight="Bold" Margin="0,8,0,0" Cursor="Hand"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,15">
 					<TextBlock Text="Reden van blokkade" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.BlockedReason}" IsEnabled="{Binding NewCustomer.IsBlocked}" 
+					<TextBox Text="{Binding EditedCustomer.BlockedReason}" IsEnabled="{Binding EditedCustomer.IsBlocked}" 
                          Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,10,0,10">
 					<TextBlock Text="Interne Notities" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding NewCustomer.Notes}" 
+					<TextBox Text="{Binding EditedCustomer.Notes}" 
                          AcceptsReturn="True" 
                          TextWrapping="Wrap" 
                          Height="100" 

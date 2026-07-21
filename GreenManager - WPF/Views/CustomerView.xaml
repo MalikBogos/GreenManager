@@ -29,6 +29,7 @@
 
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Customers}" 
+				  SelectedItem="{Binding SelectedCustomer}"
                   AutoGenerateColumns="True" 
                   IsReadOnly="True"
                   HeadersVisibility="Column"

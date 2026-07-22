@@ -17,7 +17,7 @@
 		<TextBlock Text="Klantenbeheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
 
 		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-			<Button Content="+ Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}" 
+			<Button Content="+ Nieuwe Klant" Command="{Binding OpenAddWindowCommand}" 
             Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 
 			<Button Content="✏️ Bewerken" Command="{Binding EditCommand}" 

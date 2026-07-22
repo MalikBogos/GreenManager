@@ -32,27 +32,11 @@ namespace GreenManager___WPF.ViewModels
 			LoadMaterials();
 		}
 
-
-		private void LoadMaterials()
-		{
-			using (var context = new GreenManagerDbContext())
-			{
-				var MaterialsFromDb = context.Materials.ToList();
-
-				Materials.Clear();
-
-				foreach(var materials in MaterialsFromDb)
-				{
-					Materials.Add(materials);
-				}
-			}
-		}
-
 		private void OpenAddWindow()
 		{
 			var addWindow = new AddMaterialWindow();
 
-			if(addWindow.ShowDialog() == true)
+			if (addWindow.ShowDialog() == true)
 			{
 				using (var context = new GreenManagerDbContext())
 				{
@@ -62,6 +46,21 @@ namespace GreenManager___WPF.ViewModels
 					context.SaveChanges();
 				}
 				LoadMaterials();
+			}
+		}
+
+		private void LoadMaterials()
+		{
+			using (var context = new GreenManagerDbContext())
+			{
+				var MaterialsFromDb = context.Materials.Where(m => m.IsDeleted == false).ToList();
+
+				Materials.Clear();
+
+				foreach(var materials in MaterialsFromDb)
+				{
+					Materials.Add(materials);
+				}
 			}
 		}
 
@@ -100,7 +99,8 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					context.Materials.Remove(SelectedMaterial);
+					SelectedMaterial.IsDeleted = true;
+					context.Materials.Update(SelectedMaterial);
 					context.SaveChanges();
 				}
 

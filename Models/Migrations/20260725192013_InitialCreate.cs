@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Models.Migrations
 {
     /// <inheritdoc />
@@ -553,6 +555,60 @@ namespace Models.Migrations
                         principalTable: "Quotes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
+                values: new object[,]
+                {
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEPVBAsyb+TZQitRWPVlFAGt3BeMiwFg49VxhKQ+HCxLq3aB0Ez+Se4r9JTfafrrS3A==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "user-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEJly+4b9FZw6Fgir0QKf+9SiiBJOEWW/vaJ3nzGEG02oQtEWtAQAS9UfkQ41+KM21g==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "BlockedAt", "BlockedReason", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsBlocked", "IsDeleted", "LastName", "Notes", "PhoneNumber", "UpdatedAt", "VATNumber" },
+                values: new object[,]
+                {
+                    { 1, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@example.com", "Bob", false, false, "Bogos", "Eerste testklant", "0488123456", null, null },
+                    { 2, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", null, "0477987654", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Materials",
+                columns: new[] { "Id", "CategoryId", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "IsDeleted", "Name", "Notes", "PurchasePrice", "StockQuantity", "Unit", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Potgrond Universeel 40L", null, 6.50m, 100m, "Zak", null },
+                    { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Grasmatten Sport", null, 3.20m, 500m, "m²", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "ApplicationUserId", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "IsDeleted", "JobTitle", "Notes", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "admin-uuid-1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hoofd Tuinman", null, null },
+                    { 2, "user-uuid-2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Junior Hovenier", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "Id", "Budget", "CreatedAt", "CustomerId", "DeletedAt", "DeletedReason", "Description", "EndDate", "IsDeleted", "Name", "Notes", "ProjectAddress", "StartDate", "Status", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, null, null, false, "Aanleg Stadstuin Antwerpen", null, "Kerkstraat 1, 2000 Antwerpen", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null },
+                    { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, null, null, null, false, "Onderhoud Park Gent", null, "Veldstraat 10, 9000 Gent", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProjectTasks",
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "DueDate", "EstimatedHours", "IsDeleted", "Notes", "ProjectId", "Status", "Title", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, 1, 3, "Grondwerken voorbereiden", null },
+                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, 1, 1, "Planten inkopen", null }
                 });
 
             migrationBuilder.CreateIndex(

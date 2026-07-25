@@ -326,6 +326,50 @@ namespace Models.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "admin-uuid-1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "STATIC_CONCURRENCY_1",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@greenmanager.be",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GREENMANAGER.BE",
+                            NormalizedUserName = "ADMIN@GREENMANAGER.BE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPVBAsyb+TZQitRWPVlFAGt3BeMiwFg49VxhKQ+HCxLq3aB0Ez+Se4r9JTfafrrS3A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "STATIC_STAMP_1",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@greenmanager.be"
+                        },
+                        new
+                        {
+                            Id = "user-uuid-2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "STATIC_CONCURRENCY_2",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "malik@greenmanager.be",
+                            EmailConfirmed = true,
+                            FirstName = "Malik",
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "Employee",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MALIK@GREENMANAGER.BE",
+                            NormalizedUserName = "MALIK@GREENMANAGER.BE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJly+4b9FZw6Fgir0QKf+9SiiBJOEWW/vaJ3nzGEG02oQtEWtAQAS9UfkQ41+KM21g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "STATIC_STAMP_2",
+                            TwoFactorEnabled = false,
+                            UserName = "malik@greenmanager.be"
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.Customer", b =>
@@ -394,6 +438,31 @@ namespace Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "malik@example.com",
+                            FirstName = "Bob",
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "Bogos",
+                            Notes = "Eerste testklant",
+                            PhoneNumber = "0488123456"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "sara@test.be",
+                            FirstName = "Sara",
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "Groens",
+                            PhoneNumber = "0477987654"
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.Employee", b =>
@@ -461,6 +530,28 @@ namespace Models.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicationUserId = "admin-uuid-1",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeNumber = "EMP001",
+                            HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            JobTitle = "Hoofd Tuinman"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicationUserId = "user-uuid-2",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeNumber = "EMP002",
+                            HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            JobTitle = "Junior Hovenier"
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.EmployeeWageHistory", b =>
@@ -561,6 +652,28 @@ namespace Models.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Materials");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Potgrond Universeel 40L",
+                            PurchasePrice = 6.50m,
+                            StockQuantity = 100m,
+                            Unit = "Zak"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Grasmatten Sport",
+                            PurchasePrice = 3.20m,
+                            StockQuantity = 500m,
+                            Unit = "m²"
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.MaterialCategory", b =>
@@ -661,6 +774,30 @@ namespace Models.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            IsDeleted = false,
+                            Name = "Aanleg Stadstuin Antwerpen",
+                            ProjectAddress = "Kerkstraat 1, 2000 Antwerpen",
+                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            IsDeleted = false,
+                            Name = "Onderhoud Park Gent",
+                            ProjectAddress = "Veldstraat 10, 9000 Gent",
+                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.ProjectEmployee", b =>
@@ -808,6 +945,28 @@ namespace Models.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectTasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DueDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProjectId = 1,
+                            Status = 3,
+                            Title = "Grondwerken voorbereiden"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DueDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProjectId = 1,
+                            Status = 1,
+                            Title = "Planten inkopen"
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.Quote", b =>

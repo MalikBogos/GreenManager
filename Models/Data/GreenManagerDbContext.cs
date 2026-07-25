@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Models.Entities;
 
@@ -39,42 +40,49 @@ namespace Models.Data
 
 			var seedDate = new DateTime(2024, 1, 1);
 
-			modelBuilder.Entity<ApplicationUser>().HasData(
-				new ApplicationUser
-				{
-					Id = "admin-uuid-1",
-					UserName = "admin@greenmanager.be",
-					NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-					Email = "admin@greenmanager.be",
-					NormalizedEmail = "ADMIN@GREENMANAGER.BE",
-					FirstName = "Admin",
-					LastName = "User",
-					EmailConfirmed = true,
-					CreatedAt = seedDate, 
-					SecurityStamp = "STATIC_STAMP_1", 
-					ConcurrencyStamp = "STATIC_CONCURRENCY_1"
-				},
-				new ApplicationUser
-				{
-					Id = "user-uuid-2",
-					UserName = "malik@greenmanager.be",
-					NormalizedUserName = "MALIK@GREENMANAGER.BE",
-					Email = "malik@greenmanager.be",
-					NormalizedEmail = "MALIK@GREENMANAGER.BE",
-					FirstName = "Malik",
-					LastName = "Employee",
-					EmailConfirmed = true,
-					CreatedAt = seedDate,
-					SecurityStamp = "STATIC_STAMP_2",
-					ConcurrencyStamp = "STATIC_CONCURRENCY_2"
-				}
-			);
+			var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
+
+			var adminUser = new ApplicationUser
+			{
+				Id = "admin-uuid-1",
+				UserName = "admin@greenmanager.be",
+				NormalizedUserName = "ADMIN@GREENMANAGER.BE",
+				Email = "admin@greenmanager.be",
+				NormalizedEmail = "ADMIN@GREENMANAGER.BE",
+				FirstName = "Admin",
+				LastName = "User",
+				EmailConfirmed = true,
+				CreatedAt = seedDate,
+				SecurityStamp = "STATIC_STAMP_1",
+				ConcurrencyStamp = "STATIC_CONCURRENCY_1"
+			};
+			adminUser.PasswordHash = hasher.HashPassword(adminUser, "Welkom123!");
+
+			var malikUser = new ApplicationUser
+			{
+				Id = "user-uuid-2",
+				UserName = "malik@greenmanager.be",
+				NormalizedUserName = "MALIK@GREENMANAGER.BE",
+				Email = "malik@greenmanager.be",
+				NormalizedEmail = "MALIK@GREENMANAGER.BE",
+				FirstName = "Malik",
+				LastName = "Employee",
+				EmailConfirmed = true,
+				CreatedAt = seedDate,
+				SecurityStamp = "STATIC_STAMP_2",
+				ConcurrencyStamp = "STATIC_CONCURRENCY_2"
+			};
+
+			malikUser.PasswordHash = hasher.HashPassword(malikUser, "Welkom1234!");
+
+			modelBuilder.Entity<ApplicationUser>().HasData(adminUser, malikUser);
+
 
 			modelBuilder.Entity<Employee>().HasData(
 				new Employee
 				{
 					Id = 1,
-					ApplicationUserId = "admin-uuid-1", 
+					ApplicationUserId = "admin-uuid-1",
 					EmployeeNumber = "EMP001",
 					HireDate = seedDate,
 					JobTitle = "Hoofd Tuinman",
@@ -158,7 +166,6 @@ namespace Models.Data
 				}
 			);
 
-			// 5. Seed Project Tasks
 			modelBuilder.Entity<ProjectTask>().HasData(
 				new ProjectTask
 				{
@@ -183,6 +190,7 @@ namespace Models.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
+
 			if (!optionsBuilder.IsConfigured)
 			{
 				IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -192,6 +200,8 @@ namespace Models.Data
 				var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 				optionsBuilder.UseSqlServer(connectionString);
+
+				optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 			}
 		}
 

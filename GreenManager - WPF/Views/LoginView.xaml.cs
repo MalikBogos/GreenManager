@@ -10,18 +10,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GreenManager___WPF.ViewModels;
 
 namespace GreenManager___WPF.Views
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class LoginView : Window
     {
         public LoginView()
         {
             InitializeComponent();
-			//this.DataContext = new LoginViewModel();
-		}
+            this.DataContext = new LoginViewModel();
+        }
     }
 }

@@ -59,8 +59,7 @@
 
 			<Border Grid.Row="0" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
 				<Grid>
-					<TextBlock Text="Welcome, Admin" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold" Foreground="#333"/>
-
+					<TextBlock Text="{Binding WelcomeMessage}" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold" Foreground="#333"/>
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0">
 						<TextBlock Text="✅ Fully Synchronised" Foreground="#27AE60" VerticalAlignment="Center" FontWeight="SemiBold"/>
 					</StackPanel>

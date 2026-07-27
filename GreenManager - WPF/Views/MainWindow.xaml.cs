@@ -1,4 +1,5 @@
 ﻿using GreenManager___WPF.ViewModels;
+using Models.Entities;
 using System.Windows;
 
 namespace GreenManager___WPF.Views
@@ -8,10 +9,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow()
+		public MainWindow(ApplicationUser loggedInUser)
 		{
 			InitializeComponent();
-			this.DataContext = new MainViewModel();
+			this.DataContext = new MainViewModel(loggedInUser);
 		}
 
 		private void BtnDashboard_Click(object sender, RoutedEventArgs e)
@@ -21,13 +22,11 @@ namespace GreenManager___WPF.Views
 
 		private void BtnClients_Click(object sender, RoutedEventArgs e)
 		{
-			// Verander de inhoud (Content) van de ContentControl naar jouw CustomerView
 			MainContent.Content = new CustomerView();
 		}
 
 		private void BtnProjects_Click(object sender, RoutedEventArgs e)
 		{
-			// Verander de inhoud (Content) van de ContentControl naar jouw CustomerView
 			MainContent.Content = new ProjectView();
 		}
 

@@ -10,21 +10,16 @@ using System.Windows.Controls;
 
 namespace GreenManager___WPF.ViewModels
 {
-	// 1. De klasse MOET 'partial' zijn en overerven van 'ObservableObject'
 	public partial class LoginViewModel : ObservableObject
 	{
-		// 2. Gebruik [ObservableProperty] op velden met een kleine letter. 
-		// De toolkit maakt hier op de achtergrond automatisch EmailInput (hoofdletter) van voor je XAML!
+		// Automatically turns into EmailInput
 		[ObservableProperty]
 		private string _emailInput;
 
 		[ObservableProperty]
 		private string _errorMessage;
 
-		// Geen constructor meer nodig om commands te koppelen!
-
-		// 3. Gebruik [RelayCommand] op je methode. 
-		// De toolkit maakt hier automatisch 'LoginCommand' van voor in je XAML.
+		// Automatically turns into LoginCommand
 		[RelayCommand]
 		private void Login(object parameter)
 		{
@@ -56,7 +51,7 @@ namespace GreenManager___WPF.ViewModels
 				{
 					MessageBox.Show($"Welkom, {user.FirstName}!", "Succesvol Ingelogd", MessageBoxButton.OK, MessageBoxImage.Information);
 
-					var mainWindow = new MainWindow();
+					var mainWindow = new MainWindow(user);
 					mainWindow.Show();
 
 					foreach (Window window in Application.Current.Windows)

@@ -1,4 +1,6 @@
-﻿using GreenManager___WPF.Commands;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GreenManager___WPF.Commands;
 using GreenManager___WPF.Views;
 using Models.Data;
 using Models.Entities;
@@ -11,42 +13,17 @@ using System.Windows.Input;
 
 namespace GreenManager___WPF.ViewModels
 {
-	public class MaterialViewModel
+	public partial class MaterialViewModel : ObservableObject
 	{
 		public ObservableCollection<Material> Materials { get; set; }
 
-		public Material SelectedMaterial { get; set; }
-
-		public ICommand OpenAddWindowCommand { get; }
-
-		public ICommand EditCommand { get; }
-
-		public ICommand DeleteCommand { get; }
+		[ObservableProperty]
+		private Material _selectedMaterial;
 
 		public MaterialViewModel()
 		{
 			Materials = new ObservableCollection<Material>();
-			OpenAddWindowCommand = new RelayCommand(OpenAddWindow);
-			EditCommand = new RelayCommand(EditMaterial);
-			DeleteCommand = new RelayCommand(DeleteMaterial);
 			LoadMaterials();
-		}
-
-		private void OpenAddWindow()
-		{
-			var addWindow = new AddMaterialWindow();
-
-			if (addWindow.ShowDialog() == true)
-			{
-				using (var context = new GreenManagerDbContext())
-				{
-					var materialToSave = addWindow.NewMaterial;
-
-					context.Materials.Add(materialToSave);
-					context.SaveChanges();
-				}
-				LoadMaterials();
-			}
 		}
 
 		private void LoadMaterials()
@@ -57,13 +34,32 @@ namespace GreenManager___WPF.ViewModels
 
 				Materials.Clear();
 
-				foreach(var materials in MaterialsFromDb)
+				foreach (var materials in MaterialsFromDb)
 				{
 					Materials.Add(materials);
 				}
 			}
 		}
 
+		[RelayCommand]
+		private void OpenAddWindow()
+		{
+			var addWindow = new AddMaterialWindow();
+
+			if (addWindow.ShowDialog() == true)
+			{
+				using (var context = new GreenManagerDbContext())
+				{
+					var MaterialToSave = addWindow.NewMaterial;
+
+					context.Materials.Add(MaterialToSave);
+					context.SaveChanges();
+				}
+				LoadMaterials();
+			}
+		}
+
+		[RelayCommand]
 		private void EditMaterial()
 		{
 			if (SelectedMaterial == null)
@@ -74,7 +70,7 @@ namespace GreenManager___WPF.ViewModels
 
 			var editWindow = new EditMaterialWindow(SelectedMaterial);
 
-			if(editWindow.ShowDialog() == true)
+			if (editWindow.ShowDialog() == true)
 			{
 				using (var context = new GreenManagerDbContext())
 				{
@@ -85,6 +81,7 @@ namespace GreenManager___WPF.ViewModels
 			}
 		}
 
+		[RelayCommand]
 		private void DeleteMaterial()
 		{
 			if (SelectedMaterial == null)

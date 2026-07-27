@@ -1,4 +1,6 @@
-﻿using GreenManager___WPF.Commands;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GreenManager___WPF.Commands;
 using GreenManager___WPF.Views;
 using Models.Data;
 using Models.Entities;
@@ -11,42 +13,17 @@ using System.Windows.Input;
 
 namespace GreenManager___WPF.ViewModels
 {
-	public class CustomerViewModel
+	public partial class CustomerViewModel : ObservableObject
 	{
 		public ObservableCollection<Customer> Customers { get; set; }
-		
-		public Customer SelectedCustomer { get; set; }
 
-		public ICommand OpenAddWindowCommand { get; }
-
-		public ICommand EditCommand { get; }
-
-		public ICommand DeleteCommand { get; }
+		[ObservableProperty]
+		private Customer _selectedCustomer;
 
 		public CustomerViewModel()
 		{
 			Customers = new ObservableCollection<Customer>();
-			OpenAddWindowCommand = new RelayCommand(OpenAddWindow);
-			EditCommand = new RelayCommand(EditCustomer);
-			DeleteCommand = new RelayCommand(DeleteCustomer);
 			LoadCustomers();
-		}
-
-		private void OpenAddWindow()
-		{
-			var addWindow = new AddCustomerWindow();
-
-			if (addWindow.ShowDialog() == true)
-			{
-				using (var context = new GreenManagerDbContext())
-				{
-					var CustomerToSave = addWindow.NewCustomer;
-
-					context.Customers.Add(CustomerToSave);
-					context.SaveChanges();
-				}
-				LoadCustomers();
-			}
 		}
 
 		private void LoadCustomers()
@@ -64,6 +41,25 @@ namespace GreenManager___WPF.ViewModels
 			}
 		}
 
+		[RelayCommand]
+		private void OpenAddWindow()
+		{
+			var addWindow = new AddCustomerWindow();
+
+			if (addWindow.ShowDialog() == true)
+			{
+				using (var context = new GreenManagerDbContext())
+				{
+					var CustomerToSave = addWindow.NewCustomer;
+
+					context.Customers.Add(CustomerToSave);
+					context.SaveChanges();
+				}
+				LoadCustomers();
+			}
+		}
+
+		[RelayCommand]
 		private void EditCustomer()
 		{
 			if (SelectedCustomer == null)
@@ -85,6 +81,7 @@ namespace GreenManager___WPF.ViewModels
 			}
 		}
 
+		[RelayCommand]
 		private void DeleteCustomer()
 		{
 			if (SelectedCustomer == null)
@@ -107,8 +104,5 @@ namespace GreenManager___WPF.ViewModels
 				LoadCustomers();
 			}
 		}
-
-
-
 	}
 }

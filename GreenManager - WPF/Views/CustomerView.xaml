@@ -20,10 +20,10 @@
 			<Button Content="+ Nieuwe Klant" Command="{Binding OpenAddWindowCommand}" 
             Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 
-			<Button Content="✏️ Bewerken" Command="{Binding EditCommand}" 
+			<Button Content="✏️ Bewerken" Command="{Binding EditCustomerCommand}" 
             Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 
-			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCommand}" 
+			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCustomerCommand}" 
             Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
 		</StackPanel>
 

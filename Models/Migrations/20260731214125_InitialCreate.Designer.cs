@@ -12,7 +12,7 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260725192013_InitialCreate")]
+    [Migration("20260731214125_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -50,6 +50,29 @@ namespace Models.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "role-admin-1",
+                            ConcurrencyStamp = "9cf1be8f-aa46-4bfc-bbf8-1a35faf6adb5",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "role-employee-2",
+                            ConcurrencyStamp = "733210e6-f109-42e1-9c5f-d8d7a4b1614a",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "role-guest-3",
+                            ConcurrencyStamp = "86c28729-114f-4ffa-a850-fcd0695f0a4b",
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +160,23 @@ namespace Models.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "admin-uuid-1",
+                            RoleId = "role-admin-1"
+                        },
+                        new
+                        {
+                            UserId = "employee-uuid-2",
+                            RoleId = "role-employee-2"
+                        },
+                        new
+                        {
+                            UserId = "guest-uuid-3",
+                            RoleId = "role-guest-3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -346,7 +386,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPVBAsyb+TZQitRWPVlFAGt3BeMiwFg49VxhKQ+HCxLq3aB0Ez+Se4r9JTfafrrS3A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMhazKV3iktMRGn2CEAyiyiPdXu3Tn5SOUXpUUZbzOFCgyBkIqkaEdr1c0NHsZUCZw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -354,7 +394,7 @@ namespace Models.Migrations
                         },
                         new
                         {
-                            Id = "user-uuid-2",
+                            Id = "employee-uuid-2",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "STATIC_CONCURRENCY_2",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -367,11 +407,32 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MALIK@GREENMANAGER.BE",
                             NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJly+4b9FZw6Fgir0QKf+9SiiBJOEWW/vaJ3nzGEG02oQtEWtAQAS9UfkQ41+KM21g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEn38Xf1HDkrK1RtgOP485rtO8Tq4GjGzoW0MJtGGFwiPbayYvuVESzNfx6zyt//2A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
                             UserName = "malik@greenmanager.be"
+                        },
+                        new
+                        {
+                            Id = "guest-uuid-3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "STATIC_CONCURRENCY_3",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "guest@greenmanager.be",
+                            EmailConfirmed = true,
+                            FirstName = "Guest",
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            LastName = "Guest",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GUEST@GREENMANAGER.BE",
+                            NormalizedUserName = "GUEST@GREENMANAGER.BE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAaJbkmt6HzA9sB1xmvZCdPYrOuEhB9Q79etoPXt52LkJS8Tz9/hfDIe+mr7Il2GLA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "STATIC_STAMP_3",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@greenmanager.be"
                         });
                 });
 
@@ -447,7 +508,7 @@ namespace Models.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "malik@example.com",
+                            Email = "bob@example.com",
                             FirstName = "Bob",
                             IsBlocked = false,
                             IsDeleted = false,
@@ -548,7 +609,7 @@ namespace Models.Migrations
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "user-uuid-2",
+                            ApplicationUserId = "employee-uuid-2",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeNumber = "EMP002",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

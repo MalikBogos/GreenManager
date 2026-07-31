@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +39,19 @@ namespace Models.Data
 			.Property(p => p.Budget)
 			.HasColumnType("decimal(18,2)"); // To indicate the precision of the decimal value inside the table
 
+			modelBuilder.Entity<Employee>()
+			.HasOne(e => e.User)
+			.WithOne(u => u.Employee)
+			.HasForeignKey<Employee>(e => e.ApplicationUserId)
+			.IsRequired();
+
 			var seedDate = new DateTime(2024, 1, 1);
+
+			var adminRole = new IdentityRole { Id = "role-admin-1", Name = "Admin", NormalizedName = "ADMIN" };
+			var employeeRole = new IdentityRole { Id = "role-employee-2", Name = "Employee", NormalizedName = "EMPLOYEE" };
+			var guestRole = new IdentityRole { Id = "role-guest-3", Name = "Guest", NormalizedName = "GUEST" };
+
+			modelBuilder.Entity<IdentityRole>().HasData(adminRole, employeeRole, guestRole);
 
 			var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
 
@@ -56,11 +69,12 @@ namespace Models.Data
 				SecurityStamp = "STATIC_STAMP_1",
 				ConcurrencyStamp = "STATIC_CONCURRENCY_1"
 			};
-			adminUser.PasswordHash = hasher.HashPassword(adminUser, "Welkom123!");
+
+			adminUser.PasswordHash = hasher.HashPassword(adminUser, "123");
 
 			var malikUser = new ApplicationUser
 			{
-				Id = "user-uuid-2",
+				Id = "employee-uuid-2",
 				UserName = "malik@greenmanager.be",
 				NormalizedUserName = "MALIK@GREENMANAGER.BE",
 				Email = "malik@greenmanager.be",
@@ -73,10 +87,32 @@ namespace Models.Data
 				ConcurrencyStamp = "STATIC_CONCURRENCY_2"
 			};
 
-			malikUser.PasswordHash = hasher.HashPassword(malikUser, "Welkom1234!");
+			malikUser.PasswordHash = hasher.HashPassword(malikUser, "123");
 
-			modelBuilder.Entity<ApplicationUser>().HasData(adminUser, malikUser);
+			var guestUser = new ApplicationUser
+			{
+				Id = "guest-uuid-3",
+				UserName = "guest@greenmanager.be",
+				NormalizedUserName = "GUEST@GREENMANAGER.BE",
+				Email = "guest@greenmanager.be",
+				NormalizedEmail = "GUEST@GREENMANAGER.BE",
+				FirstName = "Guest",
+				LastName = "Guest",
+				EmailConfirmed = true,
+				CreatedAt = seedDate,
+				SecurityStamp = "STATIC_STAMP_3",
+				ConcurrencyStamp = "STATIC_CONCURRENCY_3"
+			};
 
+			guestUser.PasswordHash = hasher.HashPassword(guestUser, "123");
+
+			modelBuilder.Entity<ApplicationUser>().HasData(adminUser, malikUser, guestUser);
+
+			modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+				new IdentityUserRole<string> { RoleId = "role-admin-1", UserId = "admin-uuid-1" },
+				new IdentityUserRole<string> { RoleId = "role-employee-2", UserId = "employee-uuid-2" },
+				new IdentityUserRole<string> { RoleId = "role-guest-3", UserId = "guest-uuid-3" }
+			);
 
 			modelBuilder.Entity<Employee>().HasData(
 				new Employee
@@ -91,7 +127,7 @@ namespace Models.Data
 				new Employee
 				{
 					Id = 2,
-					ApplicationUserId = "user-uuid-2",
+					ApplicationUserId = "employee-uuid-2",
 					EmployeeNumber = "EMP002",
 					HireDate = seedDate,
 					JobTitle = "Junior Hovenier",
@@ -99,14 +135,13 @@ namespace Models.Data
 				}
 			);
 
-
 			modelBuilder.Entity<Customer>().HasData(
 				new Customer
 				{
 					Id = 1,
 					FirstName = "Bob",
 					LastName = "Bogos",
-					Email = "malik@example.com",
+					Email = "bob@example.com",
 					PhoneNumber = "0488123456",
 					Notes = "Eerste testklant",
 					CreatedAt = seedDate
@@ -204,6 +239,5 @@ namespace Models.Data
 				optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 			}
 		}
-
 	}
 }

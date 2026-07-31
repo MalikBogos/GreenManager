@@ -1,14 +1,46 @@
 ﻿<UserControl x:Class="GreenManager___WPF.Views.EmployeeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GreenManager___WPF.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-		<TextBlock Text="Employees!" FontSize="30"/>
+             Background="White">
 
-		<DataGrid ItemsSource="{Binding Employees}"/>
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Text="👥 Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
+
+		<!-- Knoppenbalk -->
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+			<Button Content="+ Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}" 
+                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="✏️ Bewerken" Command="{Binding EditCommand}" 
+                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCommand}" 
+                    Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+		</StackPanel>
+
+		<!-- Tabel met werknemers -->
+		<DataGrid Grid.Row="2" 
+                  ItemsSource="{Binding Employees}" 
+                  SelectedItem="{Binding SelectedEmployee}"
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="#E0E0E0"
+                  RowHeight="35">
+			<DataGrid.Columns>
+				<!-- Pas deze bindingen aan als je datamodel andere namen gebruikt -->
+				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
+				<DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="200"/>
+				<DataGridTextColumn Header="In Dienst Sinds" Binding="{Binding HireDate, StringFormat=dd-MM-yyyy}" Width="150"/>
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </UserControl>

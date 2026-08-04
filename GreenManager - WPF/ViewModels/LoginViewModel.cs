@@ -49,9 +49,23 @@ namespace GreenManager___WPF.ViewModels
 
 				if (result == PasswordVerificationResult.Success)
 				{
-					MessageBox.Show($"Welkom, {user.FirstName}!", "Succesvol Ingelogd", MessageBoxButton.OK, MessageBoxImage.Information);
+					string ingelogdeRolNaam = "Onbekend";
 
-					var mainWindow = new MainWindow(user);
+					using (var roleContext = new GreenManagerDbContext())
+					{
+						var koppelRij = roleContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
+
+						if (koppelRij != null)
+						{
+							var rolInDb = roleContext.Roles.FirstOrDefault(r => r.Id == koppelRij.RoleId);
+							if (rolInDb != null)
+							{
+								ingelogdeRolNaam = rolInDb.Name;
+							}
+						}
+					}
+
+					var mainWindow = new MainWindow(user, ingelogdeRolNaam);
 					mainWindow.Show();
 
 					foreach (Window window in Application.Current.Windows)

@@ -9,10 +9,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow(ApplicationUser loggedInUser)
+		public MainWindow(ApplicationUser loggedInUser, string roleName)
 		{
 			InitializeComponent();
-			this.DataContext = new MainViewModel(loggedInUser);
+			this.DataContext = new MainViewModel(loggedInUser, roleName);
 		}
 
 		private void BtnDashboard_Click(object sender, RoutedEventArgs e)

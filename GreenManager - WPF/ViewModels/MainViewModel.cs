@@ -14,11 +14,15 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private ApplicationUser _currentUser;
 
-		public string WelcomeMessage => $"Welkom, {CurrentUser?.FirstName}!";
+		[ObservableProperty]
+		private string _currentUserRole;
 
-		public MainViewModel(ApplicationUser user)
+		public string WelcomeMessage => $"Welkom, {CurrentUserRole} {CurrentUser?.FirstName}!";
+
+		public MainViewModel(ApplicationUser user, string roleName)
 		{
 			CurrentUser = user;
+			CurrentUserRole = roleName;
 		}	
 	}
 

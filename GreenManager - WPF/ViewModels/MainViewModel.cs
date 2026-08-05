@@ -1,10 +1,13 @@
-﻿using Models.Entities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GreenManager___WPF.Views;
+using Models;
+using Models.Data;
+using Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Models;
-using Models.Data;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows;
 
 namespace GreenManager___WPF.ViewModels
 {
@@ -29,7 +32,23 @@ namespace GreenManager___WPF.ViewModels
 		{
 			CurrentUser = user;
 			CurrentUserRole = roleName;
-		}	
+		}
+
+		[RelayCommand]
+		public void Logout()
+		{
+			var loginWindow = new LoginWindow();
+			loginWindow.Show();
+
+			foreach (Window window in Application.Current.Windows)
+			{
+				if (window.DataContext == this)
+				{
+					window.Close();
+					break;
+				}
+			}
+		}
 	}
 
 }

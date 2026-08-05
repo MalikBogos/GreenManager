@@ -49,6 +49,8 @@
 				<Button Content="📦  Materiaal" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnMaterials_Click"/>
 				<Button Content="👷  Werknemers" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnEmployees_Click"/>
 				<Button Content="⚙️  Instellingen" Style="{StaticResource NavButton}" Click="BtnSettings_Click"/>
+
+				<Button Content="🚪  Uitloggen" Style="{StaticResource NavButton}" Command="{Binding LogoutCommand}" Margin="10,40,10,5"/>
 			</StackPanel>
 		</Border>
 

@@ -60,7 +60,11 @@
 
 			<Border Grid.Row="0" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
 				<Grid>
-					<TextBlock Text="{Binding WelcomeMessage}" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold" Foreground="#333"/>
+					<TextBlock VerticalAlignment="Center" Margin="30,0,0,0" FontSize="16" FontWeight="SemiBold">
+						Welkom,
+						<Run Text="{Binding CurrentUserRole}" Foreground="DodgerBlue" FontWeight="Bold" />
+						<Run Text="{Binding CurrentUser.FirstName}" Foreground="DarkOrange" FontWeight="Bold"/>!
+					</TextBlock>
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0">
 						<TextBlock Text="✅ Gesynchroniseerd" Foreground="#27AE60" VerticalAlignment="Center" FontWeight="SemiBold"/>
 					</StackPanel>

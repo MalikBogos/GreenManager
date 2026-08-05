@@ -83,5 +83,11 @@ namespace GreenManager___WPF.ViewModels
 				}
 			}
 		}
+
+		[RelayCommand]
+		private void Register(object parameter)
+		{
+			new RegisterWindow().ShowDialog();
+		}
 	}
 }

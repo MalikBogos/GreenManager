@@ -15,11 +15,11 @@ using GreenManager___WPF.ViewModels;
 namespace GreenManager___WPF.Views
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class LoginWindow : Window
     {
-        public LoginView()
+        public LoginWindow()
         {
             InitializeComponent();
             this.DataContext = new LoginViewModel();

@@ -14,31 +14,32 @@ using System.Windows.Shapes;
 namespace GreenManager___WPF.Views
 {
 	/// <summary>
-	/// Interaction logic for AddEmployeeWindow.xaml
+	/// Interaction logic for EditEmployeeWindow.xaml
 	/// </summary>
-	public partial class AddEmployeeWindow : Window
+	public partial class EditEmployeeWindow : Window
 	{
-		public Employee NewEmployee { get; set; }
+		public Employee EditedEmployee { get; set; }
 
-		public AddEmployeeWindow()
-        {
-            InitializeComponent();
-            
-            NewEmployee = new Employee
-            {
-                ApplicationUserId = "wordt-zo-ingevuld",
-                EmployeeNumber = "",
-                JobTitle = "",
-                HireDate = DateTime.Today,
-                CreatedAt = DateTime.UtcNow
-            };
+		public EditEmployeeWindow(Employee selectedEmployee)
+		{
+			InitializeComponent();
 
-            this.DataContext = this;
-        }
+			EditedEmployee = new Employee
+			{
+				Id = selectedEmployee.Id,
+				ApplicationUserId = selectedEmployee.ApplicationUserId,
+				EmployeeNumber = selectedEmployee.EmployeeNumber,
+				JobTitle = selectedEmployee.JobTitle,
+				HireDate = selectedEmployee.HireDate,
+				CreatedAt = selectedEmployee.CreatedAt
+			};
+
+			this.DataContext = this;
+		}
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(NewEmployee.EmployeeNumber) || string.IsNullOrWhiteSpace(NewEmployee.JobTitle))
+			if (string.IsNullOrWhiteSpace(EditedEmployee.EmployeeNumber) || string.IsNullOrWhiteSpace(EditedEmployee.JobTitle))
 			{
 				MessageBox.Show("Vul de verplichte velden (Personeelsnummer en Functie) in.", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;

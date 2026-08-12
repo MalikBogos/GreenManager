@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
+using GreenManager___WPF.Views;
 
 namespace GreenManager___WPF.ViewModels
 {
@@ -29,6 +30,8 @@ namespace GreenManager___WPF.ViewModels
 			{
 				var EmployeesFromDb = context.Employees.ToList();
 
+				Employees.Clear();
+
 				foreach (var employee in EmployeesFromDb)
 				{
 					Employees.Add(employee);
@@ -39,18 +42,38 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand]
 		private void OpenAddWindow()
 		{
-			// TODO: Dit activeren zodra we de AddEmployeeWindow hebben gemaakt!
-			// var addWindow = new AddEmployeeWindow();
-			// if (addWindow.ShowDialog() == true)
-			// {
-			//     using (var context = new GreenManagerDbContext())
-			//     {
-			//         context.Employees.Add(addWindow.NewEmployee);
-			//         context.SaveChanges();
-			//     }
-			//     LoadEmployees();
-			// }
-			MessageBox.Show("Het venster voor een nieuwe werknemer bouwen we in de volgende stap!");
+			var addWindow = new AddEmployeeWindow();
+
+			if (addWindow.ShowDialog() == true)
+			{
+				using (var context = new GreenManagerDbContext())
+				{
+					var newLoginAccount = new ApplicationUser
+					{
+						Id = Guid.NewGuid().ToString(),
+						UserName = $"{addWindow.NewEmployee.EmployeeNumber}@greenmanager.be",
+						NormalizedUserName = $"{addWindow.NewEmployee.EmployeeNumber}@GREENMANAGER.BE",
+						Email = $"{addWindow.NewEmployee.EmployeeNumber}@greenmanager.be",
+						NormalizedEmail = $"{addWindow.NewEmployee.EmployeeNumber}@GREENMANAGER.BE",
+						FirstName = "Nieuwe",
+						LastName = "Werknemer",
+						EmailConfirmed = true,
+						CreatedAt = DateTime.UtcNow
+					};
+
+					var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
+					newLoginAccount.PasswordHash = hasher.HashPassword(newLoginAccount, "Welkom123!");
+
+					context.Users.Add(newLoginAccount);
+
+					addWindow.NewEmployee.ApplicationUserId = newLoginAccount.Id;
+
+					context.Employees.Add(addWindow.NewEmployee);
+					context.SaveChanges();
+				}
+
+				LoadEmployees();
+			}
 		}
 
 		[RelayCommand]
@@ -62,18 +85,16 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			// TODO: Dit activeren zodra we de EditEmployeeWindow hebben gemaakt!
-			// var editWindow = new EditEmployeeWindow(SelectedEmployee);
-			// if (editWindow.ShowDialog() == true)
-			// {
-			//     using (var context = new GreenManagerDbContext())
-			//     {
-			//         context.Employees.Update(editWindow.EditedEmployee);
-			//         context.SaveChanges();
-			//     }
-			//     LoadEmployees();
-			// }
-			MessageBox.Show($"We gaan binnenkort de gegevens van {SelectedEmployee.JobTitle} bewerken!");
+			 var editWindow = new EditEmployeeWindow(SelectedEmployee);
+			if (editWindow.ShowDialog() == true)
+			{
+				using (var context = new GreenManagerDbContext())
+				{
+					context.Employees.Update(editWindow.EditedEmployee);
+					context.SaveChanges();
+				}
+				LoadEmployees();
+			}
 		}
 
 		[RelayCommand]
@@ -81,7 +102,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			if (SelectedEmployee == null)
 			{
-				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
@@ -91,7 +112,7 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					SelectedEmployee.IsDeleted = true; // Soft delete
+					SelectedEmployee.IsDeleted = true;
 					context.Employees.Update(SelectedEmployee);
 					context.SaveChanges();
 				}

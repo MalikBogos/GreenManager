@@ -23,11 +23,9 @@
 			<TextBox Text="{Binding EditedEmployee.JobTitle}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
 			<TextBlock Text="Datum indiensttreding *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-			<!-- DatePicker zorgt voor een handige kalender pop-up -->
 			<DatePicker SelectedDate="{Binding EditedEmployee.HireDate}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 		</StackPanel>
 
-		<!-- Knoppen -->
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
 			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" 
                     Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand"

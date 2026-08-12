@@ -13,6 +13,8 @@ namespace GreenManager___WPF.Views
 		{
 			InitializeComponent();
 			this.DataContext = new MainViewModel(loggedInUser, roleName);
+
+			MainContent.Content = new DashboardView();
 		}
 
 		private void BtnDashboard_Click(object sender, RoutedEventArgs e)

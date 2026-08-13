@@ -12,7 +12,6 @@
 
 		<TextBlock Text="👥 Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
 
-		<!-- Knoppenbalk -->
 		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
 			<Button Content="+ Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}" 
                     Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
@@ -24,11 +23,10 @@
                     Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
 		</StackPanel>
 
-		<!-- Tabel met werknemers -->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Employees}" 
                   SelectedItem="{Binding SelectedEmployee}"
-                  AutoGenerateColumns="False" 
+                  AutoGenerateColumns="True" 
                   IsReadOnly="True"
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
@@ -36,10 +34,6 @@
                   BorderBrush="#E0E0E0"
                   RowHeight="35">
 			<DataGrid.Columns>
-				<!-- Pas deze bindingen aan als je datamodel andere namen gebruikt -->
-				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
-				<DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="200"/>
-				<DataGridTextColumn Header="In Dienst Sinds" Binding="{Binding HireDate, StringFormat=dd-MM-yyyy}" Width="150"/>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

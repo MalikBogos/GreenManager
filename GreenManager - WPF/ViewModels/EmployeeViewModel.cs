@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using GreenManager___WPF.Views;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenManager___WPF.ViewModels
 {
@@ -28,8 +29,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = new GreenManagerDbContext())
 			{
-				var EmployeesFromDb = context.Employees.ToList();
-
+				var EmployeesFromDb = context.Employees.Include(e => e.Addresses).ToList();
 				Employees.Clear();
 
 				foreach (var employee in EmployeesFromDb)
@@ -91,6 +91,19 @@ namespace GreenManager___WPF.ViewModels
 				using (var context = new GreenManagerDbContext())
 				{
 					context.Employees.Update(editWindow.EditedEmployee);
+
+					if (!string.IsNullOrWhiteSpace(editWindow.EditedAddress.AddressLine1))
+					{
+						if (editWindow.EditedAddress.Id == 0) // Id is 0, dus het is een NIEUW adres
+						{
+							context.Addresses.Add(editWindow.EditedAddress);
+						}
+						else
+						{
+							context.Addresses.Update(editWindow.EditedAddress);
+						}
+					}
+
 					context.SaveChanges();
 				}
 				LoadEmployees();

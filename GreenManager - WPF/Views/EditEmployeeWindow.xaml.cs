@@ -20,6 +20,8 @@ namespace GreenManager___WPF.Views
 	{
 		public Employee EditedEmployee { get; set; }
 
+		public Address EditedAddress { get; set; }
+
 		public EditEmployeeWindow(Employee selectedEmployee)
 		{
 			InitializeComponent();
@@ -33,6 +35,33 @@ namespace GreenManager___WPF.Views
 				HireDate = selectedEmployee.HireDate,
 				CreatedAt = selectedEmployee.CreatedAt
 			};
+
+			var huidigAdres = selectedEmployee.CurrentAddress;
+
+			if (huidigAdres != null)
+			{
+				EditedAddress = new Address
+				{
+					Id = huidigAdres.Id,
+					EmployeeId = huidigAdres.EmployeeId,
+					AddressLine1 = huidigAdres.AddressLine1,
+					PostalCode = huidigAdres.PostalCode,
+					City = huidigAdres.City,
+					Country = huidigAdres.Country
+				};
+			}
+			else
+			{
+				EditedAddress = new Address
+				{
+					EmployeeId = selectedEmployee.Id,
+					AddressLine1 = "",
+					PostalCode = "",
+					City = "",
+					Country = "Belgium"
+				};
+			}
+
 
 			this.DataContext = this;
 		}

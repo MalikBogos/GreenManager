@@ -90,13 +90,17 @@ namespace Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaterialCategories",
+                name: "Materials",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StockQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -105,7 +109,7 @@ namespace Models.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaterialCategories", x => x.Id);
+                    table.PrimaryKey("PK_Materials", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,35 +283,6 @@ namespace Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Materials",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    Unit = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PurchasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    StockQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Materials", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Materials_MaterialCategories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "MaterialCategories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
                 {
@@ -405,18 +380,14 @@ namespace Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectTasks",
+                name: "ProjectMaterials",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    EstimatedHours = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -425,36 +396,15 @@ namespace Models.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTasks", x => x.Id);
+                    table.PrimaryKey("PK_ProjectMaterials", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectTasks_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        name: "FK_ProjectMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Quotes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    QuoteDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Quotes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Quotes_Projects_ProjectId",
+                        name: "FK_ProjectMaterials_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -497,74 +447,14 @@ namespace Models.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProjectMaterials",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectMaterials", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectMaterials_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectMaterials_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuoteItems",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuoteId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuoteItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuoteItems_Quotes_QuoteId",
-                        column: x => x.QuoteId,
-                        principalTable: "Quotes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "role-admin-1", "f3ff103b-54e9-4564-ba02-9cbb0c855cb7", "Admin", "ADMIN" },
-                    { "role-employee-2", "ef6d49f1-2fc8-4b5f-9815-3193c46c4f41", "Employee", "EMPLOYEE" },
-                    { "role-guest-3", "a912c914-0d9f-4426-b76f-14d815dbe8b7", "Guest", "GUEST" }
+                    { "role-admin-1", "60f87864-f6d3-4158-a7d7-a0cc4b627bf0", "Admin", "ADMIN" },
+                    { "role-employee-2", "d396a279-c42a-4c4e-9994-9ecb24dd8571", "Employee", "EMPLOYEE" },
+                    { "role-guest-3", "d33d9e5c-8a59-4aac-9b44-51ac231c35ee", "Guest", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -572,9 +462,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAECooj3J1mgzuyGE6Z+NKf8ddmZipDmQWF1NldUrl47VZi72mJjweWqEbl3sa1920Hw==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
-                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAENnBeo3uI8zI/gmM6yzWIqnn4nKPCPaINa/iVlVzsPdFyVPh3wdfuFUqlWMhzODQmA==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEM5UjCsUqqHRND6JM9yLHsrNYDMvhYUqP9D02sto/6GsdpldK2x1rH0PrufdbQrb7w==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEOzYz6/+/fb9/x50Eb5mH4uMbrUoZ2JiZrqkXfkGO4btAMWxmZrod9zjKRgWxpj0eg==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEIzYtfRGS0qxKzj5Y7C8b09R9e7LPr3zZAtA/SH0uXA1SyyckxDCSlluJpuaX5vrmw==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(
@@ -588,11 +478,11 @@ namespace Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Materials",
-                columns: new[] { "Id", "CategoryId", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "IsDeleted", "Name", "Notes", "PurchasePrice", "StockQuantity", "Unit", "UpdatedAt" },
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "IsDeleted", "Name", "Notes", "PurchasePrice", "StockQuantity", "Unit", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Potgrond Universeel 40L", null, 6.50m, 100m, "Zak", null },
-                    { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Grasmatten Sport", null, 3.20m, 500m, "m²", null }
+                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Potgrond Universeel 40L", null, 6.50m, 100m, "Zak", null },
+                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Grasmatten Sport", null, 3.20m, 500m, "m²", null }
                 });
 
             migrationBuilder.InsertData(
@@ -621,15 +511,6 @@ namespace Models.Migrations
                 {
                     { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, null, null, false, "Aanleg Stadstuin Antwerpen", null, "Kerkstraat 1, 2000 Antwerpen", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null },
                     { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, null, null, null, false, "Onderhoud Park Gent", null, "Veldstraat 10, 9000 Gent", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProjectTasks",
-                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "DueDate", "EstimatedHours", "IsDeleted", "Notes", "ProjectId", "Status", "Title", "UpdatedAt" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, 1, 3, "Grondwerken voorbereiden", null },
-                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, 1, 1, "Planten inkopen", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -693,11 +574,6 @@ namespace Models.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Materials_CategoryId",
-                table: "Materials",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectEmployees_EmployeeId",
                 table: "ProjectEmployees",
                 column: "EmployeeId");
@@ -721,21 +597,6 @@ namespace Models.Migrations
                 name: "IX_Projects_CustomerId",
                 table: "Projects",
                 column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectTasks_ProjectId",
-                table: "ProjectTasks",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuoteItems_QuoteId",
-                table: "QuoteItems",
-                column: "QuoteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Quotes_ProjectId",
-                table: "Quotes",
-                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkLogs_EmployeeId",
@@ -779,12 +640,6 @@ namespace Models.Migrations
                 name: "ProjectMaterials");
 
             migrationBuilder.DropTable(
-                name: "ProjectTasks");
-
-            migrationBuilder.DropTable(
-                name: "QuoteItems");
-
-            migrationBuilder.DropTable(
                 name: "WorkLogs");
 
             migrationBuilder.DropTable(
@@ -794,13 +649,7 @@ namespace Models.Migrations
                 name: "Materials");
 
             migrationBuilder.DropTable(
-                name: "Quotes");
-
-            migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "MaterialCategories");
 
             migrationBuilder.DropTable(
                 name: "Projects");

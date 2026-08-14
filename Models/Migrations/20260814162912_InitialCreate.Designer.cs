@@ -12,7 +12,7 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260814093329_InitialCreate")]
+    [Migration("20260814162912_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -55,21 +55,21 @@ namespace Models.Migrations
                         new
                         {
                             Id = "role-admin-1",
-                            ConcurrencyStamp = "f3ff103b-54e9-4564-ba02-9cbb0c855cb7",
+                            ConcurrencyStamp = "60f87864-f6d3-4158-a7d7-a0cc4b627bf0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "role-employee-2",
-                            ConcurrencyStamp = "ef6d49f1-2fc8-4b5f-9815-3193c46c4f41",
+                            ConcurrencyStamp = "d396a279-c42a-4c4e-9994-9ecb24dd8571",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = "role-guest-3",
-                            ConcurrencyStamp = "a912c914-0d9f-4426-b76f-14d815dbe8b7",
+                            ConcurrencyStamp = "d33d9e5c-8a59-4aac-9b44-51ac231c35ee",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         });
@@ -386,7 +386,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAECooj3J1mgzuyGE6Z+NKf8ddmZipDmQWF1NldUrl47VZi72mJjweWqEbl3sa1920Hw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -407,7 +407,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MALIK@GREENMANAGER.BE",
                             NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAENnBeo3uI8zI/gmM6yzWIqnn4nKPCPaINa/iVlVzsPdFyVPh3wdfuFUqlWMhzODQmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOzYz6/+/fb9/x50Eb5mH4uMbrUoZ2JiZrqkXfkGO4btAMWxmZrod9zjKRgWxpj0eg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
@@ -428,7 +428,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GREENMANAGER.BE",
                             NormalizedUserName = "GUEST@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM5UjCsUqqHRND6JM9yLHsrNYDMvhYUqP9D02sto/6GsdpldK2x1rH0PrufdbQrb7w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIzYtfRGS0qxKzj5Y7C8b09R9e7LPr3zZAtA/SH0uXA1SyyckxDCSlluJpuaX5vrmw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_3",
                             TwoFactorEnabled = false,
@@ -669,9 +669,6 @@ namespace Models.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -713,8 +710,6 @@ namespace Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Materials");
 
                     b.HasData(
@@ -738,44 +733,6 @@ namespace Models.Migrations
                             StockQuantity = 500m,
                             Unit = "m²"
                         });
-                });
-
-            modelBuilder.Entity("Models.Entities.MaterialCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MaterialCategories");
                 });
 
             modelBuilder.Entity("Models.Entities.Project", b =>
@@ -955,177 +912,6 @@ namespace Models.Migrations
                     b.ToTable("ProjectMaterials");
                 });
 
-            modelBuilder.Entity("Models.Entities.ProjectTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("EstimatedHours")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ProjectTasks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DueDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ProjectId = 1,
-                            Status = 3,
-                            Title = "Grondwerken voorbereiden"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DueDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ProjectId = 1,
-                            Status = 1,
-                            Title = "Planten inkopen"
-                        });
-                });
-
-            modelBuilder.Entity("Models.Entities.Quote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("QuoteDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Quotes");
-                });
-
-            modelBuilder.Entity("Models.Entities.QuoteItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("QuoteId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuoteId");
-
-                    b.ToTable("QuoteItems");
-                });
-
             modelBuilder.Entity("Models.Entities.WorkLog", b =>
                 {
                     b.Property<int>("Id")
@@ -1270,15 +1056,6 @@ namespace Models.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("Models.Entities.Material", b =>
-                {
-                    b.HasOne("Models.Entities.MaterialCategory", "Category")
-                        .WithMany("Materials")
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Models.Entities.Project", b =>
                 {
                     b.HasOne("Models.Entities.Customer", "Customer")
@@ -1328,39 +1105,6 @@ namespace Models.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("Models.Entities.ProjectTask", b =>
-                {
-                    b.HasOne("Models.Entities.Project", "Project")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("Models.Entities.Quote", b =>
-                {
-                    b.HasOne("Models.Entities.Project", "Project")
-                        .WithMany("Quotes")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("Models.Entities.QuoteItem", b =>
-                {
-                    b.HasOne("Models.Entities.Quote", "Quote")
-                        .WithMany("Items")
-                        .HasForeignKey("QuoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quote");
-                });
-
             modelBuilder.Entity("Models.Entities.WorkLog", b =>
                 {
                     b.HasOne("Models.Entities.Employee", "Employee")
@@ -1408,27 +1152,13 @@ namespace Models.Migrations
                     b.Navigation("ProjectMaterials");
                 });
 
-            modelBuilder.Entity("Models.Entities.MaterialCategory", b =>
-                {
-                    b.Navigation("Materials");
-                });
-
             modelBuilder.Entity("Models.Entities.Project", b =>
                 {
                     b.Navigation("ProjectEmployees");
 
                     b.Navigation("ProjectMaterials");
 
-                    b.Navigation("Quotes");
-
-                    b.Navigation("Tasks");
-
                     b.Navigation("WorkLogs");
-                });
-
-            modelBuilder.Entity("Models.Entities.Quote", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

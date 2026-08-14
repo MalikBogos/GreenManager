@@ -6,10 +6,10 @@ namespace Models.Enums
 {
 	public enum ProjectStatus
 	{
-		Pending,
-		Active,
-		Paused,
-		Completed,
-		Cancelled,
+		Quotation = 0,
+		Accepted = 1,
+		InProgress = 2,
+		Completed = 3,
+		Cancelled = 4,
 	}
 }

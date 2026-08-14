@@ -22,13 +22,9 @@ namespace Models.Data
 		public DbSet<Employee> Employees { get; set; }
 		public DbSet<EmployeeWageHistory> EmployeeWageHistories { get; set; }
 		public DbSet<Material> Materials { get; set; }
-		public DbSet<MaterialCategory> MaterialCategories { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<ProjectEmployee> ProjectEmployees { get; set; }
 		public DbSet<ProjectMaterial> ProjectMaterials { get; set; }
-		public DbSet<ProjectTask> ProjectTasks { get; set; }
-		public DbSet<Quote> Quotes { get; set; }
-		public DbSet<QuoteItem> QuoteItems { get; set; }
 		public DbSet<WorkLog> WorkLogs { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -185,7 +181,7 @@ namespace Models.Data
 					Name = "Aanleg Stadstuin Antwerpen",
 					CustomerId = 1, // Bob
 					StartDate = seedDate,
-					Status = Models.Enums.ProjectStatus.Active,
+					Status = Models.Enums.ProjectStatus.Accepted,
 					ProjectAddress = "Kerkstraat 1, 2000 Antwerpen",
 					CreatedAt = seedDate
 				},
@@ -195,29 +191,8 @@ namespace Models.Data
 					Name = "Onderhoud Park Gent",
 					CustomerId = 2, // Sara
 					StartDate = seedDate,
-					Status = Models.Enums.ProjectStatus.Pending,
+					Status = Models.Enums.ProjectStatus.Quotation,
 					ProjectAddress = "Veldstraat 10, 9000 Gent",
-					CreatedAt = seedDate
-				}
-			);
-
-			modelBuilder.Entity<ProjectTask>().HasData(
-				new ProjectTask
-				{
-					Id = 1,
-					ProjectId = 1,
-					Title = "Grondwerken voorbereiden",
-					DueDate = seedDate,
-					Status = Models.Enums.ProjectTaskStatus.Completed,
-					CreatedAt = seedDate
-				},
-				new ProjectTask
-				{
-					Id = 2,
-					ProjectId = 1,
-					Title = "Planten inkopen",
-					DueDate = seedDate,
-					Status = Models.Enums.ProjectTaskStatus.Active,
 					CreatedAt = seedDate
 				}
 			);

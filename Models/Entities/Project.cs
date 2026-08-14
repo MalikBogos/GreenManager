@@ -3,6 +3,7 @@ using Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Models.Entities
@@ -27,13 +28,12 @@ namespace Models.Entities
 
 		public string? ProjectAddress { get; set; }
 
+		[Column(TypeName = "decimal(18,2)")]
 		public decimal? Budget { get; set; }
 
-		public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
 		public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
 		public ICollection<ProjectMaterial> ProjectMaterials { get; set; } = new List<ProjectMaterial>();
 		public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>();
-		public ICollection<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();
 
 		[StringLength(1500)]
 		public string? Notes { get; set; }

@@ -24,9 +24,6 @@ namespace Models.Entities
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal StockQuantity { get; set; }
 
-		public int? CategoryId { get; set; }
-		public MaterialCategory? Category { get; set; }
-
 		public ICollection<ProjectMaterial> ProjectMaterials { get; set; } = new List<ProjectMaterial>();
 
 		[StringLength(1500)]

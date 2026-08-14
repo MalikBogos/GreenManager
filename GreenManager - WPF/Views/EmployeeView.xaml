@@ -42,8 +42,15 @@
                   BorderBrush="#E0E0E0"
                   RowHeight="35">
 			<DataGrid.Columns>
-				
-			</DataGrid.Columns>
+                <!-- AANGEPAST: We halen de naam nu uit het gekoppelde User object -->
+                <DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="150"/>
+                <DataGridTextColumn Header="Achternaam" Binding="{Binding User.LastName}" Width="150"/>
+                
+                <!-- Bestaande kolommen -->
+                <DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
+                <DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="150"/>
+                <DataGridTextColumn Header="Huidig Uurloon" Binding="{Binding CurrentHourlyWage, StringFormat={}{0:C}}" Width="120"/>
+            </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

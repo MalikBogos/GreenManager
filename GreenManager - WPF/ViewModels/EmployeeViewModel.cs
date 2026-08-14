@@ -39,20 +39,23 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = new GreenManagerDbContext())
 			{
+				// Fetch active employees and include all related data
 				var query = context.Employees
 					.Include(e => e.Addresses)
 					.Include(e => e.WageHistory)
+					.Include(e => e.User) // NEW: Fetch the connected ApplicationUser to get the names!
 					.AsQueryable();
 
+				// Apply the filter ONLY if the user does NOT want to see deleted items
 				if (!ShowDeleted)
 				{
 					query = query.Where(e => e.IsDeleted == false);
 				}
 
-				var EmployeesFromDb = query.ToList();
-				Employees.Clear();
+				var employeesFromDb = query.ToList();
 
-				foreach (var employee in EmployeesFromDb)
+				Employees.Clear();
+				foreach (var employee in employeesFromDb)
 				{
 					Employees.Add(employee);
 				}

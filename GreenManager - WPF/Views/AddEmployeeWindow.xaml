@@ -17,18 +17,20 @@
 		</StackPanel>
 
 		<StackPanel Grid.Row="1">
-			<TextBlock Text="Personeelsnummer *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-			<TextBox Text="{Binding NewEmployee.EmployeeNumber}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
-
+			<TextBlock Text="Personeelsnummer (Automatisch gegenereerd)" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#7F8C8D"/>
+			<TextBox Text="{Binding NewEmployee.EmployeeNumber}" 
+                     IsReadOnly="True" 
+                     Background="#E8ECEF" 
+                     Foreground="#7F8C8D"
+                     Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+			
 			<TextBlock Text="Functie (Job Title) *" FontWeight="SemiBold" Margin="0,0,0,5"/>
 			<TextBox Text="{Binding NewEmployee.JobTitle}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
 			<TextBlock Text="Datum indiensttreding *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-			<!-- DatePicker zorgt voor een handige kalender pop-up -->
 			<DatePicker SelectedDate="{Binding NewEmployee.HireDate}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 		</StackPanel>
 
-		<!-- Knoppen -->
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
 			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" 
                     Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand"

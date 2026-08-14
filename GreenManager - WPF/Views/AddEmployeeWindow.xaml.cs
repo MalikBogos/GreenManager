@@ -20,21 +20,21 @@ namespace GreenManager___WPF.Views
 	{
 		public Employee NewEmployee { get; set; }
 
-		public AddEmployeeWindow()
-        {
-            InitializeComponent();
-            
-            NewEmployee = new Employee
-            {
-                ApplicationUserId = "wordt-zo-ingevuld",
-                EmployeeNumber = "",
-                JobTitle = "",
-                HireDate = DateTime.Today,
-                CreatedAt = DateTime.UtcNow
-            };
+		public AddEmployeeWindow(string generatedNumber)
+		{
+			InitializeComponent();
 
-            this.DataContext = this;
-        }
+			NewEmployee = new Employee
+			{
+				ApplicationUserId = "wordt-zo-ingevuld",
+				EmployeeNumber = generatedNumber,
+				JobTitle = "",
+				HireDate = DateTime.Today,
+				CreatedAt = DateTime.UtcNow
+			};
+
+			this.DataContext = this;
+		}
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{

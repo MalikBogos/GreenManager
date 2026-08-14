@@ -42,7 +42,24 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand]
 		private void OpenAddWindow()
 		{
-			var addWindow = new AddEmployeeWindow();
+			string newEmployeeNumber = "EMP001";
+
+			using (var dbContext = new GreenManagerDbContext())
+			{
+				var lastEmployee = dbContext.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
+
+				if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
+				{
+					string numberPart = lastEmployee.EmployeeNumber.Substring(3);
+
+					if (int.TryParse(numberPart, out int lastNumber))
+					{
+						newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+					}
+				}
+			}
+
+			var addWindow = new AddEmployeeWindow(newEmployeeNumber);
 
 			if (addWindow.ShowDialog() == true)
 			{
@@ -90,31 +107,24 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					// 1. Update de werknemer zelf (Functie, etc.)
 					context.Employees.Update(editWindow.EditedEmployee);
 
-					// 2. Slimme Adres Logica
 					if (!string.IsNullOrWhiteSpace(editWindow.EditedAddress.AddressLine1))
 					{
 						if (editWindow.EditedAddress.Id == 0)
 						{
-							// 2A: Het is een compleet nieuw adres voor iemand die er nog geen had
 							context.Addresses.Add(editWindow.EditedAddress);
 						}
 						else
 						{
-							// 2B: We halen het originele adres zonder wijzigingen uit de database om te vergelijken
 							var origineelAdres = context.Addresses.AsNoTracking().FirstOrDefault(a => a.Id == editWindow.EditedAddress.Id);
 
-							// We checken of er een "echte" wijziging is gedaan (een verhuizing)
 							if (origineelAdres != null &&
 								(origineelAdres.AddressLine1 != editWindow.EditedAddress.AddressLine1 ||
 								 origineelAdres.PostalCode != editWindow.EditedAddress.PostalCode ||
 								 origineelAdres.City != editWindow.EditedAddress.City))
 							{
-								// Er is een verhuizing! We archiveren de oude en maken een nieuwe.
 
-								// Stap 1: Oud adres op 'Verwijderd' zetten (geschiedenis bewaren)
 								var teArchiverenAdres = context.Addresses.Find(origineelAdres.Id);
 								if (teArchiverenAdres != null)
 								{
@@ -124,11 +134,8 @@ namespace GreenManager___WPF.ViewModels
 									context.Addresses.Update(teArchiverenAdres);
 								}
 
-								// Stap 2: Het aangepaste formulier opslaan als GLOEDNIEUW adres
-								// OMDAT we het Id niet mogen aanpassen (init-only), maken we een heel nieuw object aan:
 								var nieuwAdresVoorVerhuizing = new Address
 								{
-									// Id hoeven we niet in te vullen, dat is standaard al 0 voor een nieuw object!
 									EmployeeId = editWindow.EditedAddress.EmployeeId,
 									AddressLine1 = editWindow.EditedAddress.AddressLine1,
 									PostalCode = editWindow.EditedAddress.PostalCode,
@@ -141,14 +148,10 @@ namespace GreenManager___WPF.ViewModels
 							}
 							else
 							{
-								// Er is niets wezenlijks veranderd (hooguit een typfout of helemaal niets)
-								// We overschrijven (updaten) de huidige regel gewoon.
 								context.Addresses.Update(editWindow.EditedAddress);
 							}
 						}
 					}
-
-					// 3. Sla alles veilig op in de database
 					context.SaveChanges();
 				}
 				LoadEmployees();

@@ -1,0 +1,109 @@
+﻿<Window x:Class="GreenManager___WPF.Views.ProjectDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Project Details &amp; Planning" Height="700" Width="800"
+        WindowStartupLocation="CenterOwner" Background="#F5F6FA">
+
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Margin="0,0,0,15">
+			<TextBlock Text="⚙️ Project Details" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="{Binding EditedProject.Name}" FontSize="16" Foreground="#7F8C8D"/>
+		</StackPanel>
+
+		<!-- DE TABBLADEN -->
+		<TabControl Grid.Row="1" Background="White" BorderBrush="#DCDDE1" Padding="10">
+
+			<!-- TAB 1: ALGEMEEN  -->
+			<TabItem Header="Algemeen &amp; Status" FontSize="14" FontWeight="SemiBold">
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<Grid Margin="10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="20"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+
+						<!-- Linker Kolom -->
+						<StackPanel Grid.Column="0">
+							<TextBlock Text="Projectnaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedProject.Name}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+							<TextBlock Text="Gekoppelde Klant *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<ComboBox ItemsSource="{Binding AvailableCustomers}" SelectedValue="{Binding EditedProject.CustomerId}" SelectedValuePath="Id" DisplayMemberPath="LastName" Padding="6" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+							<TextBlock Text="Project Adres" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedProject.ProjectAddress}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+							<TextBlock Text="Korte Omschrijving" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedProject.Description}" AcceptsReturn="True" TextWrapping="Wrap" Height="80" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+						</StackPanel>
+
+						<!-- Rechter Kolom -->
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Status" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<ComboBox ItemsSource="{Binding AvailableStatuses}" SelectedItem="{Binding EditedProject.Status}" Padding="6" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+							<Grid Margin="0,0,0,15">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="10"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0">
+									<TextBlock Text="Startdatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
+									<DatePicker SelectedDate="{Binding EditedProject.StartDate}" Padding="5" BorderThickness="1" BorderBrush="#DCDDE1"/>
+								</StackPanel>
+								<StackPanel Grid.Column="2">
+									<TextBlock Text="Einddatum (Optioneel)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+									<DatePicker SelectedDate="{Binding EditedProject.EndDate}" Padding="5" BorderThickness="1" BorderBrush="#DCDDE1"/>
+								</StackPanel>
+							</Grid>
+
+							<TextBlock Text="Budget / Offertebedrag (€)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedProject.Budget}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+							<TextBlock Text="Interne Notities" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedProject.Notes}" AcceptsReturn="True" TextWrapping="Wrap" Height="80" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+						</StackPanel>
+					</Grid>
+				</ScrollViewer>
+			</TabItem>
+
+			<!-- TAB 2: PLANNING (ProjectEmployees) -->
+			<TabItem Header="Planning (Medewerkers)" FontSize="14" FontWeight="SemiBold">
+				<StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<TextBlock Text="Hier bouwen we straks de ICollection&lt;ProjectEmployee&gt;!" FontSize="16" Foreground="#95A5A6"/>
+				</StackPanel>
+			</TabItem>
+
+			<!-- TAB 3: MATERIALEN (ProjectMaterials) -->
+			<TabItem Header="Materialen" FontSize="14" FontWeight="SemiBold">
+				<StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<TextBlock Text="Hier bouwen we straks de ICollection&lt;ProjectMaterial&gt;!" FontSize="16" Foreground="#95A5A6"/>
+				</StackPanel>
+			</TabItem>
+
+			<!-- TAB 4: WERKUREN (WorkLogs) -->
+			<TabItem Header="Werkuren" FontSize="14" FontWeight="SemiBold">
+				<StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<TextBlock Text="Hier bouwen we straks de ICollection&lt;WorkLog&gt;!" FontSize="16" Foreground="#95A5A6"/>
+				</StackPanel>
+			</TabItem>
+
+		</TabControl>
+
+		<!-- Knoppen Opslaan / Annuleren -->
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" 
+                    Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnCancel_Click"/>
+			<Button Content="Project Opslaan" Width="130" Padding="10" 
+                    Background="#27AE60" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnSave_Click"/>
+		</StackPanel>
+	</Grid>
+</Window>

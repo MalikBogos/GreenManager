@@ -1,0 +1,55 @@
+﻿<Window x:Class="GreenManager___WPF.Views.AddProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nieuw Project / Offerte Aanmaken" Height="600" Width="500"
+        WindowStartupLocation="CenterOwner" Background="#F5F6FA"
+        ResizeMode="NoResize">
+
+	<Grid Margin="30">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Margin="0,0,0,20">
+			<TextBlock Text="📋 Nieuw Project / Offerte" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="Koppel een bestaande klant om te beginnen." Foreground="#7F8C8D"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="1">
+			<TextBlock Text="Klant Selecteren *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			
+			<!-- De ComboBox toont de LastName, maar slaat het Id op in het Project -->
+			<ComboBox ItemsSource="{Binding AvailableCustomers}" 
+                      SelectedValue="{Binding NewProject.CustomerId}" 
+                      SelectedValuePath="Id" 
+                      DisplayMemberPath="LastName" 
+                      Padding="6" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			<TextBlock Text="Projectnaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			<TextBox Text="{Binding NewProject.Name}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			<TextBlock Text="Adres van het project" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			<TextBox Text="{Binding NewProject.ProjectAddress}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			<TextBlock Text="Startdatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			<DatePicker SelectedDate="{Binding NewProject.StartDate}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			<TextBlock Text="Budget / Offerte (€)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			<TextBox Text="{Binding NewProject.Budget}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			<TextBlock Text="Korte Omschrijving" FontWeight="SemiBold" Margin="0,0,0,5"/>
+			<TextBox Text="{Binding NewProject.Description}" AcceptsReturn="True" TextWrapping="Wrap" Height="60" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+		</StackPanel>
+
+		<!-- Knoppen -->
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" 
+                    Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnCancel_Click"/>
+
+			<Button Content="Aanmaken" Width="120" Padding="10" 
+                    Background="#27AE60" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnSave_Click"/>
+		</StackPanel>
+	</Grid>
+</Window>

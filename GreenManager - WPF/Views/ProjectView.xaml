@@ -6,9 +6,42 @@
              xmlns:local="clr-namespace:GreenManager___WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-		<TextBlock Text="Projects!" FontSize="30"/>
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-		<DataGrid ItemsSource="{Binding Projects}"/>
+		<TextBlock Text="📋 Projecten &amp; Offertes" FontSize="26" FontWeight="Bold" Margin="0,0,0,10" Foreground="#2C3E50"/>
+
+		<!-- Knoppenbalk -->
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+			<Button Content="+ Nieuw Project / Offerte" Command="{Binding OpenAddProjectWindowCommand}"
+                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+
+			<Button Content="⚙️ Details &amp; Planning" Command="{Binding OpenProjectDetailsCommand}"
+                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+		</StackPanel>
+
+		<!-- Tabel met projecten -->
+		<DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Projects}"
+                  SelectedItem="{Binding SelectedProject}"
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="#E0E0E0"
+                  RowHeight="35">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Projectnaam" Binding="{Binding Name}" Width="250"/>
+				<DataGridTextColumn Header="Klant" Binding="{Binding Customer.LastName}" Width="150"/>
+				<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120"/>
+				<DataGridTextColumn Header="Startdatum" Binding="{Binding StartDate, StringFormat=dd-MM-yyyy}" Width="120"/>
+				<DataGridTextColumn Header="Budget / Offertebedrag" Binding="{Binding Budget, StringFormat={}{0:C}}" Width="150"/>
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </UserControl>

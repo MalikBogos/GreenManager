@@ -50,7 +50,9 @@ namespace GreenManager___WPF.Views
 					Id = currentAddress.Id,
 					EmployeeId = currentAddress.EmployeeId,
 					AddressLine1 = currentAddress.AddressLine1,
+					AddressLine2 = currentAddress.AddressLine2,
 					PostalCode = currentAddress.PostalCode,
+					Province = currentAddress.Province,
 					City = currentAddress.City,
 					Country = currentAddress.Country
 				};
@@ -61,7 +63,9 @@ namespace GreenManager___WPF.Views
 				{
 					EmployeeId = selectedEmployee.Id,
 					AddressLine1 = "",
+					AddressLine2 = "",
 					PostalCode = "",
+					Province = "",
 					City = "",
 					Country = "Belgium"
 				};

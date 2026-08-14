@@ -1,9 +1,8 @@
 ﻿<Window x:Class="GreenManager___WPF.Views.EditEmployeeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Werknemer Bewerken" Height="600" Width="450"
-        WindowStartupLocation="CenterOwner" Background="#F5F6FA"
-        ResizeMode="NoResize">
+        Title="Werknemer Bewerken" Height="650" Width="450"
+        WindowStartupLocation="CenterOwner" Background="#F5F6FA">
 
 	<Grid Margin="30">
 		<Grid.RowDefinitions>
@@ -16,29 +15,52 @@
 			<TextBlock Text="👷 Werknemer Bewerken" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
 		</StackPanel>
 
-		<StackPanel Grid.Row="1">
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,15,0">
+			<StackPanel>
 
-			<TextBlock Text="Personeelsnummer (Niet bewerkbaar)" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#7F8C8D"/>
-			<TextBox Text="{Binding EditedEmployee.EmployeeNumber}" 
-                     IsReadOnly="True" 
-                     Background="#E8ECEF" 
-                     Foreground="#7F8C8D"
-                     Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+				<TextBlock Text="💼 Werkgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 
-			<TextBlock Text="Functie (Job Title) *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-			<TextBox Text="{Binding EditedEmployee.JobTitle}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+				<TextBlock Text="Personeelsnummer (Niet bewerkbaar)" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#7F8C8D"/>
+				<TextBox Text="{Binding EditedEmployee.EmployeeNumber}" IsReadOnly="True" Background="#E8ECEF" Foreground="#7F8C8D" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
-			<TextBlock Text="Datum indiensttreding *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<Grid Margin="0,0,0,15">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
 
-			<DatePicker SelectedDate="{Binding EditedEmployee.HireDate}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<StackPanel Grid.Column="0">
+						<TextBlock Text="Functie *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+						<TextBox Text="{Binding EditedEmployee.JobTitle}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					</StackPanel>
 
-			<StackPanel Margin="0,10,0,0">
+					<StackPanel Grid.Column="2">
+						<TextBlock Text="Afdeling" FontWeight="SemiBold" Margin="0,0,0,5"/>
+						<TextBox Text="{Binding EditedEmployee.Department}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					</StackPanel>
+				</Grid>
+
+				<TextBlock Text="Datum indiensttreding *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<DatePicker SelectedDate="{Binding EditedEmployee.HireDate}" Padding="5" Margin="0,0,0,25" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+				<TextBlock Text="👤 Persoonlijke Gegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+
+				<TextBlock Text="Geboortedatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<DatePicker SelectedDate="{Binding EditedEmployee.DateOfBirth}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+				<TextBlock Text="Noodcontact Naam" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding EditedEmployee.EmergencyContactName}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+				<TextBlock Text="Noodcontact Telefoon" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding EditedEmployee.EmergencyContactPhone}" Padding="8" Margin="0,0,0,25" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
 				<TextBlock Text="📍 Adresgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 
 				<TextBlock Text="Straat en Huisnummer" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<TextBox Text="{Binding EditedAddress.AddressLine1}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
-				<Grid Margin="0,0,0,15">
+				<Grid Margin="0,0,0,25">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="10"/>
@@ -55,18 +77,19 @@
 						<TextBox Text="{Binding EditedAddress.City}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 					</StackPanel>
 				</Grid>
-			</StackPanel>
 
-		</StackPanel>
+				<TextBlock Text="📝 Interne Notities" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+				<TextBox Text="{Binding EditedEmployee.Notes}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+			</StackPanel>
+		</ScrollViewer>
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
 			<Button Content="Annuleren" Width="100" Padding="10" Margin="0,0,10,0" 
-                    Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand"
-                    Click="BtnCancel_Click"/>
+                    Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnCancel_Click"/>
 
 			<Button Content="Opslaan" Width="120" Padding="10" 
-                    Background="#27AE60" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand"
-                    Click="BtnSave_Click"/>
+                    Background="#27AE60" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnSave_Click"/>
 		</StackPanel>
 	</Grid>
 </Window>

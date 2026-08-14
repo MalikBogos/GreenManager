@@ -19,7 +19,6 @@ namespace GreenManager___WPF.Views
 	public partial class EditEmployeeWindow : Window
 	{
 		public Employee EditedEmployee { get; set; }
-
 		public Address EditedAddress { get; set; }
 
 		public EditEmployeeWindow(Employee selectedEmployee)
@@ -33,21 +32,27 @@ namespace GreenManager___WPF.Views
 				EmployeeNumber = selectedEmployee.EmployeeNumber,
 				JobTitle = selectedEmployee.JobTitle,
 				HireDate = selectedEmployee.HireDate,
-				CreatedAt = selectedEmployee.CreatedAt
+				CreatedAt = selectedEmployee.CreatedAt,
+
+				Department = selectedEmployee.Department,
+				DateOfBirth = selectedEmployee.DateOfBirth,
+				EmergencyContactName = selectedEmployee.EmergencyContactName,
+				EmergencyContactPhone = selectedEmployee.EmergencyContactPhone,
+				Notes = selectedEmployee.Notes
 			};
 
-			var huidigAdres = selectedEmployee.CurrentAddress;
+			var currentAddress = selectedEmployee.CurrentAddress;
 
-			if (huidigAdres != null)
+			if (currentAddress != null)
 			{
 				EditedAddress = new Address
 				{
-					Id = huidigAdres.Id,
-					EmployeeId = huidigAdres.EmployeeId,
-					AddressLine1 = huidigAdres.AddressLine1,
-					PostalCode = huidigAdres.PostalCode,
-					City = huidigAdres.City,
-					Country = huidigAdres.Country
+					Id = currentAddress.Id,
+					EmployeeId = currentAddress.EmployeeId,
+					AddressLine1 = currentAddress.AddressLine1,
+					PostalCode = currentAddress.PostalCode,
+					City = currentAddress.City,
+					Country = currentAddress.Country
 				};
 			}
 			else
@@ -61,7 +66,6 @@ namespace GreenManager___WPF.Views
 					Country = "Belgium"
 				};
 			}
-
 
 			this.DataContext = this;
 		}

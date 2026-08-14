@@ -152,6 +152,9 @@ namespace GreenManager___WPF.ViewModels
 							}
 						}
 					}
+					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
+
+					context.Employees.Update(editWindow.EditedEmployee);
 					context.SaveChanges();
 				}
 				LoadEmployees();
@@ -163,7 +166,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			if (SelectedEmployee == null)
 			{
-				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 
@@ -173,10 +176,19 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					SelectedEmployee.IsDeleted = true;
-					context.Employees.Update(SelectedEmployee);
-					context.SaveChanges();
+					var employeeToDelete = context.Employees.Find(SelectedEmployee.Id);
+
+					if (employeeToDelete != null)
+					{
+						employeeToDelete.IsDeleted = true;
+						employeeToDelete.DeletedAt = DateTime.UtcNow;
+						employeeToDelete.DeletedReason = "Verwijderd door de Admin via het werknemersoverzicht";
+
+						context.Employees.Update(employeeToDelete);
+						context.SaveChanges();
+					}
 				}
+
 				LoadEmployees();
 			}
 		}

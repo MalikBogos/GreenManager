@@ -1,0 +1,67 @@
+﻿<Window x:Class="GreenManager___WPF.Views.WageHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Loonhistoriek Beheren" Height="450" Width="500"
+        WindowStartupLocation="CenterOwner" Background="#F5F6FA"
+        ResizeMode="NoResize">
+
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="0" Text="💳 Loonhistoriek" FontSize="22" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+		<!-- Invoer voor nieuw loon -->
+		<Border Grid.Row="1" Background="White" BorderBrush="#DCDDE1" BorderThickness="1" Padding="15" Margin="0,0,0,20" CornerRadius="5">
+			<StackPanel>
+				<TextBlock Text="Nieuw Uurloon Toevoegen" FontWeight="Bold" Margin="0,0,0,10" Foreground="#34495E"/>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+
+					<StackPanel Grid.Column="0">
+						<TextBlock Text="Bruto Uurloon (€)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+						<TextBox Text="{Binding NewWageAmount}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					</StackPanel>
+
+					<StackPanel Grid.Column="2">
+						<TextBlock Text="Geldig Vanaf" FontWeight="SemiBold" Margin="0,0,0,5"/>
+						<DatePicker SelectedDate="{Binding NewEffectiveFrom}" Padding="5" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					</StackPanel>
+
+					<Button Grid.Column="4" Content="Toevoegen" VerticalAlignment="Bottom" Padding="15,8" 
+                            Background="#27AE60" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnAddWage_Click"/>
+				</Grid>
+			</StackPanel>
+		</Border>
+
+		<!-- Tabel met geschiedenis -->
+		<DataGrid Grid.Row="2" ItemsSource="{Binding Wages}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="Horizontal" BorderThickness="1" BorderBrush="#E0E0E0">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Uurloon" Binding="{Binding HourlyWage, StringFormat={}{0:C}}" Width="*"/>
+				<DataGridTextColumn Header="Geldig Vanaf" Binding="{Binding EffectiveFrom, StringFormat=dd-MM-yyyy}" Width="*"/>
+				<DataGridTextColumn Header="Geldig Tot" Binding="{Binding EffectiveTo, StringFormat=dd-MM-yyyy}" Width="*"/>
+				
+				<DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="🗑️" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="BtnDeleteWage_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Button Grid.Row="3" Content="Sluiten" HorizontalAlignment="Right" Width="100" Padding="10" Margin="0,15,0,0" 
+                Background="#95A5A6" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnClose_Click"/>
+	</Grid>
+</Window>

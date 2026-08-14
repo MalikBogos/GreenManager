@@ -19,6 +19,8 @@
                     Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
             <Button Content="🗑️ Verwijderen" Command="{Binding DeleteEmployeeCommand}"
                     Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+			<Button Content="💰 Lonen" Command="{Binding ManageWagesCommand}"
+                    Padding="15,10" Background="#8E44AD" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
             
             <CheckBox Content="🗄️ Toon archief (verwijderde dossiers)" 
                       IsChecked="{Binding ShowDeleted}" 
@@ -40,6 +42,7 @@
                   BorderBrush="#E0E0E0"
                   RowHeight="35">
 			<DataGrid.Columns>
+				
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

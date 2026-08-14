@@ -41,6 +41,7 @@ namespace GreenManager___WPF.ViewModels
 			{
 				var query = context.Employees
 					.Include(e => e.Addresses)
+					.Include(e => e.WageHistory)
 					.AsQueryable();
 
 				if (!ShowDeleted)
@@ -220,6 +221,31 @@ namespace GreenManager___WPF.ViewModels
 					}
 				}
 
+				LoadEmployees();
+			}
+		}
+
+		[RelayCommand]
+		private void ManageWages()
+		{
+			if (SelectedEmployee == null)
+			{
+				MessageBox.Show("Selecteer eerst een werknemer om de lonen te beheren.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			if (SelectedEmployee.IsDeleted)
+			{
+				MessageBox.Show("Je kunt geen lonen toevoegen aan een gearchiveerd dossier.", "Niet toegestaan", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			// Open the new wage management window
+			var wageWindow = new WageHistoryWindow(SelectedEmployee);
+
+			// If the window closes and a wage was added, reload to update the CurrentHourlyWage column
+			if (wageWindow.ShowDialog() == true)
+			{
 				LoadEmployees();
 			}
 		}

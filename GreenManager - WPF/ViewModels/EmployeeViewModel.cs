@@ -68,18 +68,18 @@ namespace GreenManager___WPF.ViewModels
 					var newLoginAccount = new ApplicationUser
 					{
 						Id = Guid.NewGuid().ToString(),
-						UserName = $"{addWindow.NewEmployee.EmployeeNumber}@greenmanager.be",
-						NormalizedUserName = $"{addWindow.NewEmployee.EmployeeNumber}@GREENMANAGER.BE",
-						Email = $"{addWindow.NewEmployee.EmployeeNumber}@greenmanager.be",
-						NormalizedEmail = $"{addWindow.NewEmployee.EmployeeNumber}@GREENMANAGER.BE",
-						FirstName = "Nieuwe",
-						LastName = "Werknemer",
+						UserName = addWindow.UserEmail,
+						NormalizedUserName = addWindow.UserEmail.ToUpper(),
+						Email = addWindow.UserEmail,
+						NormalizedEmail = addWindow.UserEmail.ToUpper(),
+						FirstName = addWindow.UserFirstName,
+						LastName = addWindow.UserLastName,
 						EmailConfirmed = true,
 						CreatedAt = DateTime.UtcNow
 					};
 
 					var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
-					newLoginAccount.PasswordHash = hasher.HashPassword(newLoginAccount, "Welkom123!");
+					newLoginAccount.PasswordHash = hasher.HashPassword(newLoginAccount, "Welcome123!");
 
 					context.Users.Add(newLoginAccount);
 

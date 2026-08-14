@@ -562,9 +562,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "role-admin-1", "9cf1be8f-aa46-4bfc-bbf8-1a35faf6adb5", "Admin", "ADMIN" },
-                    { "role-employee-2", "733210e6-f109-42e1-9c5f-d8d7a4b1614a", "Employee", "EMPLOYEE" },
-                    { "role-guest-3", "86c28729-114f-4ffa-a850-fcd0695f0a4b", "Guest", "GUEST" }
+                    { "role-admin-1", "f3ff103b-54e9-4564-ba02-9cbb0c855cb7", "Admin", "ADMIN" },
+                    { "role-employee-2", "ef6d49f1-2fc8-4b5f-9815-3193c46c4f41", "Employee", "EMPLOYEE" },
+                    { "role-guest-3", "a912c914-0d9f-4426-b76f-14d815dbe8b7", "Guest", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -572,9 +572,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEMhazKV3iktMRGn2CEAyiyiPdXu3Tn5SOUXpUUZbzOFCgyBkIqkaEdr1c0NHsZUCZw==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
-                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEEn38Xf1HDkrK1RtgOP485rtO8Tq4GjGzoW0MJtGGFwiPbayYvuVESzNfx6zyt//2A==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEAaJbkmt6HzA9sB1xmvZCdPYrOuEhB9Q79etoPXt52LkJS8Tz9/hfDIe+mr7Il2GLA==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAECooj3J1mgzuyGE6Z+NKf8ddmZipDmQWF1NldUrl47VZi72mJjweWqEbl3sa1920Hw==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAENnBeo3uI8zI/gmM6yzWIqnn4nKPCPaINa/iVlVzsPdFyVPh3wdfuFUqlWMhzODQmA==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEM5UjCsUqqHRND6JM9yLHsrNYDMvhYUqP9D02sto/6GsdpldK2x1rH0PrufdbQrb7w==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(

@@ -20,13 +20,17 @@ namespace GreenManager___WPF.Views
 	{
 		public Employee NewEmployee { get; set; }
 
+		public string UserFirstName { get; set; } = string.Empty;
+		public string UserLastName { get; set; } = string.Empty;
+		public string UserEmail { get; set; } = string.Empty;
+
 		public AddEmployeeWindow(string generatedNumber)
 		{
 			InitializeComponent();
 
 			NewEmployee = new Employee
 			{
-				ApplicationUserId = "wordt-zo-ingevuld",
+				ApplicationUserId = "will-be-filled-in-later",
 				EmployeeNumber = generatedNumber,
 				JobTitle = "",
 				HireDate = DateTime.Today,
@@ -38,9 +42,13 @@ namespace GreenManager___WPF.Views
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(NewEmployee.EmployeeNumber) || string.IsNullOrWhiteSpace(NewEmployee.JobTitle))
+			if (string.IsNullOrWhiteSpace(NewEmployee.EmployeeNumber) ||
+				string.IsNullOrWhiteSpace(NewEmployee.JobTitle) ||
+				string.IsNullOrWhiteSpace(UserFirstName) ||
+				string.IsNullOrWhiteSpace(UserLastName) ||
+				string.IsNullOrWhiteSpace(UserEmail))
 			{
-				MessageBox.Show("Vul de verplichte velden (Personeelsnummer en Functie) in.", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Vul a.u.b. alle verplichte velden in (inclusief naam en e-mail).", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 

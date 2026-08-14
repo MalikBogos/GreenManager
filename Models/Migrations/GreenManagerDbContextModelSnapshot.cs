@@ -52,21 +52,21 @@ namespace Models.Migrations
                         new
                         {
                             Id = "role-admin-1",
-                            ConcurrencyStamp = "9cf1be8f-aa46-4bfc-bbf8-1a35faf6adb5",
+                            ConcurrencyStamp = "f3ff103b-54e9-4564-ba02-9cbb0c855cb7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "role-employee-2",
-                            ConcurrencyStamp = "733210e6-f109-42e1-9c5f-d8d7a4b1614a",
+                            ConcurrencyStamp = "ef6d49f1-2fc8-4b5f-9815-3193c46c4f41",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = "role-guest-3",
-                            ConcurrencyStamp = "86c28729-114f-4ffa-a850-fcd0695f0a4b",
+                            ConcurrencyStamp = "a912c914-0d9f-4426-b76f-14d815dbe8b7",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         });
@@ -383,7 +383,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMhazKV3iktMRGn2CEAyiyiPdXu3Tn5SOUXpUUZbzOFCgyBkIqkaEdr1c0NHsZUCZw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECooj3J1mgzuyGE6Z+NKf8ddmZipDmQWF1NldUrl47VZi72mJjweWqEbl3sa1920Hw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -404,7 +404,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MALIK@GREENMANAGER.BE",
                             NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEn38Xf1HDkrK1RtgOP485rtO8Tq4GjGzoW0MJtGGFwiPbayYvuVESzNfx6zyt//2A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENnBeo3uI8zI/gmM6yzWIqnn4nKPCPaINa/iVlVzsPdFyVPh3wdfuFUqlWMhzODQmA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
@@ -425,7 +425,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GREENMANAGER.BE",
                             NormalizedUserName = "GUEST@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAaJbkmt6HzA9sB1xmvZCdPYrOuEhB9Q79etoPXt52LkJS8Tz9/hfDIe+mr7Il2GLA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM5UjCsUqqHRND6JM9yLHsrNYDMvhYUqP9D02sto/6GsdpldK2x1rH0PrufdbQrb7w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_3",
                             TwoFactorEnabled = false,

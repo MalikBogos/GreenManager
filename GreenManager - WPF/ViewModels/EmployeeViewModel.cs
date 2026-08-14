@@ -18,7 +18,17 @@ namespace GreenManager___WPF.ViewModels
 
 		[ObservableProperty]
 		private Employee _selectedEmployee;
-		
+
+		// Property to bind to the CheckBox in the UI
+		[ObservableProperty]
+		private bool _showDeleted;
+
+		// This built-in CommunityToolkit method triggers automatically whenever ShowDeleted changes # notes
+		partial void OnShowDeletedChanged(bool value)
+		{
+			LoadEmployees();
+		}
+
 		public EmployeeViewModel()
 		{
 			Employees = new ObservableCollection<Employee>();
@@ -29,7 +39,16 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = new GreenManagerDbContext())
 			{
-				var EmployeesFromDb = context.Employees.Include(e => e.Addresses).ToList();
+				var query = context.Employees
+					.Include(e => e.Addresses)
+					.AsQueryable();
+
+				if (!ShowDeleted)
+				{
+					query = query.Where(e => e.IsDeleted == false);
+				}
+
+				var EmployeesFromDb = query.ToList();
 				Employees.Clear();
 
 				foreach (var employee in EmployeesFromDb)
@@ -102,7 +121,13 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			 var editWindow = new EditEmployeeWindow(SelectedEmployee);
+			if (SelectedEmployee.IsDeleted)
+			{
+				MessageBox.Show("Dit dossier is verplaatst naar het archief en kan niet meer bewerkt worden.", "Actie niet toegestaan", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			var editWindow = new EditEmployeeWindow(SelectedEmployee);
 			if (editWindow.ShowDialog() == true)
 			{
 				using (var context = new GreenManagerDbContext())
@@ -167,6 +192,12 @@ namespace GreenManager___WPF.ViewModels
 			if (SelectedEmployee == null)
 			{
 				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
+				return;
+			}
+
+			if (SelectedEmployee.IsDeleted)
+			{
+				MessageBox.Show("Deze werknemer is al verwijderd.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 

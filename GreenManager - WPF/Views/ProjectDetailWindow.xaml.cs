@@ -131,21 +131,69 @@ namespace GreenManager___WPF.Views
 
 			using (var context = new GreenManagerDbContext())
 			{
-				var newMat = new ProjectMaterial
+				// 1. Fetch the actual material from the database to check the stock
+				var materialInDb = context.Materials.Find(SelectedMaterialId);
+
+				if (materialInDb != null)
 				{
-					ProjectId = EditedProject.Id,
-					MaterialId = SelectedMaterialId,
-					Quantity = NewQuantity
-				};
-				context.Set<ProjectMaterial>().Add(newMat);
-				context.SaveChanges();
+					// 2. STOCK VALIDATION: Is the user trying to add more than we have?
+					if (NewQuantity > materialInDb.StockQuantity)
+					{
+						MessageBox.Show($"Niet genoeg voorraad! Er zijn op dit moment slechts {materialInDb.StockQuantity} {materialInDb.Unit} beschikbaar in het magazijn.", "Voorraad Tekort", MessageBoxButton.OK, MessageBoxImage.Warning);
+						return; // Stop the code here!
+					}
+
+					// 3. Deduct the used amount from the global stock!
+					materialInDb.StockQuantity -= NewQuantity;
+					context.Materials.Update(materialInDb);
+
+					// 4. Save the material to the project
+					var newMat = new ProjectMaterial
+					{
+						ProjectId = EditedProject.Id,
+						MaterialId = SelectedMaterialId,
+						Quantity = NewQuantity
+					};
+					context.Set<ProjectMaterial>().Add(newMat);
+
+					context.SaveChanges();
+				}
 			}
+
+			NewQuantity = 0;
 			LoadTabData();
 		}
 
 		private void BtnDeleteProjectMaterial_Click(object sender, RoutedEventArgs e)
 		{
-			if ((sender as Button)?.DataContext is ProjectMaterial pm) SoftDeleteEntity<ProjectMaterial>(pm.Id);
+			if ((sender as Button)?.DataContext is ProjectMaterial pm)
+			{
+				if (MessageBox.Show("Weet je zeker dat je dit materiaal van het project wilt verwijderen? De voorraad wordt teruggestort naar het magazijn.", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+				{
+					using (var context = new GreenManagerDbContext())
+					{
+						// 1. Soft Delete the project material connection
+						var entity = context.Set<ProjectMaterial>().Find(pm.Id);
+						if (entity != null)
+						{
+							entity.IsDeleted = true;
+							entity.DeletedAt = DateTime.UtcNow;
+							context.Set<ProjectMaterial>().Update(entity);
+
+							// 2. BONUS: Automatically restore the stock quantity back to the global material table!
+							var materialInDb = context.Materials.Find(entity.MaterialId);
+							if (materialInDb != null)
+							{
+								materialInDb.StockQuantity += entity.Quantity;
+								context.Materials.Update(materialInDb);
+							}
+
+							context.SaveChanges();
+						}
+					}
+					LoadTabData();
+				}
+			}
 		}
 
 		// --- TAB 4: WORKLOG LOGIC ---

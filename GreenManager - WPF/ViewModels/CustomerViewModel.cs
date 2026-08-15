@@ -19,6 +19,14 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private Customer _selectedCustomer;
 
+		[ObservableProperty]
+		private string _searchQuery = string.Empty;
+
+		partial void OnSearchQueryChanged(string value)
+		{
+			LoadCustomers();
+		}
+
 		public CustomerViewModel()
 		{
 			Customers = new ObservableCollection<Customer>();
@@ -26,19 +34,31 @@ namespace GreenManager___WPF.ViewModels
 		}
 
 		private void LoadCustomers()
-		{
-			using (var context = new GreenManagerDbContext())
-			{
-				var customersFromDb = context.Customers.Where(c => c.IsDeleted == false).ToList();
+        {
+            using (var context = new GreenManagerDbContext())
+            {
+                // Start de zoekopdracht voor actieve klanten
+                var query = context.Customers.Where(c => c.IsDeleted == false).AsQueryable();
 
-				Customers.Clear();
+                // NIEUW: Als de zoekbalk niet leeg is, filter dan de lijst
+                if (!string.IsNullOrWhiteSpace(SearchQuery))
+                {
+                    query = query.Where(c => c.FirstName.Contains(SearchQuery) ||
+                                             c.LastName.Contains(SearchQuery) ||
+                                             c.Email.Contains(SearchQuery) ||
+                                             (c.CompanyName != null && c.CompanyName.Contains(SearchQuery)));
+                }
 
-				foreach (var customer in customersFromDb)
-				{
-					Customers.Add(customer);
-				}
-			}
-		}
+                // Voer de zoekopdracht uit
+                var customersFromDb = query.ToList();
+
+                Customers.Clear();
+                foreach (var customer in customersFromDb)
+                {
+                    Customers.Add(customer);
+                }
+            }
+        }
 
 		[RelayCommand]
 		private void OpenAddWindow()

@@ -21,9 +21,19 @@ namespace GreenManager___WPF.Views
 		public Employee EditedEmployee { get; set; }
 		public Address EditedAddress { get; set; }
 
+		// NIEUW: Eigenschappen voor de voornaam en achternaam
+		public string EditedFirstName { get; set; } = string.Empty;
+		public string EditedLastName { get; set; } = string.Empty;
+
 		public EditEmployeeWindow(Employee selectedEmployee)
 		{
 			InitializeComponent();
+
+			if (selectedEmployee.User != null)
+			{
+				EditedFirstName = selectedEmployee.User.FirstName;
+				EditedLastName = selectedEmployee.User.LastName;
+			}
 
 			EditedEmployee = new Employee
 			{
@@ -76,9 +86,12 @@ namespace GreenManager___WPF.Views
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(EditedEmployee.EmployeeNumber) || string.IsNullOrWhiteSpace(EditedEmployee.JobTitle))
+			if (string.IsNullOrWhiteSpace(EditedEmployee.EmployeeNumber) ||
+				string.IsNullOrWhiteSpace(EditedEmployee.JobTitle) ||
+				string.IsNullOrWhiteSpace(EditedFirstName) ||
+				string.IsNullOrWhiteSpace(EditedLastName))
 			{
-				MessageBox.Show("Vul de verplichte velden (Personeelsnummer en Functie) in.", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Vul de verplichte velden (Voornaam, Achternaam, Personeelsnummer en Functie) in.", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 

@@ -136,7 +136,13 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					context.Employees.Update(editWindow.EditedEmployee);
+					var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
+					if (userToUpdate != null)
+					{
+						userToUpdate.FirstName = editWindow.EditedFirstName;
+						userToUpdate.LastName = editWindow.EditedLastName;
+						context.Users.Update(userToUpdate);
+					}
 
 					if (!string.IsNullOrWhiteSpace(editWindow.EditedAddress.AddressLine1))
 					{
@@ -182,8 +188,8 @@ namespace GreenManager___WPF.ViewModels
 						}
 					}
 					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
-
 					context.Employees.Update(editWindow.EditedEmployee);
+
 					context.SaveChanges();
 				}
 				LoadEmployees();

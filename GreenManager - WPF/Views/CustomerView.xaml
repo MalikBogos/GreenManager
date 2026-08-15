@@ -14,8 +14,20 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Text="Klantenbeheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+		<Grid Grid.Row="0" Margin="0,0,0,15">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
 
+			<TextBlock Grid.Column="0" Text="👥 Klantenbeheer" FontSize="26" FontWeight="Bold" Foreground="#2C3E50"/>
+
+			<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+				<TextBlock Text="🔍 Zoeken:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,10,0"/>
+				<TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="250" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1" VerticalContentAlignment="Center"/>
+			</StackPanel>
+		</Grid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
 			<Button Content="+ Nieuwe Klant" Command="{Binding OpenAddWindowCommand}" 
             Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>

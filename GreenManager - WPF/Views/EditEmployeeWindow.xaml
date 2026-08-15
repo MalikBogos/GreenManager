@@ -46,6 +46,12 @@
 
 				<TextBlock Text="👤 Persoonlijke Gegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 
+				<TextBlock Text="Voornaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding EditedFirstName}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
+				<TextBlock Text="Achternaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
+				<TextBox Text="{Binding EditedLastName}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
+
 				<TextBlock Text="Geboortedatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<DatePicker SelectedDate="{Binding EditedEmployee.DateOfBirth}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 

@@ -20,7 +20,7 @@
 			<Button Content="+ Nieuw Project / Offerte" Command="{Binding OpenAddProjectWindowCommand}"
                     Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 
-			<Button Content="⚙️ Details &amp; Planning" Command="{Binding OpenProjectDetailsCommand}"
+			<Button Content="⚙️ Details &amp; Planning" Command="{Binding EditProjectCommand}"
                     Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
 		</StackPanel>
 

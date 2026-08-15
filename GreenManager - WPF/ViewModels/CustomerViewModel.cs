@@ -93,6 +93,7 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
+					editWindow.EditedCustomer.UpdatedAt = DateTime.UtcNow;
 					context.Customers.Update(editWindow.EditedCustomer);
 					context.SaveChanges();
 				}
@@ -116,6 +117,8 @@ namespace GreenManager___WPF.ViewModels
 				using (var context = new GreenManagerDbContext())
 				{
 					SelectedCustomer.IsDeleted = true;
+					SelectedCustomer.DeletedAt = DateTime.UtcNow;
+					SelectedCustomer.DeletedReason = "Verwijderd voor administratieve redenen";
 					context.Customers.Update(SelectedCustomer);
 					context.SaveChanges();
 				}

@@ -73,6 +73,7 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
+					editWindow.EditedMaterial.UpdatedAt = DateTime.UtcNow;
 					context.Materials.Update(editWindow.EditedMaterial);
 					context.SaveChanges();
 				}
@@ -96,6 +97,8 @@ namespace GreenManager___WPF.ViewModels
 				using (var context = new GreenManagerDbContext())
 				{
 					SelectedMaterial.IsDeleted = true;
+					SelectedMaterial.DeletedAt = DateTime.UtcNow;
+					SelectedMaterial.DeletedReason = "Verwijderd voor administatieve redenen";
 					context.Materials.Update(SelectedMaterial);
 					context.SaveChanges();
 				}

@@ -194,7 +194,14 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand]
 		private void DeleteProjectEmployee(ProjectEmployee pe)
 		{
-			if (pe != null) SoftDeleteEntity<ProjectEmployee>(pe.Id);
+			if (pe != null)
+			{
+				SoftDeleteEntity<ProjectEmployee>(pe.Id);
+				pe.IsDeleted = true;
+				pe.DeletedAt = DateTime.UtcNow;
+				pe.DeletedReason = "Verwijderd voor administratieve redenen";
+			}
+			
 		}
 
 		[RelayCommand]
@@ -235,6 +242,7 @@ namespace GreenManager___WPF.ViewModels
 					{
 						entity.IsDeleted = true;
 						entity.DeletedAt = DateTime.UtcNow;
+						entity.DeletedReason = "Verwijderd voor administratieve redenen";
 						context.Set<ProjectMaterial>().Update(entity);
 
 						var materialInDb = context.Materials.Find(entity.MaterialId);
@@ -271,7 +279,13 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand]
 		private void DeleteWorkLog(WorkLog wl)
 		{
-			if (wl != null) SoftDeleteEntity<WorkLog>(wl.Id);
+			if (wl != null)
+			{
+				SoftDeleteEntity<WorkLog>(wl.Id);
+				wl.IsDeleted = true;
+				wl.DeletedAt = DateTime.UtcNow;
+				wl.DeletedReason = "Verwijderd voor administratieve redenen";
+			}
 		}
 
 		private void SoftDeleteEntity<T>(int id) where T : BaseEntity<int>
@@ -285,6 +299,7 @@ namespace GreenManager___WPF.ViewModels
 					{
 						entity.IsDeleted = true;
 						entity.DeletedAt = DateTime.UtcNow;
+						entity.DeletedReason = "Verwijderd voor administratieve redenen";
 						context.Set<T>().Update(entity);
 						context.SaveChanges();
 					}

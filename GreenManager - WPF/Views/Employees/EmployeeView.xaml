@@ -1,7 +1,11 @@
 ﻿<UserControl x:Class="GreenManager___WPF.Views.EmployeeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Background="White">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GreenManager___WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
 
 	<Grid Margin="20">
 		<Grid.RowDefinitions>
@@ -17,30 +21,35 @@
             <Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}"/>
 			
             <Button Style="{StaticResource EditButtonStyle}" Content="Bewerk Werknemer" Command="{Binding EditEmployeeCommand}"/>
-			
-            <Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Werknemer" Command="{Binding DeleteEmployeeCommand}"/>
 
-			<Button Content="Lonen" Command="{Binding ManageWagesCommand}"
-                    Padding="15,10" Background="Purple" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Werknemer" Command="{Binding DeleteEmployeeCommand}"/>
 		</StackPanel>
 
 		<!-- Tabel met Werknemers-->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Employees}" 
                   SelectedItem="{Binding SelectedEmployee}"
-                  AutoGenerateColumns="True" 
+                  AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
                   BorderThickness="1"
                   BorderBrush="#E0E0E0"
+				  HorizontalScrollBarVisibility="Auto"
                   RowHeight="35">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="150"/>
-				<DataGridTextColumn Header="Achternaam" Binding="{Binding User.LastName}" Width="150"/>
-				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
-                <DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="150"/>
-                <DataGridTextColumn Header="Huidig Uurloon" Binding="{Binding CurrentHourlyWage, StringFormat={}{0:C}}" Width="120"/>
+				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="Auto"/>
+				<DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="Auto"/>
+				<DataGridTextColumn Header="Achernaam" Binding="{Binding User.LastName}" Width="Auto"/>
+				<DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="Auto"/>
+				<DataGridTextColumn Header="Uurloon" Binding="{Binding HourlyWage, StringFormat={}{0:C}}" Width="Auto"/>
+				<DataGridTextColumn Header="Departement" Binding="{Binding Department}" Width="Auto"/>
+                <DataGridTextColumn Header="Noodcontactnaam" Binding="{Binding EmergencyContactName}" Width="Auto"/>
+                <DataGridTextColumn Header="Noodcontactnummer" Binding="{Binding EmergencyContactPhone}" Width="Auto"/>
+                <DataGridTextColumn Header="Straat" Binding="{Binding Street}" Width="Auto"/>
+                <DataGridTextColumn Header="Postcode" Binding="{Binding PostalCode}" Width="120"/>
+                <DataGridTextColumn Header="Stad" Binding="{Binding City}" Width="120"/>
+                <DataGridTextColumn Header="Notities" Binding="{Binding Notes}" Width="120"/>
             </DataGrid.Columns>
 		</DataGrid>
 	</Grid>

@@ -102,7 +102,7 @@ namespace GreenManager___WPF.ViewModels
 		}
 
 		[RelayCommand]
-		private void SoftDeleteMaterial()
+		private void SoftDeleteCustomer()
 		{
 			if (SelectedCustomer == null)
 			{

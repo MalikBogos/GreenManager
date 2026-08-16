@@ -30,8 +30,8 @@ namespace GreenManager___WPF.ViewModels
 			using (var context = new GreenManagerDbContext())
 			{
 				var query = context.Employees
-					.Include(e => e.WageHistory)
 					.Include(e => e.User)
+					.Where(e => !e.IsDeleted)
 					.AsQueryable();
 
 				var employeesFromDb = query.ToList();
@@ -168,10 +168,12 @@ namespace GreenManager___WPF.ViewModels
 
 					if (employeeToDelete != null)
 					{
+						// HERSTELD: Soft delete in plaats van Remove()
 						employeeToDelete.IsDeleted = true;
 						employeeToDelete.DeletedAt = DateTime.UtcNow;
-						employeeToDelete.DeletedReason = "Verwijderd door de Admin via het werknemersoverzicht";
+						employeeToDelete.DeletedReason = "Verwijderd via werknemersoverzicht";
 
+						// Ook het inlogaccount blokkeren via soft delete
 						if (employeeToDelete.User != null)
 						{
 							employeeToDelete.User.IsDeleted = true;
@@ -184,29 +186,6 @@ namespace GreenManager___WPF.ViewModels
 					}
 				}
 
-				LoadEmployees();
-			}
-		}
-
-		[RelayCommand]
-		private void ManageWages()
-		{
-			if (SelectedEmployee == null)
-			{
-				MessageBox.Show("Selecteer eerst een werknemer om de lonen te beheren.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			if (SelectedEmployee.IsDeleted)
-			{
-				MessageBox.Show("Je kunt geen lonen toevoegen aan een gearchiveerd dossier.", "Niet toegestaan", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			var wageWindow = new WageHistoryWindow(SelectedEmployee);
-
-			if (wageWindow.ShowDialog() == true)
-			{
 				LoadEmployees();
 			}
 		}

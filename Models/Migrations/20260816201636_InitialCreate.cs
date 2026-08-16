@@ -75,6 +75,9 @@ namespace Models.Migrations
                     Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsBlocked = table.Column<bool>(type: "bit", nullable: false),
                     BlockedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     BlockedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -232,6 +235,9 @@ namespace Models.Migrations
                     Department = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     EmergencyContactName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     EmergencyContactPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -280,42 +286,6 @@ namespace Models.Migrations
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    AddressLine1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    AddressLine2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AddressType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Addresses_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -452,9 +422,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "role-admin-1", "60f87864-f6d3-4158-a7d7-a0cc4b627bf0", "Admin", "ADMIN" },
-                    { "role-employee-2", "d396a279-c42a-4c4e-9994-9ecb24dd8571", "Employee", "EMPLOYEE" },
-                    { "role-guest-3", "d33d9e5c-8a59-4aac-9b44-51ac231c35ee", "Guest", "GUEST" }
+                    { "role-admin-1", "79574e2e-a241-45e6-bc0f-bda1ef699c06", "Admin", "ADMIN" },
+                    { "role-employee-2", "b7f25bb0-48b7-4c08-ba79-27623e636250", "Employee", "EMPLOYEE" },
+                    { "role-guest-3", "785bd0b5-92ba-4632-bb1f-0e7e4dbec632", "Guest", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -462,18 +432,18 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
-                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEOzYz6/+/fb9/x50Eb5mH4uMbrUoZ2JiZrqkXfkGO4btAMWxmZrod9zjKRgWxpj0eg==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEIzYtfRGS0qxKzj5Y7C8b09R9e7LPr3zZAtA/SH0uXA1SyyckxDCSlluJpuaX5vrmw==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAELLWDOgmESw5jVZu2UG7d6YdbsjzSXpH95RgL1dsWBRvNjDYC8c/dudgJxCsyyXZtg==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEJjVNgHdOq9NhNqeYD+u/sa0QstsFmnZnmMYF4yk4b61ipy7OZ5w4RjQ3tKiISQTxw==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEG2oBApYZUEafEm9LhlsQ9M58ArgIrj2ihDGNOHWSBvMTpTYXOv5SqP4MdLZwPTr0w==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "Id", "BlockedAt", "BlockedReason", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsBlocked", "IsDeleted", "LastName", "Notes", "PhoneNumber", "UpdatedAt", "VATNumber" },
+                columns: new[] { "Id", "BlockedAt", "BlockedReason", "City", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsBlocked", "IsDeleted", "LastName", "Notes", "PhoneNumber", "PostalCode", "Street", "UpdatedAt", "VATNumber" },
                 values: new object[,]
                 {
-                    { 1, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, false, "Bogos", "Eerste testklant", "0488123456", null, null },
-                    { 2, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", null, "0477987654", null, null }
+                    { 1, null, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, false, "Bogos", "Eerste testklant", "0488123456", null, null, null, null },
+                    { 2, null, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", null, "0477987654", null, null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -497,11 +467,11 @@ namespace Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "ApplicationUserId", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "IsDeleted", "JobTitle", "Notes", "UpdatedAt" },
+                columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "admin-uuid-1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hoofd Tuinman", null, null },
-                    { 2, "employee-uuid-2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Junior Hovenier", null, null }
+                    { 1, "admin-uuid-1", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hoofd Tuinman", null, null, null, null },
+                    { 2, "employee-uuid-2", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Junior Hovenier", null, null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -512,16 +482,6 @@ namespace Models.Migrations
                     { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, null, null, false, "Aanleg Stadstuin Antwerpen", null, "Kerkstraat 1, 2000 Antwerpen", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null },
                     { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, null, null, null, false, "Onderhoud Park Gent", null, "Veldstraat 10, 9000 Gent", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CustomerId",
-                table: "Addresses",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_EmployeeId",
-                table: "Addresses",
-                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -612,9 +572,6 @@ namespace Models.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

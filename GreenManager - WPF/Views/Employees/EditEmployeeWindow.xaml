@@ -1,7 +1,7 @@
 ﻿<Window x:Class="GreenManager___WPF.Views.EditEmployeeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Werknemer Bewerken" Height="1000" Width="500"
+        Title="Werknemer Bewerken" Height="1200" Width="500"
         WindowStartupLocation="CenterOwner" Background="#F5F6FA">
 
 	<Grid Margin="30">
@@ -70,72 +70,26 @@
 
 				<!-- Address-->
 
-				<TextBlock Text="📍 Adresgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+				<TextBlock Text="Adresgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                
+                <TextBlock Text="Straat en Huisnummer" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding EditedEmployee.Street}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
-				<Grid Margin="0,0,0,15">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="2*"/>
-						<ColumnDefinition Width="10"/>
-						<ColumnDefinition Width="*"/>
-					</Grid.ColumnDefinitions>
-
-					<StackPanel Grid.Column="0">
-						<TextBlock Text="Straat en Huisnummer *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.AddressLine1}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-
-					<StackPanel Grid.Column="2">
-						<TextBlock Text="Bus / App." FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.AddressLine2}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-				</Grid>
-
-				<Grid Margin="0,0,0,15">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="10"/>
-						<ColumnDefinition Width="2*"/>
-					</Grid.ColumnDefinitions>
-
-					<StackPanel Grid.Column="0">
-						<TextBlock Text="Postcode *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.PostalCode}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-
-					<StackPanel Grid.Column="2">
-						<TextBlock Text="Plaats *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.City}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-				</Grid>
-
-				<Grid Margin="0,0,0,25">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="10"/>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="10"/>
-						<ColumnDefinition Width="*"/>
-					</Grid.ColumnDefinitions>
-
-					<StackPanel Grid.Column="0">
-						<TextBlock Text="Provincie" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.Province}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-
-					<StackPanel Grid.Column="2">
-						<TextBlock Text="Land *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedAddress.Country}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-
-					<StackPanel Grid.Column="4">
-						<TextBlock Text="Type Adres *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<ComboBox SelectedValue="{Binding EditedAddress.AddressType}" SelectedValuePath="Content" Padding="6" BorderThickness="1" BorderBrush="#DCDDE1">
-							<ComboBoxItem Content="Home"/>
-							<ComboBoxItem Content="Work"/>
-							<ComboBoxItem Content="Other"/>
-						</ComboBox>
-					</StackPanel>
-				</Grid>
+                <Grid Margin="0,0,0,25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Postcode" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditedEmployee.PostalCode}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Plaats" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditedEmployee.City}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+                    </StackPanel>
+                </Grid>
 
 				<TextBlock Text="📝 Interne Notities" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 				<TextBox Text="{Binding EditedEmployee.Notes}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>

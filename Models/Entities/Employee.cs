@@ -43,8 +43,14 @@ namespace Models.Entities
 		[StringLength(20)]
 		public string? EmergencyContactPhone { get; set; }
 
-		public ICollection<Address> Addresses { get; set; } = new List<Address>();
-		public Address? CurrentAddress => Addresses.FirstOrDefault(a => !a.IsDeleted);
+		[StringLength(200)]
+		public string? Street { get; set; }
+
+		[StringLength(20)]
+		public string? PostalCode { get; set; }
+
+		[StringLength(100)]
+		public string? City { get; set; }
 
 		public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
 

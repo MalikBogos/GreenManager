@@ -33,11 +33,14 @@ namespace Models.Entities
 		[Phone]
 		public required string PhoneNumber { get; set; }
 
-		//[Required(ErrorMessage = "Customer's Address is required. Cannot carry out work without knowing Customer's Address")]
-		//[StringLength(250)]
-		public ICollection<Address> Addresses { get; set; } = new List<Address>();
+		[StringLength(200)]
+		public string? Street { get; set; }
 
-		public Address? CurrentAddress => Addresses.FirstOrDefault(a => !a.IsDeleted);
+		[StringLength(20)]
+		public string? PostalCode { get; set; }
+		
+		[StringLength(100)]
+		public string? City { get; set; }
 
 		public ICollection<Project> Projects { get; set; } = new List<Project>();
 

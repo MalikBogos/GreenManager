@@ -20,7 +20,6 @@ namespace GreenManager___WPF.Views
 	public partial class EditEmployeeWindow : Window
 	{
 		public Employee EditedEmployee { get; set; }
-		public Address EditedAddress { get; set; }
 
 		// NIEUW: Eigenschappen voor de voornaam en achternaam
 		public string EditedFirstName { get; set; } = string.Empty;
@@ -57,37 +56,6 @@ namespace GreenManager___WPF.Views
 				EmergencyContactPhone = selectedEmployee.EmergencyContactPhone,
 				Notes = selectedEmployee.Notes
 			};
-
-			var currentAddress = selectedEmployee.CurrentAddress;
-
-			if (currentAddress != null)
-			{
-				EditedAddress = new Address
-				{
-					Id = currentAddress.Id,
-					EmployeeId = currentAddress.EmployeeId,
-					AddressLine1 = currentAddress.AddressLine1,
-					AddressLine2 = currentAddress.AddressLine2,
-					PostalCode = currentAddress.PostalCode,
-					Province = currentAddress.Province,
-					City = currentAddress.City,
-					Country = currentAddress.Country
-				};
-			}
-			else
-			{
-				EditedAddress = new Address
-				{
-					EmployeeId = selectedEmployee.Id,
-					AddressLine1 = "",
-					AddressLine2 = "",
-					PostalCode = "",
-					Province = "",
-					City = "",
-					Country = "Belgium"
-				};
-			}
-
 			this.DataContext = this;
 		}
 

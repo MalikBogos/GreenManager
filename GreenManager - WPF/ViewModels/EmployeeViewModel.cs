@@ -41,7 +41,6 @@ namespace GreenManager___WPF.ViewModels
 			{
 				// Fetch active employees and include all related data
 				var query = context.Employees
-					.Include(e => e.Addresses)
 					.Include(e => e.WageHistory)
 					.Include(e => e.User) // NEW: Fetch the connected ApplicationUser to get the names!
 					.AsQueryable();
@@ -133,17 +132,15 @@ namespace GreenManager___WPF.ViewModels
 
 			using (var context = new GreenManagerDbContext())
 			{
-				// NIEUW: Haal de beschikbare rollen op en de huidige rol van de gebruiker
 				var availableRoles = context.Roles.ToList();
 				var currentRoleMap = context.UserRoles.FirstOrDefault(ur => ur.UserId == SelectedEmployee.ApplicationUserId);
 				string currentRoleId = currentRoleMap != null ? currentRoleMap.RoleId : null;
 
-				// Open het venster en geef de rollen mee
 				var editWindow = new EditEmployeeWindow(SelectedEmployee, availableRoles, currentRoleId);
 
 				if (editWindow.ShowDialog() == true)
 				{
-					// Update de namen
+					// 1. Update de namen
 					var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
 					if (userToUpdate != null)
 					{
@@ -152,12 +149,11 @@ namespace GreenManager___WPF.ViewModels
 						context.Users.Update(userToUpdate);
 					}
 
-					// NIEUW: Update de Rol (Rechten)
+					// 2. Update de Rol (Rechten)
 					if (editWindow.SelectedRoleId != null)
 					{
 						var existingRole = context.UserRoles.FirstOrDefault(ur => ur.UserId == editWindow.EditedEmployee.ApplicationUserId);
 
-						// Als de rol is veranderd, verwijder dan de oude en voeg de nieuwe toe
 						if (existingRole != null && existingRole.RoleId != editWindow.SelectedRoleId)
 						{
 							context.UserRoles.Remove(existingRole);
@@ -169,45 +165,7 @@ namespace GreenManager___WPF.ViewModels
 						}
 					}
 
-					// Bestaande logica voor het adres (laat deze intact zoals je die al had)
-					if (!string.IsNullOrWhiteSpace(editWindow.EditedAddress.AddressLine1))
-					{
-						if (editWindow.EditedAddress.Id == 0)
-						{
-							context.Addresses.Add(editWindow.EditedAddress);
-						}
-						else
-						{
-							var origineelAdres = context.Addresses.AsNoTracking().FirstOrDefault(a => a.Id == editWindow.EditedAddress.Id);
-							if (origineelAdres != null && (origineelAdres.AddressLine1 != editWindow.EditedAddress.AddressLine1 || origineelAdres.PostalCode != editWindow.EditedAddress.PostalCode || origineelAdres.City != editWindow.EditedAddress.City))
-							{
-								var teArchiverenAdres = context.Addresses.Find(origineelAdres.Id);
-								if (teArchiverenAdres != null)
-								{
-									teArchiverenAdres.IsDeleted = true;
-									teArchiverenAdres.DeletedAt = DateTime.UtcNow;
-									teArchiverenAdres.DeletedReason = "Verhuizing naar nieuw adres";
-									context.Addresses.Update(teArchiverenAdres);
-								}
-								var nieuwAdresVoorVerhuizing = new Address
-								{
-									EmployeeId = editWindow.EditedAddress.EmployeeId,
-									AddressLine1 = editWindow.EditedAddress.AddressLine1,
-									PostalCode = editWindow.EditedAddress.PostalCode,
-									City = editWindow.EditedAddress.City,
-									Country = editWindow.EditedAddress.Country,
-									AddressType = editWindow.EditedAddress.AddressType
-								};
-								context.Addresses.Add(nieuwAdresVoorVerhuizing);
-							}
-							else
-							{
-								context.Addresses.Update(editWindow.EditedAddress);
-							}
-						}
-					}
-
-					// Sla alles op
+					// 3. Update de werknemer zelf (Inclusief de nieuwe simpele adresvelden!)
 					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
 					context.Employees.Update(editWindow.EditedEmployee);
 					context.SaveChanges();

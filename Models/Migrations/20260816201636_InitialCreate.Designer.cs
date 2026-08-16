@@ -12,7 +12,7 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260814162912_InitialCreate")]
+    [Migration("20260816201636_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -55,21 +55,21 @@ namespace Models.Migrations
                         new
                         {
                             Id = "role-admin-1",
-                            ConcurrencyStamp = "60f87864-f6d3-4158-a7d7-a0cc4b627bf0",
+                            ConcurrencyStamp = "79574e2e-a241-45e6-bc0f-bda1ef699c06",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "role-employee-2",
-                            ConcurrencyStamp = "d396a279-c42a-4c4e-9994-9ecb24dd8571",
+                            ConcurrencyStamp = "b7f25bb0-48b7-4c08-ba79-27623e636250",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = "role-guest-3",
-                            ConcurrencyStamp = "d33d9e5c-8a59-4aac-9b44-51ac231c35ee",
+                            ConcurrencyStamp = "785bd0b5-92ba-4632-bb1f-0e7e4dbec632",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         });
@@ -198,78 +198,6 @@ namespace Models.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Models.Entities.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("AddressLine2")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("AddressType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Province")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Addresses");
-                });
-
             modelBuilder.Entity("Models.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -386,7 +314,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELLWDOgmESw5jVZu2UG7d6YdbsjzSXpH95RgL1dsWBRvNjDYC8c/dudgJxCsyyXZtg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -407,7 +335,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MALIK@GREENMANAGER.BE",
                             NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOzYz6/+/fb9/x50Eb5mH4uMbrUoZ2JiZrqkXfkGO4btAMWxmZrod9zjKRgWxpj0eg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJjVNgHdOq9NhNqeYD+u/sa0QstsFmnZnmMYF4yk4b61ipy7OZ5w4RjQ3tKiISQTxw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
@@ -428,7 +356,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GREENMANAGER.BE",
                             NormalizedUserName = "GUEST@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIzYtfRGS0qxKzj5Y7C8b09R9e7LPr3zZAtA/SH0uXA1SyyckxDCSlluJpuaX5vrmw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG2oBApYZUEafEm9LhlsQ9M58ArgIrj2ihDGNOHWSBvMTpTYXOv5SqP4MdLZwPTr0w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_3",
                             TwoFactorEnabled = false,
@@ -450,6 +378,10 @@ namespace Models.Migrations
                     b.Property<string>("BlockedReason")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
@@ -492,6 +424,14 @@ namespace Models.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -541,6 +481,10 @@ namespace Models.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -584,6 +528,14 @@ namespace Models.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(1500)
                         .HasColumnType("nvarchar(1500)");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1019,21 +971,6 @@ namespace Models.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Models.Entities.Address", b =>
-                {
-                    b.HasOne("Models.Entities.Customer", "Customer")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("Models.Entities.Employee", "Employee")
-                        .WithMany("Addresses")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("Models.Entities.Employee", b =>
                 {
                     b.HasOne("Models.Entities.ApplicationUser", "User")
@@ -1131,15 +1068,11 @@ namespace Models.Migrations
 
             modelBuilder.Entity("Models.Entities.Customer", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("Models.Entities.Employee", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("ProjectEmployees");
 
                     b.Navigation("WageHistory");

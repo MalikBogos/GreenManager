@@ -4,6 +4,37 @@
              xmlns:local="clr-namespace:GreenManager___WPF"
              StartupUri="Views/LoginWindow.xaml">
     <Application.Resources>
-		
+
+		<Style x:Key="HeaderStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="24"/>
+			<Setter Property="Foreground" Value="Sienna"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Margin" Value="0, 0, 0, 10"/>
+		</Style>
+		<Style x:Key="AddButtonStyle" TargetType="Button">
+			<Setter Property="Padding" Value="15, 15"/>
+			<Setter Property="Margin" Value="0, 0, 15, 0"/>
+			<Setter Property="Background" Value="Thistle"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+		<Style x:Key="EditButtonStyle" TargetType="Button">
+			<Setter Property="Padding" Value="15, 15"/>
+			<Setter Property="Margin" Value="0, 0, 15, 0"/>
+			<Setter Property="Background" Value="BurlyWood"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+		<Style x:Key="DeleteButtonStyle" TargetType="Button">
+			<Setter Property="Padding" Value="15, 15"/>
+			<Setter Property="Margin" Value="0, 0, 15, 0"/>
+			<Setter Property="Background" Value="Coral"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+		<Style x:Key="StackPanelStyle" TargetType="StackPanel">
+			<Setter Property="Orientation" Value="Horizontal"/>
+			<Setter Property="Margin" Value="0, 0, 0, 15"/>
+		</Style>
 	</Application.Resources>
 </Application>

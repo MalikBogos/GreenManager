@@ -13,19 +13,18 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Text="📦 Voorraad &amp; Materialen" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
+		<TextBlock Style="{StaticResource HeaderStyle}" Text="Materiaalbeheer"/>
 
-		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-			<Button Content="+ Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}" 
-                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+		<!-- Knoppenbalk -->
+		<StackPanel Grid.Row="1" Style="{StaticResource StackPanelStyle}">
+			<Button Style="{StaticResource AddButtonStyle}" Content="Nieuw Materiaal" Command="{Binding OpenAddWindowCommand}"/>
 
-			<Button Content="✏️ Bewerken" Command="{Binding EditMaterialCommand}" 
-                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+			<Button Style="{StaticResource EditButtonStyle}" Content="Bewerk Materiaal" Command="{Binding EditMaterialCommand}"/>
 
-			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteMaterialCommand}" 
-                    Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Materiaal" Command="{Binding SoftDeleteMaterialCommand}"/>
 		</StackPanel>
 
+		<!-- Tabel met Materiaal -->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Materials}" 
                   SelectedItem="{Binding SelectedMaterial}" 
@@ -42,7 +41,7 @@
 				<DataGridTextColumn Header="Voorraad" Binding="{Binding StockQuantity}" Width="60"/>
 				<DataGridTextColumn Header="Eenheid" Binding="{Binding Unit}" Width="55"/>
 				<DataGridTextColumn Header="Inkoopprijs" Binding="{Binding PurchasePrice, StringFormat={}{0:C}}" Width="70"/>
-				<DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
+				<DataGridTextColumn Header="Notities" Binding="{Binding Notes}" Width="*"/>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

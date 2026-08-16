@@ -13,15 +13,15 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Text="📋 Projecten &amp; Offertes" FontSize="26" FontWeight="Bold" Margin="0,0,0,10" Foreground="#2C3E50"/>
+		<TextBlock Style="{StaticResource HeaderStyle}" Text="Projectenbeheer"/>
 
 		<!-- Knoppenbalk -->
-		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-			<Button Content="+ Nieuw Project / Offerte" Command="{Binding OpenAddProjectWindowCommand}"
-                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+		<StackPanel Grid.Row="1" Style="{StaticResource StackPanelStyle}">
+			<Button Style="{StaticResource AddButtonStyle}" Content="Nieuw Project" Command="{Binding OpenAddProjectWindowCommand}"/>
 
-			<Button Content="⚙️ Details &amp; Planning" Command="{Binding EditProjectCommand}"
-                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+			<Button Style="{StaticResource EditButtonStyle}" Content="Bewerk Project" Command="{Binding EditProjectCommand}"/>
+
+			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Project" Command="{Binding SoftDeleteProjectCommand}"/>
 		</StackPanel>
 
 		<!-- Tabel met projecten -->

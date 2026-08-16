@@ -10,16 +10,16 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Text="👥 Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
+		<TextBlock Text="Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-            <Button Content="+ Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}"
-                    Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
-            <Button Content="✏️ Bewerken" Command="{Binding EditEmployeeCommand}"
-                    Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
-            <Button Content="🗑️ Verwijderen" Command="{Binding DeleteEmployeeCommand}"
-                    Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
-			<Button Content="💰 Lonen" Command="{Binding ManageWagesCommand}"
+            <Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}"/>
+			
+            <Button Style="{StaticResource EditButtonStyle}" Content="Bewerken" Command="{Binding EditEmployeeCommand}"/>
+			
+            <Button Style="{StaticResource DeleteButtonStyle}" Content="🗑️ Verwijderen" Command="{Binding DeleteEmployeeCommand}"/>
+			
+			<Button Content="Lonen" Command="{Binding ManageWagesCommand}"
                     Padding="15,10" Background="#8E44AD" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
             
             <CheckBox Content="🗄️ Toon archief (verwijderde dossiers)" 

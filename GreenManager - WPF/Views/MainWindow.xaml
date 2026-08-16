@@ -67,9 +67,6 @@
 						<Run Text="{Binding CurrentUserRole}" Foreground="DodgerBlue" FontWeight="Bold" />
 						<Run Text="{Binding CurrentUser.FirstName}" Foreground="DarkOrange" FontWeight="Bold"/>!
 					</TextBlock>
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0">
-						<TextBlock Text="✅ Gesynchroniseerd" Foreground="#27AE60" VerticalAlignment="Center" FontWeight="SemiBold"/>
-					</StackPanel>
 				</Grid>
 			</Border>
 

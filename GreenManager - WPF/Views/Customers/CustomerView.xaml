@@ -20,32 +20,42 @@
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
 
-			<TextBlock Grid.Column="0" Text="👥 Klantenbeheer" FontSize="26" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Grid.Column="0" Style="{StaticResource HeaderStyle}" Text="Klantenbeheer"/>
 
 			<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-				<TextBlock Text="🔍 Zoeken:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,10,0"/>
+				<TextBlock Text="Zoeken:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="LightSteelBlue" Margin="0,0,15,0"/>
 				<TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
                          Width="250" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1" VerticalContentAlignment="Center"/>
 			</StackPanel>
 		</Grid>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-			<Button Content="+ Nieuwe Klant" Command="{Binding OpenAddWindowCommand}" 
-            Padding="15,10" Background="#2980B9" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+		
+		<!-- Knoppenbalk -->
+		<StackPanel Grid.Row="1" Style="{StaticResource StackPanelStyle}">
+			<Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Klant" Command="{Binding OpenAddWindowCommand}"/>
 
-			<Button Content="✏️ Bewerken" Command="{Binding EditCustomerCommand}" 
-            Padding="15,10" Background="#F39C12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+			<Button Style="{StaticResource EditButtonStyle}" Content="Bewerk Klant" Command="{Binding EditCustomerCommand}"/>
 
-			<Button Content="🗑️ Verwijderen" Command="{Binding DeleteCustomerCommand}" 
-            Padding="15,10" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
+			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Klant" Command="{Binding SoftDeleteCustomerCommand}"/>
 		</StackPanel>
 
+		<!-- Tabel met Klanten -->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Customers}" 
 				  SelectedItem="{Binding SelectedCustomer}"
-                  AutoGenerateColumns="True" 
+                  AutoGenerateColumns="false" 
                   IsReadOnly="True"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All">
+
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Voornaam" Binding="{Binding FirstName}" Width="Auto"/>
+				<DataGridTextColumn Header="Achternaam" Binding="{Binding LastName}" Width="Auto"/>
+				<DataGridTextColumn Header="Bedrijfsnaam" Binding="{Binding CompanyName}" Width="*"/>
+				<DataGridTextColumn Header="BTW-Nummer" Binding="{Binding VATNumber}" Width="Auto"/>
+				<DataGridTextColumn Header="Notities" Binding="{Binding Notes}" Width="*"/>
+				<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+				<DataGridTextColumn Header="Telefoonnummer" Binding="{Binding PhoneNumber}" Width="Auto"/>
+			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

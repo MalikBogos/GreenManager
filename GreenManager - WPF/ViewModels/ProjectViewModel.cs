@@ -262,12 +262,20 @@ namespace GreenManager___WPF.ViewModels
 		private void AddWorkLog()
 		{
 			if (SelectedWorkEmployeeId == 0 || NewHoursWorked <= 0) return;
+
 			using (var context = new GreenManagerDbContext())
 			{
-				var wageHistory = context.Set<EmployeeWageHistory>().Where(w => w.EmployeeId == SelectedWorkEmployeeId && !w.IsDeleted && w.EffectiveFrom <= NewWorkDate && (w.EffectiveTo == null || w.EffectiveTo >= NewWorkDate)).OrderByDescending(w => w.EffectiveFrom).FirstOrDefault();
-				decimal wageAtTime = wageHistory != null ? wageHistory.HourlyWage : 0;
-
-				var newLog = new WorkLog { ProjectId = EditedProject.Id, EmployeeId = SelectedWorkEmployeeId, WorkDate = NewWorkDate, HoursWorked = NewHoursWorked, TaskDescription = NewTaskDescription, HourlyWageAtTime = wageAtTime };
+				var employee = context.Employees.Find(SelectedWorkEmployeeId);
+				decimal wageAtTime = employee != null ? employee.HourlyWage : 0;
+				var newLog = new WorkLog
+				{
+					ProjectId = EditedProject.Id,
+					EmployeeId = SelectedWorkEmployeeId,
+					WorkDate = NewWorkDate,
+					HoursWorked = NewHoursWorked,
+					TaskDescription = NewTaskDescription,
+					HourlyWageAtTime = wageAtTime
+				};
 				context.WorkLogs.Add(newLog);
 				context.SaveChanges();
 			}

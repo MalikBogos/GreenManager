@@ -52,21 +52,21 @@ namespace Models.Migrations
                         new
                         {
                             Id = "role-admin-1",
-                            ConcurrencyStamp = "79574e2e-a241-45e6-bc0f-bda1ef699c06",
+                            ConcurrencyStamp = "6082d30e-e24f-4ae1-8490-bcaed1acbf58",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "role-employee-2",
-                            ConcurrencyStamp = "b7f25bb0-48b7-4c08-ba79-27623e636250",
+                            ConcurrencyStamp = "f1e5a43e-b972-48c2-b6cc-f3a9a3bb32f5",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = "role-guest-3",
-                            ConcurrencyStamp = "785bd0b5-92ba-4632-bb1f-0e7e4dbec632",
+                            ConcurrencyStamp = "855ef8b4-6f94-4fbd-ab91-e80e9dbe1dd5",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         });
@@ -311,7 +311,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAELLWDOgmESw5jVZu2UG7d6YdbsjzSXpH95RgL1dsWBRvNjDYC8c/dudgJxCsyyXZtg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPslbK+lOk9im2PE/Irht/OvEuA8fKdPj/EACesKx9mfyITIPbTYWbAu9EGkm8owCg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -332,7 +332,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MALIK@GREENMANAGER.BE",
                             NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJjVNgHdOq9NhNqeYD+u/sa0QstsFmnZnmMYF4yk4b61ipy7OZ5w4RjQ3tKiISQTxw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG0S9BXn0V8gpFCE2wQPnYRYZvWwaU2+vMyr0DoOoynO5Gc7op0YQuAjrSsICqgJ4g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
@@ -353,7 +353,7 @@ namespace Models.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GREENMANAGER.BE",
                             NormalizedUserName = "GUEST@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG2oBApYZUEafEm9LhlsQ9M58ArgIrj2ihDGNOHWSBvMTpTYXOv5SqP4MdLZwPTr0w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOvUcpAv/WBMn1SrkQw6FVSZCr2zhvc/EMYhvdwUi3cIxTw7smrdxOkn2EUk31N+Yg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_3",
                             TwoFactorEnabled = false,
@@ -515,6 +515,9 @@ namespace Models.Migrations
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("HourlyWage")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -552,6 +555,7 @@ namespace Models.Migrations
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeNumber = "EMP001",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HourlyWage = 0m,
                             IsDeleted = false,
                             JobTitle = "Hoofd Tuinman"
                         },
@@ -562,52 +566,10 @@ namespace Models.Migrations
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeNumber = "EMP002",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HourlyWage = 0m,
                             IsDeleted = false,
                             JobTitle = "Junior Hovenier"
                         });
-                });
-
-            modelBuilder.Entity("Models.Entities.EmployeeWageHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("EffectiveFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EffectiveTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("HourlyWage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EmployeeWageHistories");
                 });
 
             modelBuilder.Entity("Models.Entities.Material", b =>
@@ -979,17 +941,6 @@ namespace Models.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.Entities.EmployeeWageHistory", b =>
-                {
-                    b.HasOne("Models.Entities.Employee", "Employee")
-                        .WithMany("WageHistory")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("Models.Entities.Project", b =>
                 {
                     b.HasOne("Models.Entities.Customer", "Customer")
@@ -1071,8 +1022,6 @@ namespace Models.Migrations
             modelBuilder.Entity("Models.Entities.Employee", b =>
                 {
                     b.Navigation("ProjectEmployees");
-
-                    b.Navigation("WageHistory");
 
                     b.Navigation("WorkLogs");
                 });

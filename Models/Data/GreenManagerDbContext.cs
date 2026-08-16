@@ -19,7 +19,6 @@ namespace Models.Data
 
 		public DbSet<Customer> Customers { get; set; }
 		public DbSet<Employee> Employees { get; set; }
-		public DbSet<EmployeeWageHistory> EmployeeWageHistories { get; set; }
 		public DbSet<Material> Materials { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<ProjectEmployee> ProjectEmployees { get; set; }

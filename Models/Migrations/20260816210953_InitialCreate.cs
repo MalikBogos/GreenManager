@@ -229,6 +229,7 @@ namespace Models.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployeeNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    HourlyWage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JobTitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -284,33 +285,6 @@ namespace Models.Migrations
                         name: "FK_Projects_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeWageHistories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    HourlyWage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EffectiveFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EffectiveTo = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeWageHistories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmployeeWageHistories_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -422,9 +396,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "role-admin-1", "79574e2e-a241-45e6-bc0f-bda1ef699c06", "Admin", "ADMIN" },
-                    { "role-employee-2", "b7f25bb0-48b7-4c08-ba79-27623e636250", "Employee", "EMPLOYEE" },
-                    { "role-guest-3", "785bd0b5-92ba-4632-bb1f-0e7e4dbec632", "Guest", "GUEST" }
+                    { "role-admin-1", "6082d30e-e24f-4ae1-8490-bcaed1acbf58", "Admin", "ADMIN" },
+                    { "role-employee-2", "f1e5a43e-b972-48c2-b6cc-f3a9a3bb32f5", "Employee", "EMPLOYEE" },
+                    { "role-guest-3", "855ef8b4-6f94-4fbd-ab91-e80e9dbe1dd5", "Guest", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -432,9 +406,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAELLWDOgmESw5jVZu2UG7d6YdbsjzSXpH95RgL1dsWBRvNjDYC8c/dudgJxCsyyXZtg==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
-                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEJjVNgHdOq9NhNqeYD+u/sa0QstsFmnZnmMYF4yk4b61ipy7OZ5w4RjQ3tKiISQTxw==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEG2oBApYZUEafEm9LhlsQ9M58ArgIrj2ihDGNOHWSBvMTpTYXOv5SqP4MdLZwPTr0w==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEPslbK+lOk9im2PE/Irht/OvEuA8fKdPj/EACesKx9mfyITIPbTYWbAu9EGkm8owCg==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEG0S9BXn0V8gpFCE2wQPnYRYZvWwaU2+vMyr0DoOoynO5Gc7op0YQuAjrSsICqgJ4g==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEOvUcpAv/WBMn1SrkQw6FVSZCr2zhvc/EMYhvdwUi3cIxTw7smrdxOkn2EUk31N+Yg==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(
@@ -467,11 +441,11 @@ namespace Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
+                columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "HourlyWage", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "admin-uuid-1", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hoofd Tuinman", null, null, null, null },
-                    { 2, "employee-uuid-2", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Junior Hovenier", null, null, null, null }
+                    { 1, "admin-uuid-1", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, false, "Hoofd Tuinman", null, null, null, null },
+                    { 2, "employee-uuid-2", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, false, "Junior Hovenier", null, null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -529,11 +503,6 @@ namespace Models.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeWageHistories_EmployeeId",
-                table: "EmployeeWageHistories",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectEmployees_EmployeeId",
                 table: "ProjectEmployees",
                 column: "EmployeeId");
@@ -586,9 +555,6 @@ namespace Models.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "EmployeeWageHistories");
 
             migrationBuilder.DropTable(
                 name: "ProjectEmployees");

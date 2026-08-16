@@ -131,11 +131,19 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			var editWindow = new EditEmployeeWindow(SelectedEmployee);
-			if (editWindow.ShowDialog() == true)
+			using (var context = new GreenManagerDbContext())
 			{
-				using (var context = new GreenManagerDbContext())
+				// NIEUW: Haal de beschikbare rollen op en de huidige rol van de gebruiker
+				var availableRoles = context.Roles.ToList();
+				var currentRoleMap = context.UserRoles.FirstOrDefault(ur => ur.UserId == SelectedEmployee.ApplicationUserId);
+				string currentRoleId = currentRoleMap != null ? currentRoleMap.RoleId : null;
+
+				// Open het venster en geef de rollen mee
+				var editWindow = new EditEmployeeWindow(SelectedEmployee, availableRoles, currentRoleId);
+
+				if (editWindow.ShowDialog() == true)
 				{
+					// Update de namen
 					var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
 					if (userToUpdate != null)
 					{
@@ -144,6 +152,24 @@ namespace GreenManager___WPF.ViewModels
 						context.Users.Update(userToUpdate);
 					}
 
+					// NIEUW: Update de Rol (Rechten)
+					if (editWindow.SelectedRoleId != null)
+					{
+						var existingRole = context.UserRoles.FirstOrDefault(ur => ur.UserId == editWindow.EditedEmployee.ApplicationUserId);
+
+						// Als de rol is veranderd, verwijder dan de oude en voeg de nieuwe toe
+						if (existingRole != null && existingRole.RoleId != editWindow.SelectedRoleId)
+						{
+							context.UserRoles.Remove(existingRole);
+							context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
+						}
+						else if (existingRole == null)
+						{
+							context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
+						}
+					}
+
+					// Bestaande logica voor het adres (laat deze intact zoals je die al had)
 					if (!string.IsNullOrWhiteSpace(editWindow.EditedAddress.AddressLine1))
 					{
 						if (editWindow.EditedAddress.Id == 0)
@@ -153,13 +179,8 @@ namespace GreenManager___WPF.ViewModels
 						else
 						{
 							var origineelAdres = context.Addresses.AsNoTracking().FirstOrDefault(a => a.Id == editWindow.EditedAddress.Id);
-
-							if (origineelAdres != null &&
-								(origineelAdres.AddressLine1 != editWindow.EditedAddress.AddressLine1 ||
-								 origineelAdres.PostalCode != editWindow.EditedAddress.PostalCode ||
-								 origineelAdres.City != editWindow.EditedAddress.City))
+							if (origineelAdres != null && (origineelAdres.AddressLine1 != editWindow.EditedAddress.AddressLine1 || origineelAdres.PostalCode != editWindow.EditedAddress.PostalCode || origineelAdres.City != editWindow.EditedAddress.City))
 							{
-
 								var teArchiverenAdres = context.Addresses.Find(origineelAdres.Id);
 								if (teArchiverenAdres != null)
 								{
@@ -168,7 +189,6 @@ namespace GreenManager___WPF.ViewModels
 									teArchiverenAdres.DeletedReason = "Verhuizing naar nieuw adres";
 									context.Addresses.Update(teArchiverenAdres);
 								}
-
 								var nieuwAdresVoorVerhuizing = new Address
 								{
 									EmployeeId = editWindow.EditedAddress.EmployeeId,
@@ -178,7 +198,6 @@ namespace GreenManager___WPF.ViewModels
 									Country = editWindow.EditedAddress.Country,
 									AddressType = editWindow.EditedAddress.AddressType
 								};
-
 								context.Addresses.Add(nieuwAdresVoorVerhuizing);
 							}
 							else
@@ -187,11 +206,13 @@ namespace GreenManager___WPF.ViewModels
 							}
 						}
 					}
+
+					// Sla alles op
 					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
 					context.Employees.Update(editWindow.EditedEmployee);
-
 					context.SaveChanges();
 				}
+
 				LoadEmployees();
 			}
 		}
@@ -217,13 +238,20 @@ namespace GreenManager___WPF.ViewModels
 			{
 				using (var context = new GreenManagerDbContext())
 				{
-					var employeeToDelete = context.Employees.Find(SelectedEmployee.Id);
+					var employeeToDelete = context.Employees.Include(e => e.User).FirstOrDefault(e => e.Id == SelectedEmployee.Id);
 
 					if (employeeToDelete != null)
 					{
 						employeeToDelete.IsDeleted = true;
 						employeeToDelete.DeletedAt = DateTime.UtcNow;
 						employeeToDelete.DeletedReason = "Verwijderd door de Admin via het werknemersoverzicht";
+
+						if (employeeToDelete.User != null)
+						{
+							employeeToDelete.User.IsDeleted = true;
+							employeeToDelete.User.DeletedAt = DateTime.UtcNow;
+							employeeToDelete.User.DeletedReason = "Gekoppelde werknemer verwijderd";
+						}
 
 						context.Employees.Update(employeeToDelete);
 						context.SaveChanges();

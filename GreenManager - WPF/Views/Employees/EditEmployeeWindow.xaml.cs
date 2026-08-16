@@ -1,4 +1,5 @@
-﻿using Models.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,9 +26,15 @@ namespace GreenManager___WPF.Views
 		public string EditedFirstName { get; set; } = string.Empty;
 		public string EditedLastName { get; set; } = string.Empty;
 
-		public EditEmployeeWindow(Employee selectedEmployee)
+		public string SelectedRoleId { get; set; }
+		public List<IdentityRole> AvailableRoles { get; set; }
+
+		public EditEmployeeWindow(Employee selectedEmployee, List<IdentityRole> roles, string currentRoleId)
 		{
 			InitializeComponent();
+
+			AvailableRoles = roles;
+			SelectedRoleId = currentRoleId;
 
 			if (selectedEmployee.User != null)
 			{

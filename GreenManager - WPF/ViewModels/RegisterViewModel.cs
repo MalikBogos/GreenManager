@@ -80,6 +80,28 @@ namespace GreenManager___WPF.ViewModels
 				};
 				db.UserRoles.Add(guestRoleMapping);
 
+				string newEmployeeNumber = "EMP001";
+				var lastEmployee = db.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
+
+				if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
+				{
+					string numberPart = lastEmployee.EmployeeNumber.Substring(3);
+					if (int.TryParse(numberPart, out int lastNumber))
+					{
+						newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+					}
+				}
+
+				var newEmployee = new Employee
+				{
+					ApplicationUserId = newUser.Id,
+					EmployeeNumber = newEmployeeNumber,
+					JobTitle = "Gast / Nieuw Account",
+					HireDate = DateTime.Today,
+					CreatedAt = DateTime.UtcNow
+				};
+				db.Employees.Add(newEmployee);
+
 				db.SaveChanges();
 
 				MessageBox.Show("Account succesvol aangemaakt! Je kunt nu inloggen.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);

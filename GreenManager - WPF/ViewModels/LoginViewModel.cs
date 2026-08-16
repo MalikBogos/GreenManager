@@ -36,11 +36,11 @@ namespace GreenManager___WPF.ViewModels
 
 			using (var context = new GreenManagerDbContext())
 			{
-				var user = context.Users.FirstOrDefault(u => u.Email == EmailInput);
+				var user = context.Users.FirstOrDefault(u => u.Email == EmailInput && !u.IsDeleted);
 
 				if (user == null)
 				{
-					ErrorMessage = "E-mailadres of wachtwoord is onjuist.";
+					ErrorMessage = "E-mailadres of wachtwoord is onjuist, of dit account bestaat niet (meer)";
 					return;
 				}
 

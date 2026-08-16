@@ -102,15 +102,15 @@ namespace GreenManager___WPF.ViewModels
 		}
 
 		[RelayCommand]
-		private void DeleteCustomer()
+		private void SoftDeleteMaterial()
 		{
 			if (SelectedCustomer == null)
 			{
-				MessageBox.Show("Selecteer eerst een klant om te verwijderen.", "Validatie", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
-			var result = MessageBox.Show($"Weet je zeker dat je {SelectedCustomer.FirstName} {SelectedCustomer.LastName} wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			var result = MessageBox.Show($"Ben je zeker dat je {SelectedCustomer.FirstName} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (result == MessageBoxResult.Yes)
 			{
@@ -118,11 +118,10 @@ namespace GreenManager___WPF.ViewModels
 				{
 					SelectedCustomer.IsDeleted = true;
 					SelectedCustomer.DeletedAt = DateTime.UtcNow;
-					SelectedCustomer.DeletedReason = "Verwijderd voor administratieve redenen";
+					SelectedCustomer.DeletedReason = "Verwijderd voor archivering";
 					context.Customers.Update(SelectedCustomer);
 					context.SaveChanges();
 				}
-
 				LoadCustomers();
 			}
 		}

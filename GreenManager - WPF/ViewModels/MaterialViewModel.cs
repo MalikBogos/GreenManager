@@ -82,15 +82,15 @@ namespace GreenManager___WPF.ViewModels
 		}
 
 		[RelayCommand]
-		private void DeleteMaterial()
+		private void SoftDeleteMaterial()
 		{
 			if (SelectedMaterial == null)
 			{
-				MessageBox.Show("Selecteer eerst een materiaal uit de lijst.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}
 
-			var result = MessageBox.Show($"Weet je zeker dat je '{SelectedMaterial.Name}' wilt verwijderen?", "Verwijderen bevestigen", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			var result = MessageBox.Show($"Ben je zeker dat je {SelectedMaterial.Name} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (result == MessageBoxResult.Yes)
 			{
@@ -98,11 +98,10 @@ namespace GreenManager___WPF.ViewModels
 				{
 					SelectedMaterial.IsDeleted = true;
 					SelectedMaterial.DeletedAt = DateTime.UtcNow;
-					SelectedMaterial.DeletedReason = "Verwijderd voor administatieve redenen";
+					SelectedMaterial.DeletedReason = "Verwijderd voor archivering";
 					context.Materials.Update(SelectedMaterial);
 					context.SaveChanges();
 				}
-
 				LoadMaterials();
 			}
 		}

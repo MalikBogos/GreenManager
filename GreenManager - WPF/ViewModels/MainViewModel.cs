@@ -26,7 +26,7 @@ namespace GreenManager___WPF.ViewModels
 		// Deze is WAAR (true) als de gebruiker GEEN gast is (dus Admin óf Werknemer mag dit zien).
 		public bool IsNotGuest => CurrentUserRole != "Guest";
 
-		public string WelcomeMessage => $"Welkom, {CurrentUserRole} {CurrentUser?.FirstName}!";
+		public string WelcomeMessage => $"Welkom, {CurrentUserRole} {CurrentUser.FirstName}!";
 
 		public MainViewModel(ApplicationUser user, string roleName)
 		{

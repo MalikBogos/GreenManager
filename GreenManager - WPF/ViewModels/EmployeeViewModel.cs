@@ -19,16 +19,6 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private Employee _selectedEmployee;
 
-		// Property to bind to the CheckBox in the UI
-		[ObservableProperty]
-		private bool _showDeleted;
-
-		// This built-in CommunityToolkit method triggers automatically whenever ShowDeleted changes # notes
-		partial void OnShowDeletedChanged(bool value)
-		{
-			LoadEmployees();
-		}
-
 		public EmployeeViewModel()
 		{
 			Employees = new ObservableCollection<Employee>();
@@ -39,17 +29,10 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = new GreenManagerDbContext())
 			{
-				// Fetch active employees and include all related data
 				var query = context.Employees
 					.Include(e => e.WageHistory)
-					.Include(e => e.User) // NEW: Fetch the connected ApplicationUser to get the names!
+					.Include(e => e.User)
 					.AsQueryable();
-
-				// Apply the filter ONLY if the user does NOT want to see deleted items
-				if (!ShowDeleted)
-				{
-					query = query.Where(e => e.IsDeleted == false);
-				}
 
 				var employeesFromDb = query.ToList();
 
@@ -124,12 +107,6 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			if (SelectedEmployee.IsDeleted)
-			{
-				MessageBox.Show("Dit dossier is verplaatst naar het archief en kan niet meer bewerkt worden.", "Actie niet toegestaan", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
 			using (var context = new GreenManagerDbContext())
 			{
 				var availableRoles = context.Roles.ToList();
@@ -140,7 +117,6 @@ namespace GreenManager___WPF.ViewModels
 
 				if (editWindow.ShowDialog() == true)
 				{
-					// 1. Update de namen
 					var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
 					if (userToUpdate != null)
 					{
@@ -149,7 +125,6 @@ namespace GreenManager___WPF.ViewModels
 						context.Users.Update(userToUpdate);
 					}
 
-					// 2. Update de Rol (Rechten)
 					if (editWindow.SelectedRoleId != null)
 					{
 						var existingRole = context.UserRoles.FirstOrDefault(ur => ur.UserId == editWindow.EditedEmployee.ApplicationUserId);
@@ -165,7 +140,6 @@ namespace GreenManager___WPF.ViewModels
 						}
 					}
 
-					// 3. Update de werknemer zelf (Inclusief de nieuwe simpele adresvelden!)
 					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
 					context.Employees.Update(editWindow.EditedEmployee);
 					context.SaveChanges();
@@ -181,12 +155,6 @@ namespace GreenManager___WPF.ViewModels
 			if (SelectedEmployee == null)
 			{
 				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
-				return;
-			}
-
-			if (SelectedEmployee.IsDeleted)
-			{
-				MessageBox.Show("Deze werknemer is al verwijderd.", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
@@ -235,10 +203,8 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			// Open the new wage management window
 			var wageWindow = new WageHistoryWindow(SelectedEmployee);
 
-			// If the window closes and a wage was added, reload to update the CurrentHourlyWage column
 			if (wageWindow.ShowDialog() == true)
 			{
 				LoadEmployees();

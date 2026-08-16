@@ -12,25 +12,19 @@
 
 		<TextBlock Text="Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
 
+		<!-- Knoppenbalk -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
             <Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}"/>
 			
-            <Button Style="{StaticResource EditButtonStyle}" Content="Bewerken" Command="{Binding EditEmployeeCommand}"/>
+            <Button Style="{StaticResource EditButtonStyle}" Content="Bewerk Werknemer" Command="{Binding EditEmployeeCommand}"/>
 			
-            <Button Style="{StaticResource DeleteButtonStyle}" Content="🗑️ Verwijderen" Command="{Binding DeleteEmployeeCommand}"/>
-			
-			<Button Content="Lonen" Command="{Binding ManageWagesCommand}"
-                    Padding="15,10" Background="#8E44AD" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
-            
-            <CheckBox Content="🗄️ Toon archief (verwijderde dossiers)" 
-                      IsChecked="{Binding ShowDeleted}" 
-                      VerticalAlignment="Center" 
-                      Margin="20,0,0,0" 
-                      Foreground="#7F8C8D" 
-                      FontWeight="SemiBold" 
-                      Cursor="Hand"/>
-        </StackPanel>
+            <Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Werknemer" Command="{Binding DeleteEmployeeCommand}"/>
 
+			<Button Content="Lonen" Command="{Binding ManageWagesCommand}"
+                    Padding="15,10" Background="Purple" Foreground="White" FontWeight="Bold" Margin="0,0,10,0"/>
+		</StackPanel>
+
+		<!-- Tabel met Werknemers-->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Employees}" 
                   SelectedItem="{Binding SelectedEmployee}"
@@ -42,12 +36,9 @@
                   BorderBrush="#E0E0E0"
                   RowHeight="35">
 			<DataGrid.Columns>
-                <!-- AANGEPAST: We halen de naam nu uit het gekoppelde User object -->
-                <DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="150"/>
-                <DataGridTextColumn Header="Achternaam" Binding="{Binding User.LastName}" Width="150"/>
-                
-                <!-- Bestaande kolommen -->
-                <DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
+				<DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="150"/>
+				<DataGridTextColumn Header="Achternaam" Binding="{Binding User.LastName}" Width="150"/>
+				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="150"/>
                 <DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="150"/>
                 <DataGridTextColumn Header="Huidig Uurloon" Binding="{Binding CurrentHourlyWage, StringFormat={}{0:C}}" Width="120"/>
             </DataGrid.Columns>

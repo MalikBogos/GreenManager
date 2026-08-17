@@ -14,7 +14,7 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0" Margin="0,0,0,20">
-			<TextBlock Text="👤 Bestaande klant bewerken" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="Bestaande klant bewerken" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
 			<TextBlock Text="Velden gemarkeerd met een * zijn verplicht volgens het systeem." Foreground="#7F8C8D"/>
 		</StackPanel>
 
@@ -65,28 +65,39 @@
 					<TextBox Text="{Binding EditedCustomer.PhoneNumber}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
-				<Border Grid.Row="3" Grid.ColumnSpan="3" Height="1" Background="#DCDDE1" Margin="0,10,0,20"/>
+				<TextBlock Grid.Row="4" Grid.ColumnSpan="3" Text="Adresgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 
-				<StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,15">
-					<TextBlock Text="Klant Status" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<CheckBox Content="Klant is geblokkeerd" IsChecked="{Binding EditedCustomer.IsBlocked}" 
-                          Foreground="#E74C3C" FontWeight="Bold" Margin="0,8,0,0" Cursor="Hand"/>
+				<StackPanel Grid.Row="5" Grid.Column="0" Margin="0,0,0,15">
+					<TextBlock Text="Straat en Huisnummer" FontWeight="SemiBold" Margin="0,0,0,5"/>
+					<TextBox Text="{Binding EditedCustomer.Street}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 
-				<StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,15">
-					<TextBlock Text="Reden van blokkade" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding EditedCustomer.BlockedReason}" IsEnabled="{Binding EditedCustomer.IsBlocked}" 
-                         Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+				<StackPanel Grid.Row="5" Grid.Column="2" Margin="0,0,0,15">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="2*"/>
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<TextBlock Text="Postcode" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedCustomer.PostalCode}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+						</StackPanel>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Plaats" FontWeight="SemiBold" Margin="0,0,0,5"/>
+							<TextBox Text="{Binding EditedCustomer.City}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+						</StackPanel>
+					</Grid>
 				</StackPanel>
 
-				<StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,10,0,10">
+				<StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,10,0,10">
 					<TextBlock Text="Interne Notities" FontWeight="SemiBold" Margin="0,0,0,5"/>
-					<TextBox Text="{Binding EditedCustomer.Notes}" 
-                         AcceptsReturn="True" 
-                         TextWrapping="Wrap" 
-                         Height="100" 
-                         VerticalContentAlignment="Top" 
-                         Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
+					<TextBox Text="{Binding EditedCustomer.Notes}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="100"
+                             VerticalContentAlignment="Top"
+                             Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 				</StackPanel>
 			</Grid>
 		</ScrollViewer>

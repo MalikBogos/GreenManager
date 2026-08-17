@@ -39,7 +39,7 @@ namespace GreenManager___WPF.ViewModels
 			using (var context = _contextFactory.CreateDbContext())
 			{
 				// 1. Calculate the statistics (Counting records)
-				TotalCustomers = context.Customers.AsNoTracking().Where(c => !c.IsBlocked).Count(c => !c.IsDeleted);
+				TotalCustomers = context.Customers.AsNoTracking().Count(c => !c.IsDeleted);
 				TotalEmployees = context.Employees.AsNoTracking().Count(e => !e.IsDeleted);
 
 				// Count projects that are actually accepted or in progress

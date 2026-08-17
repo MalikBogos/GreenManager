@@ -78,9 +78,6 @@ namespace Models.Migrations
                     Street = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsBlocked = table.Column<bool>(type: "bit", nullable: false),
-                    BlockedReason = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    BlockedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -413,11 +410,11 @@ namespace Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "Id", "BlockedAt", "BlockedReason", "City", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsBlocked", "IsDeleted", "LastName", "Notes", "PhoneNumber", "PostalCode", "Street", "UpdatedAt", "VATNumber" },
+                columns: new[] { "Id", "City", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsDeleted", "LastName", "Notes", "PhoneNumber", "PostalCode", "Street", "UpdatedAt", "VATNumber" },
                 values: new object[,]
                 {
-                    { 1, null, null, "Sint-Pieters-Leeuw", "Apple", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, false, "Vandestraat", "Eerste testklant", "0488123456", "1600", "Bergensesteenweg 322", null, "5435882443" },
-                    { 2, null, null, "Halle", "Microsoft", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", "Tweede testklant", "0477987654", "1500", "Brusselsesteenweg 10", null, "347238473" }
+                    { 1, "Sint-Pieters-Leeuw", "Apple", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, "Vandestraat", "Eerste testklant", "0488123456", "1600", "Bergensesteenweg 322", null, "5435882443" },
+                    { 2, "Halle", "Microsoft", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, "Groens", "Tweede testklant", "0477987654", "1500", "Brusselsesteenweg 10", null, "347238473" }
                 });
 
             migrationBuilder.InsertData(

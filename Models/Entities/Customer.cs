@@ -43,13 +43,5 @@ namespace Models.Entities
 		public string? City { get; set; }
 
 		public ICollection<Project> Projects { get; set; } = new List<Project>();
-
-		// For example in case a customer is problematic
-		public bool IsBlocked { get; set; } = false;
-
-		[StringLength(250, ErrorMessage = "Block reason should be 250 characters at most")]
-		public string? BlockedReason { get; set; }
-
-		public DateTime? BlockedAt { get; set; }
 	}
 }

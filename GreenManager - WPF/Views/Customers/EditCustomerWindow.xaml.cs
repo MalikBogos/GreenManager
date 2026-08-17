@@ -33,10 +33,10 @@ namespace GreenManager___WPF.Views
 				VATNumber = selectedCustomer.VATNumber,
 				Email = selectedCustomer.Email,
 				PhoneNumber = selectedCustomer.PhoneNumber,
+				Street = selectedCustomer.Street,
+				PostalCode = selectedCustomer.PostalCode,
+				City = selectedCustomer.City,
 				Notes = selectedCustomer.Notes,
-				IsBlocked = selectedCustomer.IsBlocked,
-				BlockedReason = selectedCustomer.BlockedReason,
-				BlockedAt = selectedCustomer.BlockedAt,
 				CreatedAt = selectedCustomer.CreatedAt
 			};
 
@@ -51,11 +51,6 @@ namespace GreenManager___WPF.Views
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
 			this.DialogResult = true;
-		}
-
-		private void CheckBox_Checked(object sender, RoutedEventArgs e)
-		{
-			EditedCustomer.IsBlocked = true;
 		}
 	}
 }

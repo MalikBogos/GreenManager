@@ -40,7 +40,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = _contextFactory.CreateDbContext())
 			{
-				var ProjectsFromDb = context.Projects.ToList();
+				var ProjectsFromDb = context.Projects.Where(p => !p.IsDeleted).ToList();
 
 				Projects.Clear();
 				foreach (var project in ProjectsFromDb)
@@ -55,26 +55,21 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = _contextFactory.CreateDbContext())
 			{
-				// Haal alle klanten op om ze weer te geven volgens achternaam
 				var activeCustomers = context.Customers.Where(c => c.IsDeleted == false).OrderBy(c => c.LastName).ToList();
 
-				// Bevestig ervoor dat er minstens 1 klant bestaat
 				if (activeCustomers.Count == 0)
 				{
 					MessageBox.Show("Voeg eerst een klant toe voordat je een project of offerte kunt aanmaken.", "Geen klanten gevonden", MessageBoxButton.OK, MessageBoxImage.Warning);
 					return;
 				}
 
-				// 2. Open een nieuw AddProjectWindow en geef activecustomers door
 				var addWindow = new AddProjectWindow(activeCustomers);
 
-				// 3. Sla het project op indien de gebruiker op Opslaan drukt (ShowDialog() == true)
 				if (addWindow.ShowDialog() == true)
 				{
 					context.Projects.Add(addWindow.NewProject);
 					context.SaveChanges();
 
-					// Herlaad de lijst van projecten
 					LoadProjects();
 				}
 			}
@@ -142,7 +137,6 @@ namespace GreenManager___WPF.ViewModels
 
 			LoadTabData();
 
-			// Open het nieuwe venster en geef DIT ViewModel mee
 			var editWindow = new EditProjectWindow(this);
 			if (editWindow.ShowDialog() == true)
 			{
@@ -176,6 +170,34 @@ namespace GreenManager___WPF.ViewModels
 				foreach (var w in wLogs) WorkLogs.Add(w);
 			}
 		}
+
+		[RelayCommand]
+		private void SoftDeleteProject()
+		{
+			if (SelectedProject == null)
+			{
+				MessageBox.Show("Selecteer eerst een project om te verwijderen.", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			// 2. Vraag om bevestiging aan de gebruiker
+			var result = MessageBox.Show($"Ben je zeker dat je het project '{SelectedProject.Name}' wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+			if (result == MessageBoxResult.Yes)
+			{
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					SelectedProject.IsDeleted = true;
+					SelectedProject.DeletedAt = DateTime.UtcNow;
+					SelectedProject.DeletedReason = "Verwijderd via projectenbeheer";
+
+					context.Projects.Update(SelectedProject);
+					context.SaveChanges();
+				}
+				LoadProjects();
+			}
+		}
+
 		#endregion
 
 		#region --- 3. TABBLAD COMMANDO'S ---

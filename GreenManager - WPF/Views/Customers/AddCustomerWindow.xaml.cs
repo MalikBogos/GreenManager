@@ -23,13 +23,8 @@ namespace GreenManager___WPF.Views
 		public AddCustomerWindow()
 		{
 			InitializeComponent();
-			NewCustomer = new Customer { FirstName = "Tester", LastName="Code", CompanyName="Code testers", VATNumber="31414", Notes="Het is een voorbeeld", Email = "dsaiiw@gmail.com", PhoneNumber = "3442234233", IsBlocked = false, BlockedReason = null, };
+			NewCustomer = new Customer { FirstName = "Tester", LastName="Code", CompanyName="Code testers", VATNumber="31414", Notes="Het is een voorbeeld", Email = "dsaiiw@gmail.com", PhoneNumber = "3442234233", Street = "Voorbeeldstraat", PostalCode = "1500", City = "Halle"};
 			this.DataContext = this;
-		}
-
-		private void CheckBox_Checked(object sender, RoutedEventArgs e)
-		{
-				NewCustomer.IsBlocked = true;
 		}
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)

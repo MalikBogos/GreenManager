@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GreenManager___WPF.Views;
+using Microsoft.EntityFrameworkCore;
 using Models.Data;
 using Models.Entities;
 using System;
@@ -14,20 +15,23 @@ namespace GreenManager___WPF.ViewModels
 {
 	public partial class MaterialViewModel : ObservableObject
 	{
+		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
+
 		public ObservableCollection<Material> Materials { get; set; }
 
 		[ObservableProperty]
 		private Material _selectedMaterial;
 
-		public MaterialViewModel()
+		public MaterialViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory)
 		{
+			_contextFactory = contextFactory;
 			Materials = new ObservableCollection<Material>();
 			LoadMaterials();
 		}
 
 		private void LoadMaterials()
 		{
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var MaterialsFromDb = context.Materials.Where(m => m.IsDeleted == false).ToList();
 
@@ -47,7 +51,7 @@ namespace GreenManager___WPF.ViewModels
 
 			if (addWindow.ShowDialog() == true)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var MaterialToSave = addWindow.NewMaterial;
 
@@ -71,7 +75,7 @@ namespace GreenManager___WPF.ViewModels
 
 			if (editWindow.ShowDialog() == true)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					editWindow.EditedMaterial.UpdatedAt = DateTime.UtcNow;
 					context.Materials.Update(editWindow.EditedMaterial);
@@ -94,7 +98,7 @@ namespace GreenManager___WPF.ViewModels
 
 			if (result == MessageBoxResult.Yes)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					SelectedMaterial.IsDeleted = true;
 					SelectedMaterial.DeletedAt = DateTime.UtcNow;

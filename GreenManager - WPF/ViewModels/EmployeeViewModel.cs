@@ -14,21 +14,23 @@ namespace GreenManager___WPF.ViewModels
 {
 	public partial class EmployeeViewModel : ObservableObject
 	{
+		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
+
 		public ObservableCollection<Employee> Employees { get; set; }
 
 		[ObservableProperty]
 		private Employee _selectedEmployee;
 
-		public EmployeeViewModel()
+		public EmployeeViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory)
 		{
+			_contextFactory = contextFactory;
 			Employees = new ObservableCollection<Employee>();
 			LoadEmployees();
 		}
 
 		private void LoadEmployees()
 		{
-			using (var context = new GreenManagerDbContext())
-			{
+			using (var context = _contextFactory.CreateDbContext()) { 
 				var query = context.Employees
 					.Include(e => e.User)
 					.Where(e => !e.IsDeleted)
@@ -49,9 +51,9 @@ namespace GreenManager___WPF.ViewModels
 		{
 			string newEmployeeNumber = "EMP001";
 
-			using (var dbContext = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
-				var lastEmployee = dbContext.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
+				var lastEmployee = context.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
 
 				if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
 				{
@@ -68,7 +70,7 @@ namespace GreenManager___WPF.ViewModels
 
 			if (addWindow.ShowDialog() == true)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var newLoginAccount = new ApplicationUser
 					{
@@ -90,8 +92,8 @@ namespace GreenManager___WPF.ViewModels
 
 					addWindow.NewEmployee.ApplicationUserId = newLoginAccount.Id;
 
-					context.Employees.Add(addWindow.NewEmployee);
-					context.SaveChanges();
+				context.Employees.Add(addWindow.NewEmployee);
+				context.SaveChanges();
 				}
 
 				LoadEmployees();
@@ -107,7 +109,7 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var availableRoles = context.Roles.ToList();
 				var currentRoleMap = context.UserRoles.FirstOrDefault(ur => ur.UserId == SelectedEmployee.ApplicationUserId);
@@ -139,12 +141,10 @@ namespace GreenManager___WPF.ViewModels
 							context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
 						}
 					}
-
 					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
 					context.Employees.Update(editWindow.EditedEmployee);
 					context.SaveChanges();
 				}
-
 				LoadEmployees();
 			}
 		}
@@ -162,18 +162,16 @@ namespace GreenManager___WPF.ViewModels
 
 			if (result == MessageBoxResult.Yes)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var employeeToDelete = context.Employees.Include(e => e.User).FirstOrDefault(e => e.Id == SelectedEmployee.Id);
 
 					if (employeeToDelete != null)
 					{
-						// HERSTELD: Soft delete in plaats van Remove()
 						employeeToDelete.IsDeleted = true;
 						employeeToDelete.DeletedAt = DateTime.UtcNow;
 						employeeToDelete.DeletedReason = "Verwijderd via werknemersoverzicht";
 
-						// Ook het inlogaccount blokkeren via soft delete
 						if (employeeToDelete.User != null)
 						{
 							employeeToDelete.User.IsDeleted = true;

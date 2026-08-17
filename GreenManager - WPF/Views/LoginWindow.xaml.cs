@@ -19,10 +19,10 @@ namespace GreenManager___WPF.Views
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        public LoginWindow(LoginViewModel viewModel)
         {
             InitializeComponent();
-            this.DataContext = new LoginViewModel();
+            this.DataContext = viewModel;
         }
     }
 }

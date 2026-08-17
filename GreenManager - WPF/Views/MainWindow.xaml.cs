@@ -1,6 +1,8 @@
 ﻿using GreenManager___WPF.ViewModels;
 using Models.Entities;
 using System.Windows;
+using GreenManager___WPF.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GreenManager___WPF.Views
 {
@@ -9,43 +11,48 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow(ApplicationUser loggedInUser, string roleName)
+		private readonly MainViewModel _viewModel;
+
+		public MainWindow(MainViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new MainViewModel(loggedInUser, roleName);
 
-			MainContent.Content = new DashboardView();
+			_viewModel = viewModel;
+
+			this.DataContext = viewModel;
+
+			MainContent.Content = App.AppHost.Services.GetRequiredService<DashboardView>();
+		}
+
+		public void InitializeUser(ApplicationUser loggedinUser, string roleName) 
+		{
+			_viewModel.SetupUser(loggedinUser, roleName);
 		}
 
 		private void BtnDashboard_Click(object sender, RoutedEventArgs e)
 		{
-			MainContent.Content = new DashboardView();
+			MainContent.Content = App.AppHost.Services.GetRequiredService<DashboardView>();
 		}
 
 		private void BtnClients_Click(object sender, RoutedEventArgs e)
 		{
-			MainContent.Content = new CustomerView();
+			MainContent.Content = App.AppHost.Services.GetRequiredService<CustomerView>();
 		}
 
 		private void BtnProjects_Click(object sender, RoutedEventArgs e)
 		{
-			MainContent.Content = new ProjectView();
+			MainContent.Content = App.AppHost.Services.GetRequiredService<ProjectView>();
 		}
 
 		private void BtnMaterials_Click(object sender, RoutedEventArgs e)
 		{
-			MainContent.Content = new MaterialView();
+			MainContent.Content = App.AppHost.Services.GetRequiredService<MaterialView>();
 		}
 
 
 		private void BtnEmployees_Click(object sender, RoutedEventArgs e)
 		{
-			MainContent.Content = new EmployeeView();
-		}
-
-		private void BtnSettings_Click(object sender, RoutedEventArgs e)
-		{
-			MainContent.Content = new SettingsView();
+			MainContent.Content = App.AppHost.Services.GetRequiredService<EmployeeView>();
 		}
 	}
 }

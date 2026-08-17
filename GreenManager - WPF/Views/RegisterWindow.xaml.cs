@@ -18,10 +18,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class RegisterWindow : Window
 	{
-		public RegisterWindow()
+		public RegisterWindow(RegisterViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new RegisterViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

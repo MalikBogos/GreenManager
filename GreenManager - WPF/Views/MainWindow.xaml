@@ -41,16 +41,14 @@
 
 		<Border Grid.Column="0" Background="#2C3E50">
 			<StackPanel Margin="0,20,0,0">
-				<TextBlock Text="🌱 GreenManager" Foreground="White" FontSize="22" FontWeight="Bold" Margin="20,0,0,40"/>
+				<TextBlock Text="GreenManager" Foreground="White" FontSize="22" FontWeight="Bold" Margin="20,0,0,40"/>
 
-				<Button Content="🏠  Dashboard" Style="{StaticResource NavButton}" Click="BtnDashboard_Click"/>
-				<Button Content="👥  Klanten" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnClients_Click"/>
-				<Button Content="📁  Projecten" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnProjects_Click"/>
-				<Button Content="📦  Materiaal" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnMaterials_Click"/>
-				<Button Content="👷  Werknemers" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnEmployees_Click"/>
-				<Button Content="⚙️  Instellingen" Style="{StaticResource NavButton}" Click="BtnSettings_Click"/>
-
-				<Button Content="🚪  Uitloggen" Style="{StaticResource NavButton}" Command="{Binding LogoutCommand}" Margin="10,40,10,5"/>
+				<Button Content="Dashboard" Style="{StaticResource NavButton}" Click="BtnDashboard_Click"/>
+				<Button Content="Klanten" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnClients_Click"/>
+				<Button Content="Projecten" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnProjects_Click"/>
+				<Button Content="Materiaal" Visibility="{Binding IsNotGuest, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnMaterials_Click"/>
+				<Button Content="Werknemers" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}" Style="{StaticResource NavButton}" Click="BtnEmployees_Click"/>
+				<Button Content="Uitloggen" Style="{StaticResource NavButton}" Command="{Binding LogoutCommand}" Margin="10,40,10,5"/>
 			</StackPanel>
 		</Border>
 

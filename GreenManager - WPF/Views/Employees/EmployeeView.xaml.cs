@@ -8,10 +8,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class EmployeeView : UserControl
 	{
-		public EmployeeView()
+		public EmployeeView(EmployeeViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new EmployeeViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

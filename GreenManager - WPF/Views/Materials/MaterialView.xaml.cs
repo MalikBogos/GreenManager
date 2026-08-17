@@ -8,10 +8,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class MaterialView : UserControl
 	{
-		public MaterialView()
+		public MaterialView(MaterialViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new MaterialViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

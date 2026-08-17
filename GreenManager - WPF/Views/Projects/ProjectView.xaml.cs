@@ -8,10 +8,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class ProjectView : UserControl
 	{
-		public ProjectView()
+		public ProjectView(ProjectViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new ProjectViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

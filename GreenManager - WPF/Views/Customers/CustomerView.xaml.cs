@@ -8,10 +8,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class CustomerView : UserControl
 	{
-		public CustomerView()
+		public CustomerView(CustomerViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new CustomerViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

@@ -8,10 +8,10 @@ namespace GreenManager___WPF.Views
 	/// </summary>
 	public partial class DashboardView : UserControl
 	{
-		public DashboardView()
+		public DashboardView(DashboardViewModel viewModel)
 		{
 			InitializeComponent();
-			this.DataContext = new DashboardViewModel();
+			this.DataContext = viewModel;
 		}
 	}
 }

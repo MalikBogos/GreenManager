@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GreenManager___WPF.Views;
+using Microsoft.EntityFrameworkCore;
 using Models.Data;
 using Models.Entities;
 using System;
@@ -14,6 +15,8 @@ namespace GreenManager___WPF.ViewModels
 {
 	public partial class CustomerViewModel : ObservableObject
 	{
+		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
+
 		public ObservableCollection<Customer> Customers { get; set; }
 
 		[ObservableProperty]
@@ -27,37 +30,37 @@ namespace GreenManager___WPF.ViewModels
 			LoadCustomers();
 		}
 
-		public CustomerViewModel()
+		public CustomerViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory)
 		{
+			_contextFactory = contextFactory;
 			Customers = new ObservableCollection<Customer>();
 			LoadCustomers();
 		}
 
 		private void LoadCustomers()
         {
-            using (var context = new GreenManagerDbContext())
-            {
-                // Start de zoekopdracht voor actieve klanten
-                var query = context.Customers.Where(c => c.IsDeleted == false).AsQueryable();
+			using (var context = _contextFactory.CreateDbContext())
+			{
+				var query = context.Customers.Where(c => c.IsDeleted == false).AsQueryable();
 
-                // NIEUW: Als de zoekbalk niet leeg is, filter dan de lijst
-                if (!string.IsNullOrWhiteSpace(SearchQuery))
-                {
-                    query = query.Where(c => c.FirstName.Contains(SearchQuery) ||
-                                             c.LastName.Contains(SearchQuery) ||
-                                             c.Email.Contains(SearchQuery) ||
-                                             (c.CompanyName != null && c.CompanyName.Contains(SearchQuery)));
-                }
+				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					query = query.Where(c => c.FirstName.Contains(SearchQuery) ||
+												c.LastName.Contains(SearchQuery) ||
+												c.Email.Contains(SearchQuery) ||
+												(c.CompanyName != null && c.CompanyName.Contains(SearchQuery)));
+				}
 
-                // Voer de zoekopdracht uit
-                var customersFromDb = query.ToList();
+				// Voer de zoekopdracht uit
+				var customersFromDb = query.ToList();
 
-                Customers.Clear();
-                foreach (var customer in customersFromDb)
-                {
-                    Customers.Add(customer);
-                }
-            }
+				Customers.Clear();
+				foreach (var customer in customersFromDb)
+				{
+					Customers.Add(customer);
+				}
+			}
+            
         }
 
 		[RelayCommand]
@@ -67,7 +70,7 @@ namespace GreenManager___WPF.ViewModels
 
 			if (addWindow.ShowDialog() == true)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var CustomerToSave = addWindow.NewCustomer;
 
@@ -89,9 +92,8 @@ namespace GreenManager___WPF.ViewModels
 
 			var editWindow = new EditCustomerWindow(SelectedCustomer);
 
-			if (editWindow.ShowDialog() == true)
-			{
-				using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext()) {
+				if (editWindow.ShowDialog() == true)
 				{
 					editWindow.EditedCustomer.UpdatedAt = DateTime.UtcNow;
 					context.Customers.Update(editWindow.EditedCustomer);
@@ -111,10 +113,8 @@ namespace GreenManager___WPF.ViewModels
 			}
 
 			var result = MessageBox.Show($"Ben je zeker dat je {SelectedCustomer.FirstName} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-			if (result == MessageBoxResult.Yes)
-			{
-				using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext()) {
+				if (result == MessageBoxResult.Yes)
 				{
 					SelectedCustomer.IsDeleted = true;
 					SelectedCustomer.DeletedAt = DateTime.UtcNow;
@@ -122,6 +122,7 @@ namespace GreenManager___WPF.ViewModels
 					context.Customers.Update(SelectedCustomer);
 					context.SaveChanges();
 				}
+
 				LoadCustomers();
 			}
 		}

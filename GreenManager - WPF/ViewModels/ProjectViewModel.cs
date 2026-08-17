@@ -18,14 +18,16 @@ namespace GreenManager___WPF.ViewModels
 	public partial class ProjectViewModel : ObservableObject
 	{
 		#region --- 1. HOOFDSCHERM (OVERZICHT LIJST) ---
-
+		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
+		
 		public ObservableCollection<Project> Projects { get; set; }
 
 		[ObservableProperty]
 		private Project _selectedProject;
 
-		public ProjectViewModel()
+		public ProjectViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory)
 		{
+			_contextFactory = contextFactory;
 			Projects = new ObservableCollection<Project>();
 			ProjectEmployees = new ObservableCollection<ProjectEmployee>();
 			ProjectMaterials = new ObservableCollection<ProjectMaterial>();
@@ -36,12 +38,12 @@ namespace GreenManager___WPF.ViewModels
 
 		private void LoadProjects()
 		{
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var ProjectsFromDb = context.Projects.ToList();
 
 				Projects.Clear();
-				foreach(var project in ProjectsFromDb)
+				foreach (var project in ProjectsFromDb)
 				{
 					Projects.Add(project);
 				}
@@ -51,7 +53,7 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand] 
 		private void OpenAddProjectWindow()
 		{
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				// Haal alle klanten op om ze weer te geven volgens achternaam
 				var activeCustomers = context.Customers.Where(c => c.IsDeleted == false).OrderBy(c => c.LastName).ToList();
@@ -117,7 +119,7 @@ namespace GreenManager___WPF.ViewModels
 			}
 
 			// Laad dropdowns en bereid het project voor
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				AvailableCustomers = context.Customers.Where(c => !c.IsDeleted).ToList();
 				AvailableStatuses = Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().ToList();
@@ -144,7 +146,7 @@ namespace GreenManager___WPF.ViewModels
 			var editWindow = new EditProjectWindow(this);
 			if (editWindow.ShowDialog() == true)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					EditedProject.UpdatedAt = DateTime.UtcNow;
 					context.Projects.Update(EditedProject);
@@ -156,7 +158,7 @@ namespace GreenManager___WPF.ViewModels
 
 		private void LoadTabData()
 		{
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				AvailableEmployees = context.Employees.Include(e => e.User).Where(e => !e.IsDeleted).OrderBy(e => e.User.LastName).ToList();
 				AvailableMaterials = context.Materials.Where(m => !m.IsDeleted).OrderBy(m => m.Name).ToList();
@@ -182,7 +184,7 @@ namespace GreenManager___WPF.ViewModels
 		private void AddEmployee()
 		{
 			if (SelectedEmployeeId == 0 || NewEstimatedHours <= 0) return;
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var newPlan = new ProjectEmployee { ProjectId = EditedProject.Id, EmployeeId = SelectedEmployeeId, PlannedDate = NewPlannedDate, EstimatedHours = NewEstimatedHours };
 				context.Set<ProjectEmployee>().Add(newPlan);
@@ -208,7 +210,7 @@ namespace GreenManager___WPF.ViewModels
 		private void AddMaterial()
 		{
 			if (SelectedMaterialId == 0 || NewQuantity <= 0) return;
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var materialInDb = context.Materials.Find(SelectedMaterialId);
 				if (materialInDb != null)
@@ -235,7 +237,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			if (pm != null && MessageBox.Show("Materiaal verwijderen en voorraad herstellen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var entity = context.Set<ProjectMaterial>().Find(pm.Id);
 					if (entity != null)
@@ -263,7 +265,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			if (SelectedWorkEmployeeId == 0 || NewHoursWorked <= 0) return;
 
-			using (var context = new GreenManagerDbContext())
+			using (var context = _contextFactory.CreateDbContext())
 			{
 				var employee = context.Employees.Find(SelectedWorkEmployeeId);
 				decimal wageAtTime = employee != null ? employee.HourlyWage : 0;
@@ -300,7 +302,7 @@ namespace GreenManager___WPF.ViewModels
 		{
 			if (MessageBox.Show("Weet je zeker dat je dit record wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 			{
-				using (var context = new GreenManagerDbContext())
+				using (var context = _contextFactory.CreateDbContext())
 				{
 					var entity = context.Set<T>().Find(id);
 					if (entity != null)

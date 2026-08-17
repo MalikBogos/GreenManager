@@ -1,16 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GreenManager___WPF.Views;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Models.Data;
 using Models.Entities;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace GreenManager___WPF.ViewModels
 {
 	public partial class RegisterViewModel : ObservableObject
 	{
+		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
+		private readonly UserManager<ApplicationUser> _userManager;
+
+
 		[ObservableProperty]
 		private string _firstName = string.Empty;
 
@@ -29,8 +37,14 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private string _errorMessage = string.Empty;
 
+		public RegisterViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory, UserManager<ApplicationUser> userManager)
+		{
+			_contextFactory = contextFactory;
+			_userManager = userManager;
+		}
+
 		[RelayCommand]
-		public void Register()
+		public async Task Register()
 		{
 			ErrorMessage = string.Empty;
 
@@ -47,64 +61,57 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			using (var db = new GreenManagerDbContext())
+			var newUser = new ApplicationUser
 			{
-				if (db.Users.Any(u => u.Email == Email))
+				Id = Guid.NewGuid().ToString(),
+				UserName = Email,
+				NormalizedUserName = Email.ToUpper(),
+				Email = Email,
+				NormalizedEmail = Email.ToUpper(),
+				FirstName = this.FirstName,
+				LastName = this.LastName,
+				EmailConfirmed = true,
+				CreatedAt = DateTime.UtcNow
+			};
+
+			var result = await _userManager.CreateAsync(newUser, Password);
+
+			if (result.Succeeded)
+			{
+				await _userManager.AddToRoleAsync(newUser, "Guest");
+
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					ErrorMessage = "Dit e-mailadres is al in gebruik.";
-					return;
-				}
+					string newEmployeeNumber = "EMP001";
+					var lastEmployee = context.Employees.AsNoTracking().OrderByDescending(e => e.Id).FirstOrDefault();
 
-				var newUser = new ApplicationUser
-				{
-					Id = Guid.NewGuid().ToString(),
-					UserName = Email,
-					NormalizedUserName = Email.ToUpper(),
-					Email = Email,
-					NormalizedEmail = Email.ToUpper(),
-					FirstName = this.FirstName, 
-					LastName = this.LastName,   
-					EmailConfirmed = true,
-					CreatedAt = DateTime.UtcNow
-				};
-
-				var hasher = new PasswordHasher<ApplicationUser>();
-				newUser.PasswordHash = hasher.HashPassword(newUser, Password);
-
-				db.Users.Add(newUser);
-
-				var guestRoleMapping = new IdentityUserRole<string>
-				{
-					RoleId = "role-guest-3",
-					UserId = newUser.Id
-				};
-				db.UserRoles.Add(guestRoleMapping);
-
-				string newEmployeeNumber = "EMP001";
-				var lastEmployee = db.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
-
-				if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
-				{
-					string numberPart = lastEmployee.EmployeeNumber.Substring(3);
-					if (int.TryParse(numberPart, out int lastNumber))
+					if (lastEmployee != null && lastEmployee.EmployeeNumber != null)
 					{
-						newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+						string numberPart = lastEmployee.EmployeeNumber.Substring(3);
+
+						if (int.TryParse(numberPart, out int lastNumber))
+						{
+							newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+						}
 					}
+
+					var newEmployee = new Employee
+					{
+						ApplicationUserId = newUser.Id,
+						EmployeeNumber = newEmployeeNumber,
+						JobTitle = "Gast account",
+						HireDate = DateTime.Today,
+						CreatedAt = DateTime.UtcNow
+					};
+
+					context.Employees.Add(newEmployee);
+					context.SaveChanges();
 				}
 
-				var newEmployee = new Employee
-				{
-					ApplicationUserId = newUser.Id,
-					EmployeeNumber = newEmployeeNumber,
-					JobTitle = "Gast / Nieuw Account",
-					HireDate = DateTime.Today,
-					CreatedAt = DateTime.UtcNow
-				};
-				db.Employees.Add(newEmployee);
+				MessageBox.Show("Account succesvol aangemaakt! Je kan nu inloggen.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
 
-				db.SaveChanges();
-
-				MessageBox.Show("Account succesvol aangemaakt! Je kunt nu inloggen.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+				var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
+				loginWindow.Show();
 
 				foreach (Window window in Application.Current.Windows)
 				{
@@ -114,6 +121,10 @@ namespace GreenManager___WPF.ViewModels
 						break;
 					}
 				}
+			} else
+			{
+				var errorList = result.Errors.Select(e => e.Description);
+				ErrorMessage = string.Join("\n", errorList);
 			}
 		}
 	}

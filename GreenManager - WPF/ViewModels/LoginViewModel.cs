@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using GreenManager___WPF.Views;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Models.Data;
 using Models.Entities;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace GreenManager___WPF.ViewModels
 {
 	public partial class LoginViewModel : ObservableObject
 	{
+		private readonly UserManager<ApplicationUser> _userManager;
+
 		// Automatically turns into EmailInput
 		[ObservableProperty]
 		private string _emailInput;
@@ -19,9 +23,13 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private string _errorMessage;
 
-		// Automatically turns into LoginCommand
+		public LoginViewModel(UserManager<ApplicationUser> userManager)
+		{
+			_userManager = userManager;
+		}
+
 		[RelayCommand]
-		private void Login(object parameter)
+		private async Task Login(object parameter)
 		{
 			ErrorMessage = string.Empty;
 
@@ -34,60 +42,59 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			using (var context = new GreenManagerDbContext())
+			var user = await _userManager.FindByEmailAsync(EmailInput);
+
+			if (user == null || user.IsDeleted)
 			{
-				var user = context.Users.FirstOrDefault(u => u.Email == EmailInput && !u.IsDeleted);
-
-				if (user == null)
-				{
-					ErrorMessage = "E-mailadres of wachtwoord is onjuist, of dit account bestaat niet (meer)";
-					return;
-				}
-
-				var hasher = new PasswordHasher<ApplicationUser>();
-				var result = hasher.VerifyHashedPassword(user, user.PasswordHash, password);
-
-				if (result == PasswordVerificationResult.Success)
-				{
-					string ingelogdeRolNaam = "Onbekend";
-
-					using (var roleContext = new GreenManagerDbContext())
-					{
-						var koppelRij = roleContext.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
-
-						if (koppelRij != null)
-						{
-							var rolInDb = roleContext.Roles.FirstOrDefault(r => r.Id == koppelRij.RoleId);
-							if (rolInDb != null)
-							{
-								ingelogdeRolNaam = rolInDb.Name;
-							}
-						}
-					}
-
-					var mainWindow = new MainWindow(user, ingelogdeRolNaam);
-					mainWindow.Show();
-
-					foreach (Window window in Application.Current.Windows)
-					{
-						if (window.DataContext == this)
-						{
-							window.Close();
-							break;
-						}
-					}
-				}
-				else
-				{
-					ErrorMessage = "E-mailadres of wachtwoord is onjuist.";
-				}
+				ErrorMessage = "E-mailadres of wachtwoord is onjuist, of dit account bestaat niet (meer)";
+				return;
 			}
+
+			bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
+
+			if (isPasswordCorrect)
+			{
+				var roles = await _userManager.GetRolesAsync(user);
+				string roleName = roles.Count > 0 ? roles[0] : "Onbekend";
+
+				var mainWindow = App.AppHost.Services.GetRequiredService<MainWindow>();
+
+				if (mainWindow.DataContext is MainViewModel mainVM)
+				{
+					mainVM.SetupUser(user, roleName);
+				}
+				mainWindow.Show();
+
+				foreach (Window window in Application.Current.Windows)
+				{
+					if (window.DataContext == this)
+					{
+						window.Close();
+						break;
+					}
+				}
+			} else
+			{
+				ErrorMessage = "Emailadres of wachtwoord is niet juist.";
+			}
+			
 		}
 
 		[RelayCommand]
 		private void Register(object parameter)
 		{
-			new RegisterWindow().ShowDialog();
+			var registerWindow = App.AppHost.Services.GetRequiredService<RegisterWindow>();
+
+			registerWindow.Show();
+
+			foreach (Window window in Application.Current.Windows)
+			{
+				if (window.DataContext == this)
+				{
+					window.Close();
+					break;
+				}
+			}
 		}
 	}
 }

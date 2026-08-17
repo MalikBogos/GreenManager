@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GreenManager___WPF.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Models.Data;
 using Models.Entities;
@@ -23,12 +24,16 @@ namespace GreenManager___WPF.ViewModels
 		// Deze is WAAR (true) als de rol 'Admin' is. Anders is hij onwaar (false).
 		public bool IsAdmin => CurrentUserRole == "Admin";
 
-		// Deze is WAAR (true) als de gebruiker GEEN gast is (dus Admin óf Werknemer mag dit zien).
+		// Deze is WAAR (true) als de gebruiker GEEN gast is (dus Admin of Werknemer mag dit zien).
 		public bool IsNotGuest => CurrentUserRole != "Guest";
 
 		public string WelcomeMessage => $"Welkom, {CurrentUserRole} {CurrentUser.FirstName}!";
 
-		public MainViewModel(ApplicationUser user, string roleName)
+		public MainViewModel()
+		{
+		}
+
+		public void SetupUser(ApplicationUser user, string roleName)
 		{
 			CurrentUser = user;
 			CurrentUserRole = roleName;
@@ -37,7 +42,8 @@ namespace GreenManager___WPF.ViewModels
 		[RelayCommand]
 		public void Logout()
 		{
-			var loginWindow = new LoginWindow();
+			var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
+
 			loginWindow.Show();
 
 			foreach (Window window in Application.Current.Windows)

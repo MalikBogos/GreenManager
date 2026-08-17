@@ -27,16 +27,6 @@ namespace Models.Entities
 		[StringLength(100)]
 		public string? JobTitle { get; set; }
 
-		[StringLength(100)]
-		public string? Department { get; set; }
-
-		[StringLength(150)]
-		public string? EmergencyContactName { get; set; }
-
-		[Phone]
-		[StringLength(20)]
-		public string? EmergencyContactPhone { get; set; }
-
 		[StringLength(200)]
 		public string? Street { get; set; }
 

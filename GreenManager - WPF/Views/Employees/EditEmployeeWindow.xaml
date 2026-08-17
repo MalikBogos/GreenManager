@@ -39,17 +39,12 @@
 						<ColumnDefinition Width="10"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					
-					
+
+
 
 					<StackPanel Grid.Column="0">
 						<TextBlock Text="Functie *" FontWeight="SemiBold" Margin="0,0,0,5"/>
 						<TextBox Text="{Binding EditedEmployee.JobTitle}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
-					</StackPanel>
-
-					<StackPanel Grid.Column="2">
-						<TextBlock Text="Afdeling" FontWeight="SemiBold" Margin="0,0,0,5"/>
-						<TextBox Text="{Binding EditedEmployee.Department}" Padding="8" BorderThickness="1" BorderBrush="#DCDDE1"/>
 					</StackPanel>
 				</Grid>
 
@@ -66,12 +61,6 @@
 
 				<TextBlock Text="Geboortedatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<DatePicker SelectedDate="{Binding EditedEmployee.DateOfBirth}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
-
-				<TextBlock Text="Noodcontact Naam" FontWeight="SemiBold" Margin="0,0,0,5"/>
-				<TextBox Text="{Binding EditedEmployee.EmergencyContactName}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
-
-				<TextBlock Text="Noodcontact Telefoon" FontWeight="SemiBold" Margin="0,0,0,5"/>
-				<TextBox Text="{Binding EditedEmployee.EmergencyContactPhone}" Padding="8" Margin="0,0,0,25" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
 				<!-- Address-->
 

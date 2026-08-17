@@ -230,9 +230,6 @@ namespace Models.Migrations
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JobTitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Department = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    EmergencyContactName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    EmergencyContactPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Street = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -438,11 +435,11 @@ namespace Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "HourlyWage", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
+                columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "EmployeeNumber", "HireDate", "HourlyWage", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "admin-uuid-1", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Management", "Hank", "0464235483", "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.00m, false, "Hoofd Tuinman", "Eigenaar van het bedrijf", "1070", "Nijverheidskaai 138", null },
-                    { 2, "employee-uuid-2", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "HR", "Antoine", "0464225631", "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 22.50m, false, "Junior Tuinman", "Eerste medewerker van het bedrijf", "1070", "Nijverheidskaai 138", null }
+                    { 1, "admin-uuid-1", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.00m, false, "Hoofd Tuinman", "Eigenaar van het bedrijf", "1070", "Nijverheidskaai 138", null },
+                    { 2, "employee-uuid-2", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 22.50m, false, "Junior Tuinman", "Eerste medewerker van het bedrijf", "1070", "Nijverheidskaai 138", null }
                 });
 
             migrationBuilder.InsertData(

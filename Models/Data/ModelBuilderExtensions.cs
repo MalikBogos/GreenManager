@@ -94,9 +94,9 @@ namespace Models.Data
 
 			// 4. WERKNEMERSDOSSIERS
 			modelBuilder.Entity<Employee>().HasData(
-				new Employee { Id = 1, ApplicationUserId = "admin-uuid-1", EmployeeNumber = "EMP001", HourlyWage = 35.00m, HireDate = seedDate, DateOfBirth = dateOfBirth, JobTitle = "Hoofd Tuinman", Department = "Management", EmergencyContactName = "Hank", EmergencyContactPhone = "0464235483", Street = "Nijverheidskaai 138", PostalCode = "1070", City = "Anderlecht", Notes = "Eigenaar van het bedrijf", CreatedAt = seedDate },
+				new Employee { Id = 1, ApplicationUserId = "admin-uuid-1", EmployeeNumber = "EMP001", HourlyWage = 35.00m, HireDate = seedDate, DateOfBirth = dateOfBirth, JobTitle = "Hoofd Tuinman", Street = "Nijverheidskaai 138", PostalCode = "1070", City = "Anderlecht", Notes = "Eigenaar van het bedrijf", CreatedAt = seedDate },
 
-				new Employee { Id = 2, ApplicationUserId = "employee-uuid-2", EmployeeNumber = "EMP002", HourlyWage = 22.50m, HireDate = seedDate, DateOfBirth = dateOfBirth, JobTitle = "Junior Tuinman", Department = "HR", EmergencyContactName = "Antoine", EmergencyContactPhone = "0464225631", Street = "Nijverheidskaai 138", PostalCode = "1070", City = "Anderlecht", Notes = "Eerste medewerker van het bedrijf", CreatedAt = seedDate }
+				new Employee { Id = 2, ApplicationUserId = "employee-uuid-2", EmployeeNumber = "EMP002", HourlyWage = 22.50m, HireDate = seedDate, DateOfBirth = dateOfBirth, JobTitle = "Junior Tuinman", Street = "Nijverheidskaai 138", PostalCode = "1070", City = "Anderlecht", Notes = "Eerste medewerker van het bedrijf", CreatedAt = seedDate }
 			);
 
 			// 5. KLANTEN

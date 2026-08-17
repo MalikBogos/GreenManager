@@ -496,18 +496,6 @@ namespace Models.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("Department")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("EmergencyContactName")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("EmergencyContactPhone")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<string>("EmployeeNumber")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -556,9 +544,6 @@ namespace Models.Migrations
                             City = "Anderlecht",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Department = "Management",
-                            EmergencyContactName = "Hank",
-                            EmergencyContactPhone = "0464235483",
                             EmployeeNumber = "EMP001",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HourlyWage = 35.00m,
@@ -575,9 +560,6 @@ namespace Models.Migrations
                             City = "Anderlecht",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Department = "HR",
-                            EmergencyContactName = "Antoine",
-                            EmergencyContactPhone = "0464225631",
                             EmployeeNumber = "EMP002",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HourlyWage = 22.50m,

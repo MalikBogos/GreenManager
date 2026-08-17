@@ -44,10 +44,7 @@
 				<DataGridTextColumn Header="Telefoonnummer" Binding="{Binding User.PhoneNumber}" Width="Auto"/>
 				<DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="Auto"/>
 				<DataGridTextColumn Header="Uurloon" Binding="{Binding HourlyWage, StringFormat={}{0:C}}" Width="Auto"/>
-				<DataGridTextColumn Header="Departement" Binding="{Binding Department}" Width="Auto"/>
-                <DataGridTextColumn Header="Noodcontactnaam" Binding="{Binding EmergencyContactName}" Width="Auto"/>
-                <DataGridTextColumn Header="Noodcontactnummer" Binding="{Binding EmergencyContactPhone}" Width="Auto"/>
-                <DataGridTextColumn Header="Straat" Binding="{Binding Street}" Width="Auto"/>
+				<DataGridTextColumn Header="Straat" Binding="{Binding Street}" Width="Auto"/>
                 <DataGridTextColumn Header="Postcode" Binding="{Binding PostalCode}" Width="120"/>
                 <DataGridTextColumn Header="Stad" Binding="{Binding City}" Width="120"/>
                 <DataGridTextColumn Header="Notities" Binding="{Binding Notes}" Width="120"/>

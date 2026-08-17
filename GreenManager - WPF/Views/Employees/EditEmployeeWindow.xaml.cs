@@ -50,10 +50,7 @@ namespace GreenManager___WPF.Views
 				HireDate = selectedEmployee.HireDate,
 				CreatedAt = selectedEmployee.CreatedAt,
 
-				Department = selectedEmployee.Department,
 				DateOfBirth = selectedEmployee.DateOfBirth,
-				EmergencyContactName = selectedEmployee.EmergencyContactName,
-				EmergencyContactPhone = selectedEmployee.EmergencyContactPhone,
 				Notes = selectedEmployee.Notes
 			};
 			this.DataContext = this;

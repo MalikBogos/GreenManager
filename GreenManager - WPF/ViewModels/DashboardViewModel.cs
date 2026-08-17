@@ -14,7 +14,6 @@ namespace GreenManager___WPF.ViewModels
 	{
 		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
 
-		// Properties for the statistic cards
 		[ObservableProperty]
 		private int _totalCustomers;
 
@@ -24,7 +23,6 @@ namespace GreenManager___WPF.ViewModels
 		[ObservableProperty]
 		private int _totalActiveProjects;
 
-		// Collection for the quick-overview table
 		public ObservableCollection<Project> ActiveProjects { get; set; }
 
 		public DashboardViewModel(IDbContextFactory<GreenManagerDbContext> contextFactory)
@@ -38,24 +36,21 @@ namespace GreenManager___WPF.ViewModels
 		{
 			using (var context = _contextFactory.CreateDbContext())
 			{
-				// 1. Calculate the statistics (Counting records)
 				TotalCustomers = context.Customers.AsNoTracking().Count(c => !c.IsDeleted);
 				TotalEmployees = context.Employees.AsNoTracking().Count(e => !e.IsDeleted);
 
-				// Count projects that are actually accepted or in progress
 				TotalActiveProjects = context.Projects.AsNoTracking().Count(p => !p.IsDeleted &&
 																 (p.Status == ProjectStatus.Accepted ||
 																  p.Status == ProjectStatus.InProgress));
 
-				// 2. Fetch the top 5 most urgent/active projects to display on the dashboard
 				var recentProjects = context.Projects
 					.AsNoTracking()
-					.Include(p => p.Customer) // Include customer to show the name
+					.Include(p => p.Customer)
 					.Where(p => !p.IsDeleted &&
 								p.Status != ProjectStatus.Completed &&
 								p.Status != ProjectStatus.Cancelled)
-					.OrderBy(p => p.StartDate) // Sort by start date
-					.Take(5) // Only take the top 5
+					.OrderBy(p => p.StartDate)
+					.Take(5)
 					.ToList();
 
 				ActiveProjects.Clear();

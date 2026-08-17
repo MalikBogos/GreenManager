@@ -24,17 +24,16 @@ namespace GreenManager___WPF.Views
 		{
 			InitializeComponent();
 
-			// We maken een KOPIE van de data. Zo verpesten we de tabel niet als iemand op annuleren drukt.
 			EditedMaterial = new Material
 			{
-				Id = selectedMaterial.Id, // ID moet behouden blijven voor de Update!
+				Id = selectedMaterial.Id,
 				Name = selectedMaterial.Name,
 				Description = selectedMaterial.Description,
 				PurchasePrice = selectedMaterial.PurchasePrice,
 				StockQuantity = selectedMaterial.StockQuantity,
 				Unit = selectedMaterial.Unit,
 				Notes = selectedMaterial.Notes,
-				CreatedAt = selectedMaterial.CreatedAt // Behoud de originele datum
+				CreatedAt = selectedMaterial.CreatedAt
 			};
 
 			this.DataContext = this;

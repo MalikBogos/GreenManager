@@ -30,9 +30,18 @@
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Projectnaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding EditedProject.Name}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
-                            <TextBlock Text="Gekoppelde Klant *" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                            <ComboBox ItemsSource="{Binding AvailableCustomers}" SelectedValue="{Binding EditedProject.CustomerId}" SelectedValuePath="Id" DisplayMemberPath="LastName" Padding="6" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
-                            <TextBlock Text="Project Adres" FontWeight="SemiBold" Margin="0,0,0,5"/>
+
+							<TextBlock Text="Gekoppelde Klant (Kan niet gewijzigd worden)" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#7F8C8D"/>
+							<!-- NIEUW: IsEnabled="False" zorgt ervoor dat de dropdown vergrendeld is -->
+							<ComboBox ItemsSource="{Binding AvailableCustomers}" 
+                                      SelectedValue="{Binding EditedProject.CustomerId}" 
+                                      SelectedValuePath="Id" 
+                                      DisplayMemberPath="LastName" 
+                                      Padding="6" Margin="0,0,0,15" 
+                                      BorderThickness="1" BorderBrush="#DCDDE1"
+                                      IsEnabled="False" />
+
+							<TextBlock Text="Project Adres" FontWeight="SemiBold" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding EditedProject.ProjectAddress}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
                             <TextBlock Text="Korte Omschrijving" FontWeight="SemiBold" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding EditedProject.Description}" AcceptsReturn="True" TextWrapping="Wrap" Height="80" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>

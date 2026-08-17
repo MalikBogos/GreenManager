@@ -16,7 +16,7 @@
 			</Border.Effect>
 
 			<StackPanel Margin="40">
-				<TextBlock Text="🌱 GreenManager" FontSize="28" FontWeight="Bold" 
+				<TextBlock Text="GreenManager" FontSize="28" FontWeight="Bold" 
                            Foreground="#27AE60" HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
 				<TextBlock Text="Welkom terug! Log in om verder te gaan." 
@@ -38,7 +38,8 @@
                         Padding="0" Background="#2C3E50" Foreground="White" 
                         FontSize="16" FontWeight="Bold" BorderThickness="0" Cursor="Hand"/>
 
-				<Button Content="Account aanmaken" Command="{Binding RegisterCommand}"/>
+				<Button Content="Account aanmaken" Command="{Binding RegisterCommand}" Padding="0" Background="CadetBlue" Foreground="White" 
+FontSize="16" FontWeight="Bold" BorderThickness="0" Cursor="Hand"/>
 				
 			</StackPanel>
 			

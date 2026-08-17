@@ -113,7 +113,6 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			// Laad dropdowns en bereid het project voor
 			using (var context = _contextFactory.CreateDbContext())
 			{
 				AvailableCustomers = context.Customers.Where(c => !c.IsDeleted).ToList();
@@ -180,7 +179,6 @@ namespace GreenManager___WPF.ViewModels
 				return;
 			}
 
-			// 2. Vraag om bevestiging aan de gebruiker
 			var result = MessageBox.Show($"Ben je zeker dat je het project '{SelectedProject.Name}' wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if (result == MessageBoxResult.Yes)

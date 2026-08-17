@@ -5,14 +5,13 @@
 
     <Grid Margin="30">
         
-        <!-- 1. GAST BERICHT (Dit wordt alleen getoond als de rol 'Guest' is) -->
+        <!-- 1. GAST BERICHT (Dit wordt alleen getoond als de rol Guest is) -->
         <Border Background="#FADBD8" BorderBrush="#E74C3C" BorderThickness="1" CornerRadius="8" Padding="40" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border.Style>
                 <Style TargetType="Border">
                     <!-- Standaard is deze verborgen -->
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <!-- Kijkt naar de CurrentUserRole in MainViewModel (het hoofdscherm) -->
                         <DataTrigger Binding="{Binding DataContext.CurrentUserRole, RelativeSource={RelativeSource AncestorType=Window}}" Value="Guest">
                             <!-- Als het een gast is, maak dan zichtbaar -->
                             <Setter Property="Visibility" Value="Visible"/>
@@ -54,7 +53,7 @@
                 <TextBlock Text="Hier is een overzicht van hoe je bedrijf er vandaag voor staat." FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
             </StackPanel>
 
-            <!-- De Statistiek Kaartjes (Cards) -->
+			<!-- Statistieken -->
             <Grid Grid.Row="1" Margin="0,0,0,30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

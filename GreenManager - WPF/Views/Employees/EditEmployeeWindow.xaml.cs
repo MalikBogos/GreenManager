@@ -24,6 +24,7 @@ namespace GreenManager___WPF.Views
 		// NIEUW: Eigenschappen voor de voornaam en achternaam
 		public string EditedFirstName { get; set; } = string.Empty;
 		public string EditedLastName { get; set; } = string.Empty;
+		public string EditedPhoneNumber { get; set; } = string.Empty;
 
 		public string SelectedRoleId { get; set; }
 		public List<IdentityRole> AvailableRoles { get; set; }
@@ -39,6 +40,8 @@ namespace GreenManager___WPF.Views
 			{
 				EditedFirstName = selectedEmployee.User.FirstName;
 				EditedLastName = selectedEmployee.User.LastName;
+
+				EditedPhoneNumber = selectedEmployee.User.PhoneNumber ?? string.Empty;
 			}
 
 			EditedEmployee = new Employee
@@ -49,9 +52,11 @@ namespace GreenManager___WPF.Views
 				JobTitle = selectedEmployee.JobTitle,
 				HireDate = selectedEmployee.HireDate,
 				CreatedAt = selectedEmployee.CreatedAt,
-
 				DateOfBirth = selectedEmployee.DateOfBirth,
-				Notes = selectedEmployee.Notes
+				Notes = selectedEmployee.Notes,
+				Street = selectedEmployee.Street,
+				PostalCode = selectedEmployee.PostalCode,
+				City = selectedEmployee.City
 			};
 			this.DataContext = this;
 		}

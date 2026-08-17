@@ -124,6 +124,7 @@ namespace GreenManager___WPF.ViewModels
 					{
 						userToUpdate.FirstName = editWindow.EditedFirstName;
 						userToUpdate.LastName = editWindow.EditedLastName;
+						userToUpdate.PhoneNumber = editWindow.EditedPhoneNumber;
 						context.Users.Update(userToUpdate);
 					}
 

@@ -30,12 +30,11 @@ namespace GreenManager___WPF.Views
 
 			AvailableCustomers = customers;
 
-			// Prepare a fresh project object
 			NewProject = new Project
 			{
 				Name = "",
 				StartDate = DateTime.Today,
-				Status = ProjectStatus.Quotation, // Project wordt aangemaakt als een quotation
+				Status = ProjectStatus.Quotation,
 				CreatedAt = DateTime.UtcNow
 			};
 

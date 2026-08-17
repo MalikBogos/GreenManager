@@ -396,9 +396,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "role-admin-1", "6082d30e-e24f-4ae1-8490-bcaed1acbf58", "Admin", "ADMIN" },
-                    { "role-employee-2", "f1e5a43e-b972-48c2-b6cc-f3a9a3bb32f5", "Employee", "EMPLOYEE" },
-                    { "role-guest-3", "855ef8b4-6f94-4fbd-ab91-e80e9dbe1dd5", "Guest", "GUEST" }
+                    { "role-admin-1", "STATIC_ROLE_CONCURRENCY_1", "Admin", "ADMIN" },
+                    { "role-employee-2", "STATIC_ROLE_CONCURRENCY_2", "Employee", "EMPLOYEE" },
+                    { "role-guest-3", "STATIC_ROLE_CONCURRENCY_3", "Guest", "GUEST" }
                 });
 
             migrationBuilder.InsertData(
@@ -406,9 +406,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Admin", false, false, "User", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEPslbK+lOk9im2PE/Irht/OvEuA8fKdPj/EACesKx9mfyITIPbTYWbAu9EGkm8owCg==", null, false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
-                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "malik@greenmanager.be", true, "Malik", false, false, "Employee", false, null, "MALIK@GREENMANAGER.BE", "MALIK@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEG0S9BXn0V8gpFCE2wQPnYRYZvWwaU2+vMyr0DoOoynO5Gc7op0YQuAjrSsICqgJ4g==", null, false, "STATIC_STAMP_2", false, null, "malik@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Guest", false, false, "Guest", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEOvUcpAv/WBMn1SrkQw6FVSZCr2zhvc/EMYhvdwUi3cIxTw7smrdxOkn2EUk31N+Yg==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", false, "Jan", false, false, "Vandekapelle", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", "0485760623", false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "employee@greenmanager.be", true, "John", false, false, "Doe", false, null, "EMPLOYEE@GREENMANAGER.BE", "EMPLOYEE@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", "0485767312", false, "STATIC_STAMP_2", false, null, "employee@greenmanager.be" },
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", false, "Gaston", false, false, "Verwelkomd", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(
@@ -416,8 +416,8 @@ namespace Models.Migrations
                 columns: new[] { "Id", "BlockedAt", "BlockedReason", "City", "CompanyName", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "FirstName", "IsBlocked", "IsDeleted", "LastName", "Notes", "PhoneNumber", "PostalCode", "Street", "UpdatedAt", "VATNumber" },
                 values: new object[,]
                 {
-                    { 1, null, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, false, "Bogos", "Eerste testklant", "0488123456", null, null, null, null },
-                    { 2, null, null, null, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", null, "0477987654", null, null, null, null }
+                    { 1, null, null, "Sint-Pieters-Leeuw", "Apple", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "bob@example.com", "Bob", false, false, "Vandestraat", "Eerste testklant", "0488123456", "1600", "Bergensesteenweg 322", null, "5435882443" },
+                    { 2, null, null, "Halle", "Microsoft", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "sara@test.be", "Sara", false, false, "Groens", "Tweede testklant", "0477987654", "1500", "Brusselsesteenweg 10", null, "347238473" }
                 });
 
             migrationBuilder.InsertData(
@@ -425,8 +425,8 @@ namespace Models.Migrations
                 columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "Description", "IsDeleted", "Name", "Notes", "PurchasePrice", "StockQuantity", "Unit", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Potgrond Universeel 40L", null, 6.50m, 100m, "Zak", null },
-                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, "Grasmatten Sport", null, 3.20m, 500m, "m²", null }
+                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "40L potgrond voor de grond", false, "Potgrond Universeel 40L", "Gebruikt voor gaten in de grond", 6.50m, 100m, "Zak", null },
+                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Grasmatten gebruikt voor fitness", false, "Grasmatten Sport", "Weinig wrijving dus goed voor sprint", 3.20m, 500m, "m2", null }
                 });
 
             migrationBuilder.InsertData(
@@ -444,8 +444,8 @@ namespace Models.Migrations
                 columns: new[] { "Id", "ApplicationUserId", "City", "CreatedAt", "DateOfBirth", "DeletedAt", "DeletedReason", "Department", "EmergencyContactName", "EmergencyContactPhone", "EmployeeNumber", "HireDate", "HourlyWage", "IsDeleted", "JobTitle", "Notes", "PostalCode", "Street", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "admin-uuid-1", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, false, "Hoofd Tuinman", null, null, null, null },
-                    { 2, "employee-uuid-2", null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, null, null, "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, false, "Junior Hovenier", null, null, null, null }
+                    { 1, "admin-uuid-1", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Management", "Hank", "0464235483", "EMP001", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.00m, false, "Hoofd Tuinman", "Eigenaar van het bedrijf", "1070", "Nijverheidskaai 138", null },
+                    { 2, "employee-uuid-2", "Anderlecht", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "HR", "Antoine", "0464225631", "EMP002", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 22.50m, false, "Junior Tuinman", "Eerste medewerker van het bedrijf", "1070", "Nijverheidskaai 138", null }
                 });
 
             migrationBuilder.InsertData(
@@ -453,9 +453,24 @@ namespace Models.Migrations
                 columns: new[] { "Id", "Budget", "CreatedAt", "CustomerId", "DeletedAt", "DeletedReason", "Description", "EndDate", "IsDeleted", "Name", "Notes", "ProjectAddress", "StartDate", "Status", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, null, null, false, "Aanleg Stadstuin Antwerpen", null, "Kerkstraat 1, 2000 Antwerpen", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null },
-                    { 2, null, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, null, null, null, false, "Onderhoud Park Gent", null, "Veldstraat 10, 9000 Gent", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null }
+                    { 1, 3500.00m, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ons eerste project", new DateTime(2026, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Aanleg Stadstuin Antwerpen", "Deze klant is zeer belangrijk", "Kerkstraat 1, 2000 Antwerpen", new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null },
+                    { 2, 4000.00m, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, null, "Ons tweede project", new DateTime(2026, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Onderhoud Park Gent", "Moeilijk toegankelijke werkplaats", "Veldstraat 10, 9000 Gent", new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null }
                 });
+
+            migrationBuilder.InsertData(
+                table: "ProjectEmployees",
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "EmployeeId", "EstimatedHours", "IsDeleted", "Notes", "PlannedDate", "ProjectId", "UpdatedAt" },
+                values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, 2, 8m, false, "Niet elke dag beschikbaar voor deze job", new DateTime(2026, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null });
+
+            migrationBuilder.InsertData(
+                table: "ProjectMaterials",
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "IsDeleted", "MaterialId", "ProjectId", "Quantity", "UpdatedAt" },
+                values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, false, 1, 1, 5m, null });
+
+            migrationBuilder.InsertData(
+                table: "WorkLogs",
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "DeletedReason", "EmployeeId", "HourlyWageAtTime", "HoursWorked", "IsDeleted", "Notes", "ProjectId", "TaskDescription", "UpdatedAt", "WorkDate" },
+                values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, 2, 22.50m, 7.5m, false, "Proefperiode", 1, "Aanleg bomen", null, new DateTime(2026, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

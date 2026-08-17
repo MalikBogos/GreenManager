@@ -40,7 +40,8 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Personeelsnummer" Binding="{Binding EmployeeNumber}" Width="Auto"/>
 				<DataGridTextColumn Header="Voornaam" Binding="{Binding User.FirstName}" Width="Auto"/>
-				<DataGridTextColumn Header="Achernaam" Binding="{Binding User.LastName}" Width="Auto"/>
+				<DataGridTextColumn Header="Achternaam" Binding="{Binding User.LastName}" Width="Auto"/>
+				<DataGridTextColumn Header="Telefoonnummer" Binding="{Binding User.PhoneNumber}" Width="Auto"/>
 				<DataGridTextColumn Header="Functie" Binding="{Binding JobTitle}" Width="Auto"/>
 				<DataGridTextColumn Header="Uurloon" Binding="{Binding HourlyWage, StringFormat={}{0:C}}" Width="Auto"/>
 				<DataGridTextColumn Header="Departement" Binding="{Binding Department}" Width="Auto"/>

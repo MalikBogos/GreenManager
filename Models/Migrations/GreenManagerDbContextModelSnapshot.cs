@@ -52,21 +52,21 @@ namespace Models.Migrations
                         new
                         {
                             Id = "role-admin-1",
-                            ConcurrencyStamp = "6082d30e-e24f-4ae1-8490-bcaed1acbf58",
+                            ConcurrencyStamp = "STATIC_ROLE_CONCURRENCY_1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "role-employee-2",
-                            ConcurrencyStamp = "f1e5a43e-b972-48c2-b6cc-f3a9a3bb32f5",
+                            ConcurrencyStamp = "STATIC_ROLE_CONCURRENCY_2",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = "role-guest-3",
-                            ConcurrencyStamp = "855ef8b4-6f94-4fbd-ab91-e80e9dbe1dd5",
+                            ConcurrencyStamp = "STATIC_ROLE_CONCURRENCY_3",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         });
@@ -303,15 +303,16 @@ namespace Models.Migrations
                             ConcurrencyStamp = "STATIC_CONCURRENCY_1",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@greenmanager.be",
-                            EmailConfirmed = true,
-                            FirstName = "Admin",
+                            EmailConfirmed = false,
+                            FirstName = "Jan",
                             IsBlocked = false,
                             IsDeleted = false,
-                            LastName = "User",
+                            LastName = "Vandekapelle",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GREENMANAGER.BE",
                             NormalizedUserName = "ADMIN@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPslbK+lOk9im2PE/Irht/OvEuA8fKdPj/EACesKx9mfyITIPbTYWbAu9EGkm8owCg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==",
+                            PhoneNumber = "0485760623",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_1",
                             TwoFactorEnabled = false,
@@ -323,20 +324,21 @@ namespace Models.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "STATIC_CONCURRENCY_2",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "malik@greenmanager.be",
+                            Email = "employee@greenmanager.be",
                             EmailConfirmed = true,
-                            FirstName = "Malik",
+                            FirstName = "John",
                             IsBlocked = false,
                             IsDeleted = false,
-                            LastName = "Employee",
+                            LastName = "Doe",
                             LockoutEnabled = false,
-                            NormalizedEmail = "MALIK@GREENMANAGER.BE",
-                            NormalizedUserName = "MALIK@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG0S9BXn0V8gpFCE2wQPnYRYZvWwaU2+vMyr0DoOoynO5Gc7op0YQuAjrSsICqgJ4g==",
+                            NormalizedEmail = "EMPLOYEE@GREENMANAGER.BE",
+                            NormalizedUserName = "EMPLOYEE@GREENMANAGER.BE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==",
+                            PhoneNumber = "0485767312",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_2",
                             TwoFactorEnabled = false,
-                            UserName = "malik@greenmanager.be"
+                            UserName = "employee@greenmanager.be"
                         },
                         new
                         {
@@ -345,15 +347,15 @@ namespace Models.Migrations
                             ConcurrencyStamp = "STATIC_CONCURRENCY_3",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "guest@greenmanager.be",
-                            EmailConfirmed = true,
-                            FirstName = "Guest",
+                            EmailConfirmed = false,
+                            FirstName = "Gaston",
                             IsBlocked = false,
                             IsDeleted = false,
-                            LastName = "Guest",
+                            LastName = "Verwelkomd",
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GREENMANAGER.BE",
                             NormalizedUserName = "GUEST@GREENMANAGER.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOvUcpAv/WBMn1SrkQw6FVSZCr2zhvc/EMYhvdwUi3cIxTw7smrdxOkn2EUk31N+Yg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "STATIC_STAMP_3",
                             TwoFactorEnabled = false,
@@ -444,25 +446,36 @@ namespace Models.Migrations
                         new
                         {
                             Id = 1,
+                            City = "Sint-Pieters-Leeuw",
+                            CompanyName = "Apple",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bob@example.com",
                             FirstName = "Bob",
                             IsBlocked = false,
                             IsDeleted = false,
-                            LastName = "Bogos",
+                            LastName = "Vandestraat",
                             Notes = "Eerste testklant",
-                            PhoneNumber = "0488123456"
+                            PhoneNumber = "0488123456",
+                            PostalCode = "1600",
+                            Street = "Bergensesteenweg 322",
+                            VATNumber = "5435882443"
                         },
                         new
                         {
                             Id = 2,
+                            City = "Halle",
+                            CompanyName = "Microsoft",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "sara@test.be",
                             FirstName = "Sara",
                             IsBlocked = false,
                             IsDeleted = false,
                             LastName = "Groens",
-                            PhoneNumber = "0477987654"
+                            Notes = "Tweede testklant",
+                            PhoneNumber = "0477987654",
+                            PostalCode = "1500",
+                            Street = "Brusselsesteenweg 10",
+                            VATNumber = "347238473"
                         });
                 });
 
@@ -552,23 +565,39 @@ namespace Models.Migrations
                         {
                             Id = 1,
                             ApplicationUserId = "admin-uuid-1",
+                            City = "Anderlecht",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Department = "Management",
+                            EmergencyContactName = "Hank",
+                            EmergencyContactPhone = "0464235483",
                             EmployeeNumber = "EMP001",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HourlyWage = 0m,
+                            HourlyWage = 35.00m,
                             IsDeleted = false,
-                            JobTitle = "Hoofd Tuinman"
+                            JobTitle = "Hoofd Tuinman",
+                            Notes = "Eigenaar van het bedrijf",
+                            PostalCode = "1070",
+                            Street = "Nijverheidskaai 138"
                         },
                         new
                         {
                             Id = 2,
                             ApplicationUserId = "employee-uuid-2",
+                            City = "Anderlecht",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1999, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Department = "HR",
+                            EmergencyContactName = "Antoine",
+                            EmergencyContactPhone = "0464225631",
                             EmployeeNumber = "EMP002",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HourlyWage = 0m,
+                            HourlyWage = 22.50m,
                             IsDeleted = false,
-                            JobTitle = "Junior Hovenier"
+                            JobTitle = "Junior Tuinman",
+                            Notes = "Eerste medewerker van het bedrijf",
+                            PostalCode = "1070",
+                            Street = "Nijverheidskaai 138"
                         });
                 });
 
@@ -628,8 +657,10 @@ namespace Models.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "40L potgrond voor de grond",
                             IsDeleted = false,
                             Name = "Potgrond Universeel 40L",
+                            Notes = "Gebruikt voor gaten in de grond",
                             PurchasePrice = 6.50m,
                             StockQuantity = 100m,
                             Unit = "Zak"
@@ -638,11 +669,13 @@ namespace Models.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Grasmatten gebruikt voor fitness",
                             IsDeleted = false,
                             Name = "Grasmatten Sport",
+                            Notes = "Weinig wrijving dus goed voor sprint",
                             PurchasePrice = 3.20m,
                             StockQuantity = 500m,
-                            Unit = "m²"
+                            Unit = "m2"
                         });
                 });
 
@@ -711,23 +744,31 @@ namespace Models.Migrations
                         new
                         {
                             Id = 1,
+                            Budget = 3500.00m,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
+                            Description = "Ons eerste project",
+                            EndDate = new DateTime(2026, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Aanleg Stadstuin Antwerpen",
+                            Notes = "Deze klant is zeer belangrijk",
                             ProjectAddress = "Kerkstraat 1, 2000 Antwerpen",
-                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = 1
                         },
                         new
                         {
                             Id = 2,
+                            Budget = 4000.00m,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 2,
+                            Description = "Ons tweede project",
+                            EndDate = new DateTime(2026, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Onderhoud Park Gent",
+                            Notes = "Moeilijk toegankelijke werkplaats",
                             ProjectAddress = "Veldstraat 10, 9000 Gent",
-                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = 0
                         });
                 });
@@ -779,6 +820,19 @@ namespace Models.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectEmployees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeId = 2,
+                            EstimatedHours = 8m,
+                            IsDeleted = false,
+                            Notes = "Niet elke dag beschikbaar voor deze job",
+                            PlannedDate = new DateTime(2026, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ProjectId = 1
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.ProjectMaterial", b =>
@@ -821,6 +875,17 @@ namespace Models.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectMaterials");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            MaterialId = 1,
+                            ProjectId = 1,
+                            Quantity = 5m
+                        });
                 });
 
             modelBuilder.Entity("Models.Entities.WorkLog", b =>
@@ -877,6 +942,21 @@ namespace Models.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("WorkLogs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeId = 2,
+                            HourlyWageAtTime = 22.50m,
+                            HoursWorked = 7.5m,
+                            IsDeleted = false,
+                            Notes = "Proefperiode",
+                            ProjectId = 1,
+                            TaskDescription = "Aanleg bomen",
+                            WorkDate = new DateTime(2026, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

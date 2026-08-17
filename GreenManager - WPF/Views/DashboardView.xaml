@@ -2,67 +2,107 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="#F5F6FA">
-	<Grid Margin="30">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
 
-		<!-- Welkomsttekst -->
-		<StackPanel Grid.Row="0" Margin="0,0,0,30">
-			<TextBlock Text="👋 Welkom bij GreenManager" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
-			<TextBlock Text="Hier is een overzicht van hoe je bedrijf er vandaag voor staat." FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
-		</StackPanel>
+    <Grid Margin="30">
+        
+        <!-- 1. GAST BERICHT (Dit wordt alleen getoond als de rol 'Guest' is) -->
+        <Border Background="#FADBD8" BorderBrush="#E74C3C" BorderThickness="1" CornerRadius="8" Padding="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <!-- Standaard is deze verborgen -->
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <!-- Kijkt naar de CurrentUserRole in MainViewModel (het hoofdscherm) -->
+                        <DataTrigger Binding="{Binding DataContext.CurrentUserRole, RelativeSource={RelativeSource AncestorType=Window}}" Value="Guest">
+                            <!-- Als het een gast is, maak dan zichtbaar -->
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+                <TextBlock Text="Toegang Beperkt" FontSize="24" FontWeight="Bold" Foreground="#C0392B" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBlock Text="Je moet een werknemersrol hebben om de applicatie te kunnen gebruiken met alle functionaliteiten." 
+                           FontSize="16" Foreground="#C0392B" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="400"/>
+            </StackPanel>
+        </Border>
 
-		<!-- De Statistiek Kaartjes (Cards) -->
-		<Grid Grid.Row="1" Margin="0,0,0,30">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="20"/>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="20"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <!-- Standaard is deze zichtbaar -->
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.CurrentUserRole, RelativeSource={RelativeSource AncestorType=Window}}" Value="Guest">
+                            <!-- Als het een gast is, verberg dan het hele dashboard -->
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-			<!-- Card 1: Klanten -->
-			<Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
-				<StackPanel>
-					<TextBlock Text="👥 Actieve Klanten" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
-					<TextBlock Text="{Binding TotalCustomers}" FontSize="36" FontWeight="Bold" Foreground="#3498DB"/>
-				</StackPanel>
-			</Border>
+            <!-- Welkomsttekst -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,30">
+                <TextBlock Text="  Welkom bij GreenManager" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="Hier is een overzicht van hoe je bedrijf er vandaag voor staat." FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
+            </StackPanel>
 
-			<!-- Card 2: Werknemers -->
-			<Border Grid.Column="2" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
-				<StackPanel>
-					<TextBlock Text="👷 Werknemers" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
-					<TextBlock Text="{Binding TotalEmployees}" FontSize="36" FontWeight="Bold" Foreground="#27AE60"/>
-				</StackPanel>
-			</Border>
+            <!-- De Statistiek Kaartjes (Cards) -->
+            <Grid Grid.Row="1" Margin="0,0,0,30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-			<!-- Card 3: Lopende Projecten -->
-			<Border Grid.Column="4" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
-				<StackPanel>
-					<TextBlock Text="⚙️ Lopende Projecten" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
-					<TextBlock Text="{Binding TotalActiveProjects}" FontSize="36" FontWeight="Bold" Foreground="#E67E22"/>
-				</StackPanel>
-			</Border>
-		</Grid>
+                <!-- Card 1: Klanten -->
+                <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="  Actieve Klanten" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding TotalCustomers}" FontSize="36" FontWeight="Bold" Foreground="#3498DB"/>
+                    </StackPanel>
+                </Border>
 
-		<!-- Titel voor de tabel -->
-		<TextBlock Grid.Row="2" Text="📅 Aankomende en Actieve Projecten" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,15"/>
+                <!-- Card 2: Werknemers -->
+                <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="  Werknemers" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding TotalEmployees}" FontSize="36" FontWeight="Bold" Foreground="#27AE60"/>
+                    </StackPanel>
+                </Border>
 
-		<!-- Tabel met actieve projecten -->
-		<DataGrid Grid.Row="3" ItemsSource="{Binding ActiveProjects}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="Horizontal" BorderThickness="1" BorderBrush="#E0E0E0" Background="White" RowHeight="40">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120"/>
-				<DataGridTextColumn Header="Projectnaam" Binding="{Binding Name}" Width="250"/>
-				<DataGridTextColumn Header="Klant" Binding="{Binding Customer.LastName}" Width="200"/>
-				<DataGridTextColumn Header="Startdatum" Binding="{Binding StartDate, StringFormat=dd-MM-yyyy}" Width="150"/>
-			</DataGrid.Columns>
-		</DataGrid>
+                <!-- Card 3: Lopende Projecten -->
+                <Border Grid.Column="4" Background="White" CornerRadius="8" Padding="20" BorderBrush="#DCDDE1" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="  Lopende Projecten" FontSize="16" FontWeight="SemiBold" Foreground="#7F8C8D" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding TotalActiveProjects}" FontSize="36" FontWeight="Bold" Foreground="#E67E22"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
 
-	</Grid>
+            <!-- Titel voor de tabel -->
+            <TextBlock Grid.Row="2" Text="  Aankomende en Actieve Projecten" FontSize="20" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,15"/>
+
+            <!-- Tabel met actieve projecten -->
+            <DataGrid Grid.Row="3" ItemsSource="{Binding ActiveProjects}" AutoGenerateColumns="False" IsReadOnly="True" 
+                      HeadersVisibility="Column" GridLinesVisibility="Horizontal" BorderThickness="1" BorderBrush="#E0E0E0" 
+                      Background="White" RowHeight="40">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120"/>
+                    <DataGridTextColumn Header="Projectnaam" Binding="{Binding Name}" Width="250"/>
+                    <DataGridTextColumn Header="Klant" Binding="{Binding Customer.LastName}" Width="200"/>
+                    <DataGridTextColumn Header="Startdatum" Binding="{Binding StartDate, StringFormat=dd-MM-yyyy}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
 </UserControl>

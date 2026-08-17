@@ -23,5 +23,22 @@ namespace GreenManager___WPF.Views
 			InitializeComponent();
 			this.DataContext = viewModel;
 		}
+
+		private void TxtPassword_PasswordChanged(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is RegisterViewModel viewModel)
+			{
+				viewModel.Password = TxtPassword.Password;
+			}
+		}
+
+		private void TxtConfirmPassword_PasswordChanged(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is RegisterViewModel viewModel)
+			{
+				viewModel.ConfirmPassword = TxtConfirmPassword.Password;
+			}
+		}
+
 	}
 }

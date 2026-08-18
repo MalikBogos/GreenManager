@@ -1,4 +1,4 @@
-namespace GreenManager___ASP.NET_CORE.Models
+namespace GreenManager_Web.Models
 {
 	public class ErrorViewModel
 	{

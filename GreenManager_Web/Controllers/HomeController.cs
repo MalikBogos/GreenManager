@@ -1,8 +1,8 @@
-using GreenManager___ASP.NET_CORE.Models;
+using GreenManager_Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace GreenManager___ASP.NET_CORE.Controllers
+namespace GreenManager_Web.Controllers
 {
 	public class HomeController : Controller
 	{

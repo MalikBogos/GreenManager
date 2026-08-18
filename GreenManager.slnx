@@ -3,6 +3,6 @@
   <Project Path="GreenManager - MAUI/GreenManager - MAUI.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
-  <Project Path="GreenManager - WPF/GreenManager - WPF.csproj" Id="bdca20a9-8956-4e0c-b27e-cbd1eca9f0c6" />
+  <Project Path="GreenManager_WPF/GreenManager_WPF.csproj" />
   <Project Path="Models/Models.csproj" />
 </Solution>

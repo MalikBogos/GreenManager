@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace GreenManager___MAUI
+namespace GreenManager_App
 {
 	public partial class App : Application
 	{

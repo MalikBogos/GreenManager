@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace GreenManager___MAUI
+namespace GreenManager_App
 {
 	public static class MauiProgram
 	{

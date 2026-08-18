@@ -1,4 +1,4 @@
-﻿namespace GreenManager___MAUI
+﻿namespace GreenManager_App
 {
 	public partial class MainPage : ContentPage
 	{

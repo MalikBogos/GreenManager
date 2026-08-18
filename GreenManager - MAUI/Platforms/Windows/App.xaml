@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="GreenManager___MAUI.WinUI.App"
+    x:Class="GreenManager_App.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:GreenManager___MAUI.WinUI">
+    xmlns:local="using:GreenManager_App.WinUI">
 
 </maui:MauiWinUIApplication>

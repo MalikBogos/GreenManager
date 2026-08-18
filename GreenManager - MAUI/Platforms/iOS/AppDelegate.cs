@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace GreenManager___MAUI
+namespace GreenManager_App
 {
 	[Register("AppDelegate")]
 	public class AppDelegate : MauiUIApplicationDelegate

@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace GreenManager___MAUI
+namespace GreenManager_App
 {
 	public class Program
 	{

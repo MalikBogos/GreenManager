@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace GreenManager___MAUI
+namespace GreenManager_App
 {
 	[Application]
 	public class MainApplication : MauiApplication

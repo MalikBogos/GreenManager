@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="GreenManager - MAUI/GreenManager_App.csproj" />
+  <Project Path="GreenManager_App/GreenManager_App.csproj" />
   <Project Path="GreenManager_Web/GreenManager_Web.csproj" />
   <Project Path="GreenManager_WPF/GreenManager_WPF.csproj" />
   <Project Path="Models/Models.csproj" />

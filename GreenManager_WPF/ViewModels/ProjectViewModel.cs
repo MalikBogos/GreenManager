@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 using Microsoft.EntityFrameworkCore;
 using Models.Data;
 using Models.Entities;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace GreenManager___WPF.ViewModels
+namespace GreenManager_WPF.ViewModels
 {
 	public partial class ProjectViewModel : ObservableObject
 	{

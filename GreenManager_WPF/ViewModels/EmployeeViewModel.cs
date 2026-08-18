@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 using Microsoft.EntityFrameworkCore;
 
-namespace GreenManager___WPF.ViewModels
+namespace GreenManager_WPF.ViewModels
 {
 	public partial class EmployeeViewModel : ObservableObject
 	{

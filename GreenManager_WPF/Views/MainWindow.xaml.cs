@@ -1,10 +1,10 @@
-﻿using GreenManager___WPF.ViewModels;
+﻿using GreenManager_WPF.ViewModels;
 using Models.Entities;
 using System.Windows;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GreenManager___WPF.Views
+namespace GreenManager_WPF.Views
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

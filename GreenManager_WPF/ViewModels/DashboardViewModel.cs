@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 
-namespace GreenManager___WPF.ViewModels
+namespace GreenManager_WPF.ViewModels
 {
 	public partial class DashboardViewModel : ObservableObject
 	{

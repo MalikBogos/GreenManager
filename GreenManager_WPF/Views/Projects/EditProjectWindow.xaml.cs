@@ -1,4 +1,4 @@
-﻿using GreenManager___WPF.ViewModels;
+﻿using GreenManager_WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GreenManager___WPF.Views
+namespace GreenManager_WPF.Views
 {
 	/// <summary>
 	/// Interaction logic for EditProjectWindow.xaml

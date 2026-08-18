@@ -10,9 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GreenManager___WPF.ViewModels;
+using GreenManager_WPF.ViewModels;
 
-namespace GreenManager___WPF.Views
+namespace GreenManager_WPF.Views
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml

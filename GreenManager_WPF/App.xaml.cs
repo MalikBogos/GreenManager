@@ -7,13 +7,13 @@ using System.Windows;
 using System.Windows.Markup;
 using Models.Data;
 using Models.Entities;
-using GreenManager___WPF.ViewModels;
+using GreenManager_WPF.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 
-namespace GreenManager___WPF
+namespace GreenManager_WPF
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

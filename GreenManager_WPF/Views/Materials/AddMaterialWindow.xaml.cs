@@ -9,10 +9,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GreenManager___WPF.ViewModels;
+using GreenManager_WPF.ViewModels;
 using Models.Entities;
 
-namespace GreenManager___WPF.Views
+namespace GreenManager_WPF.Views
 {
 	/// <summary>
 	/// Interaction logic for AddMaterialWindow.xaml

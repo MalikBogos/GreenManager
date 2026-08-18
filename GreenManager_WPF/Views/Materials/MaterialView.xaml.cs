@@ -1,7 +1,7 @@
-﻿using GreenManager___WPF.ViewModels;
+﻿using GreenManager_WPF.ViewModels;
 using System.Windows.Controls;
 
-namespace GreenManager___WPF.Views
+namespace GreenManager_WPF.Views
 {
 	/// <summary>
 	/// Interaction logic for MaterialView.xaml

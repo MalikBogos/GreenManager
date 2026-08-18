@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GreenManager___WPF.ViewModels
+namespace GreenManager_WPF.ViewModels
 {
 	public partial class RegisterViewModel : ObservableObject
 	{

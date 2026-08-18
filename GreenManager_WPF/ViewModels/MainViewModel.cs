@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GreenManager___WPF.Views;
+using GreenManager_WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 using Models.Data;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace GreenManager___WPF.ViewModels
+namespace GreenManager_WPF.ViewModels
 {
 
 	public partial class MainViewModel : ObservableObject

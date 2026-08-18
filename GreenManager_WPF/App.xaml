@@ -1,7 +1,7 @@
-﻿<Application x:Class="GreenManager___WPF.App"
+﻿<Application x:Class="GreenManager_WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GreenManager___WPF">
+             xmlns:local="clr-namespace:GreenManager_WPF">
     <Application.Resources>
 
 		<Style x:Key="HeaderStyle" TargetType="TextBlock">

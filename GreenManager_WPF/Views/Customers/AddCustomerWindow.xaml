@@ -1,4 +1,4 @@
-﻿<Window x:Class="GreenManager___WPF.Views.AddCustomerWindow"
+﻿<Window x:Class="GreenManager_WPF.Views.AddCustomerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Nieuwe Klant Toevoegen" Height="700" Width="700"

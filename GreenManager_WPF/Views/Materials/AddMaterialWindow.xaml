@@ -1,4 +1,4 @@
-﻿<Window x:Class="GreenManager___WPF.Views.AddMaterialWindow"
+﻿<Window x:Class="GreenManager_WPF.Views.AddMaterialWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Nieuw Materiaal Toevoegen" Height="500" Width="400"

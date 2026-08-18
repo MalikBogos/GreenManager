@@ -1,4 +1,4 @@
-﻿<Window x:Class="GreenManager___WPF.Views.AddProjectWindow"
+﻿<Window x:Class="GreenManager_WPF.Views.AddProjectWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Nieuw Project / Offerte Aanmaken" Height="650" Width="500"

@@ -64,8 +64,8 @@ namespace GreenManager_Web
 			// Cookie-instelling
 			builder.Services.ConfigureApplicationCookie(options =>
 			{
-				options.LoginPath = "/Account/Login";
-				options.AccessDeniedPath = "/Account/AccessDenied";
+				options.LoginPath = "/Accounts/Login";
+				options.AccessDeniedPath = "/Accounts/AccessDenied";
 				options.ExpireTimeSpan = TimeSpan.FromDays(14);
 				options.SlidingExpiration = true;
 			});

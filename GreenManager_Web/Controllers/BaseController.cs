@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Models.Data;
@@ -7,6 +6,9 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers
 {
+	/// <summary>
+	/// Bedoeld als BaseController voor alle andere controllers
+	/// </summary>
 	public abstract class BaseController : Controller
 	{
 		protected readonly GreenManagerDbContext _context;

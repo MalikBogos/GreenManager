@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Data;
 
 namespace GreenManager_Web.Controllers
 {

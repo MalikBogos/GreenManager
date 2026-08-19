@@ -12,8 +12,8 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260818161140_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260819053615_initialcreate")]
+    partial class initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Data;
+using Microsoft.AspNetCore.Authorization;
 
+[Authorize(Policy = "EmployeeAccess")]
 public class MaterialsController : Controller
 {
     private readonly GreenManagerDbContext _context;
@@ -16,7 +18,9 @@ public class MaterialsController : Controller
     // GET: MATERIALS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Materials.ToListAsync());
+        var activeMaterials = await _context.Materials.Where(m => !m.IsDeleted).ToListAsync();
+
+        return View(activeMaterials);
     }
 
     // GET: MATERIALS/Details/5
@@ -110,8 +114,9 @@ public class MaterialsController : Controller
         return View(material);
     }
 
-    // GET: MATERIALS/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+	// GET: MATERIALS/Delete/5
+	[Authorize(Policy = "AdminOnly")]
+	public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
         {
@@ -131,14 +136,16 @@ public class MaterialsController : Controller
     // POST: MATERIALS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+	[Authorize(Policy = "AdminOnly")]
+	public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var material = await _context.Materials.FindAsync(id);
         if (material != null)
         {
-            //_context.Materials.Remove(material);
             material.IsDeleted = true;
             material.DeletedAt = DateTime.UtcNow;
+            material.DeletedReason = "Verwijderd voor administratieve redenen";
+            _context.Update(material);
         }
 
         await _context.SaveChangesAsync();

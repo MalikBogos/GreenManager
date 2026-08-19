@@ -6,6 +6,7 @@ using Models.Data;
 using Models.Entities;
 using Serilog;
 using System.Text;
+using GreenManager_Web.Middleware;
 
 namespace GreenManager_Web
 {
@@ -28,6 +29,7 @@ namespace GreenManager_Web
 			builder.Services.AddDbContext<GreenManagerDbContext>(options =>
 				options.UseSqlServer(connectionString));
 
+			// Wachtwoordinstellingen voor gebruikers
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.Password.RequireNonAlphanumeric = false;
@@ -59,7 +61,23 @@ namespace GreenManager_Web
 				};
 			});
 
-			builder.Services.AddAuthorization();
+			// Gebruikt voor beperking van toegang tot bepaalde rollen
+			builder.Services.AddAuthorization(options =>
+			{
+				// Enkel toegankelijk voor gebruikers met rol 'Admin'
+				options.AddPolicy("AdminOnly", policy =>
+				policy.RequireRole("Admin"));
+
+				// Toegankelijk voor zowel Admin als Employee
+				options.AddPolicy("EmployeeAccess", policy =>
+				policy.RequireRole("Admin", "Employee"));
+
+				// Toegankelijk voor alle rollen
+				options.AddPolicy("GuestAccess", policy =>
+				policy.RequireRole("Admin", "Employee", "Guest"));
+			});
+
+
 
 			// Cookie-instelling
 			builder.Services.ConfigureApplicationCookie(options =>
@@ -95,7 +113,6 @@ namespace GreenManager_Web
 			.AddViewLocalization()
 			.AddDataAnnotationsLocalization(options =>
 			{
-				// Vertel het systeem dat alle model-foutmeldingen uit jouw gedeelde bestand komen
 				options.DataAnnotationLocalizerProvider = (type, factory) =>
 					factory.Create(typeof(SharedResource));
 			});
@@ -145,7 +162,6 @@ namespace GreenManager_Web
 			app.MapRazorPages(); // scaffolding
 
 			// Middleware
-
 			app.Run();
 		}
 	}

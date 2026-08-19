@@ -1,119 +1,222 @@
 @model Models.Entities.Project
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = SR["EditProject"];
 }
 
-<h1>Edit</h1>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]: @Model.Name</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> @SR["BackToList"]
+        </a>
+    </div>
 
-<h4>Project</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <input asp-for="CustomerId" class="form-control" />
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Customer" class="control-label"></label>
-                <input asp-for="Customer" class="form-control" />
-                <span asp-validation-for="Customer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProjectAddress" class="control-label"></label>
-                <input asp-for="ProjectAddress" class="form-control" />
-                <span asp-validation-for="ProjectAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Budget" class="control-label"></label>
-                <input asp-for="Budget" class="form-control" />
-                <span asp-validation-for="Budget" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProjectEmployees" class="control-label"></label>
-                <input asp-for="ProjectEmployees" class="form-control" />
-                <span asp-validation-for="ProjectEmployees" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProjectMaterials" class="control-label"></label>
-                <input asp-for="ProjectMaterials" class="form-control" />
-                <span asp-validation-for="ProjectMaterials" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkLogs" class="control-label"></label>
-                <input asp-for="WorkLogs" class="form-control" />
-                <span asp-validation-for="WorkLogs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedReason" class="control-label"></label>
-                <input asp-for="DeletedReason" class="form-control" />
-                <span asp-validation-for="DeletedReason" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <!-- ALGEMEEN -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-dark text-white fw-bold">
+            @SR["General"] &amp; Status
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CustomerId" />
+                <input type="hidden" asp-for="CreatedAt" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="Name" class="form-label fw-bold">@SR["ProjectName"] *</label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold text-muted">@SR["Customer"]</label>
+                        <select asp-items="ViewBag.Customers" class="form-select bg-light" disabled></select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="Status" class="form-label fw-bold">@SR["Status"]</label>
+                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<Models.Enums.ProjectStatus>()" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="StartDate" class="form-label fw-bold">@SR["StartDate"] *</label>
+                        <input asp-for="StartDate" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="EndDate" class="form-label fw-bold">@SR["EndDate"]</label>
+                        <input asp-for="EndDate" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="Budget" class="form-label fw-bold">@SR["Budget"]</label>
+                        <div class="input-group">
+                            <span class="input-group-text">€</span>
+                            <input asp-for="Budget" type="number" step="0.01" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="ProjectAddress" class="form-label fw-bold">@SR["ProjectAddress"]</label>
+                        <input asp-for="ProjectAddress" class="form-control" />
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="Description" class="form-label fw-bold">@SR["Description"]</label>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label for="Notes" class="form-label fw-bold">@SR["Notes"]</label>
+                        <textarea asp-for="Notes" class="form-control bg-light" rows="2"></textarea>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-success px-4">@SR["Save"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WERKNEMERS PLANNING -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-primary text-white fw-bold">
+            @SR["Employees"] (@SR["Planning"])
+        </div>
+        <div class="card-body">
+            <!-- Inline form om toe te voegen -->
+            <form asp-action="AddProjectEmployee" method="post" class="row mb-3 align-items-end">
+                <input type="hidden" name="ProjectId" value="@Model.Id" />
+                <div class="col-md-4">
+                    <label class="fw-bold mb-1">@SR["Employee"]</label>
+                    <select name="EmployeeId" class="form-select" asp-items="ViewBag.Employees" required></select>
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-bold mb-1">@SR["PlannedDate"]</label>
+                    <input type="date" name="PlannedDate" class="form-control" required />
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-bold mb-1">@SR["EstimatedHours"]</label>
+                    <input type="number" step="0.5" name="EstimatedHours" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">@SR["Add"]</button>
+                </div>
+            </form>
+
+            <table class="table table-striped table-hover border">
+                <thead><tr><th>@SR["Employee"]</th><th>@SR["PlannedDate"]</th><th>@SR["EstimatedHours"]</th><th class="text-end">@SR["Actions"]</th></tr></thead>
+                <tbody>
+                    @foreach (var pe in Model.ProjectEmployees.Where(pe => !pe.IsDeleted))
+                    {
+                        <tr>
+                            <td>@pe.Employee?.User?.FirstName @pe.Employee?.User?.LastName</td>
+                            <td>@pe.PlannedDate.ToString("dd-MM-yyyy")</td>
+                            <td>@pe.EstimatedHours u</td>
+                            <td class="text-end">
+                                <form asp-action="DeleteSubItem" method="post">
+                                    <input type="hidden" name="id" value="@pe.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="Employee" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MATERIALEN -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-warning text-dark fw-bold">
+            @SR["Materials"]
+        </div>
+        <div class="card-body">
+            <form asp-action="AddProjectMaterial" method="post" class="row mb-3 align-items-end">
+                <input type="hidden" name="ProjectId" value="@Model.Id" />
+                <div class="col-md-5">
+                    <label class="fw-bold mb-1">@SR["Material"]</label>
+                    <select name="MaterialId" class="form-select" asp-items="ViewBag.Materials" required></select>
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold mb-1">@SR["Quantity"]</label>
+                    <input type="number" step="0.1" name="Quantity" class="form-control" required />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">@SR["Add"]</button>
+                </div>
+            </form>
+
+            <table class="table table-striped table-hover border">
+                <thead><tr><th>@SR["Material"]</th><th>@SR["Quantity"]</th><th class="text-end">@SR["Actions"]</th></tr></thead>
+                <tbody>
+                    @foreach (var pm in Model.ProjectMaterials.Where(pm => !pm.IsDeleted))
+                    {
+                        <tr>
+                            <td>@pm.Material?.Name</td>
+                            <td>@pm.Quantity @pm.Material?.Unit</td>
+                            <td class="text-end">
+                                <form asp-action="DeleteSubItem" method="post">
+                                    <input type="hidden" name="id" value="@pm.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="Material" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- WERKUREN REGISTRATIE -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white fw-bold">
+            @SR["WorkLogs"]
+        </div>
+        <div class="card-body">
+            <form asp-action="AddWorkLog" method="post" class="row mb-3 align-items-end">
+                <input type="hidden" name="ProjectId" value="@Model.Id" />
+                <div class="col-md-3">
+                    <label class="fw-bold mb-1">@SR["Employee"]</label>
+                    <select name="EmployeeId" class="form-select" asp-items="ViewBag.Employees" required></select>
+                </div>
+                <div class="col-md-2">
+                    <label class="fw-bold mb-1">@SR["Date"]</label>
+                    <input type="date" name="WorkDate" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label class="fw-bold mb-1">@SR["HoursWorked"]</label>
+                    <input type="number" step="0.25" name="HoursWorked" class="form-control" required />
+                </div>
+                <div class="col-md-3">
+                    <label class="fw-bold mb-1">@SR["Description"]</label>
+                    <input type="text" name="TaskDescription" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100 fw-bold">@SR["Add"]</button>
+                </div>
+            </form>
+
+            <table class="table table-striped table-hover border">
+                <thead><tr><th>@SR["Date"]</th><th>@SR["Employee"]</th><th>@SR["Description"]</th><th>@SR["HoursWorked"]</th><th>@SR["LaborCost"]</th><th class="text-end">@SR["Actions"]</th></tr></thead>
+                <tbody>
+                    @foreach (var wl in Model.WorkLogs.Where(wl => !wl.IsDeleted))
+                    {
+                        <tr>
+                            <td>@wl.WorkDate.ToString("dd-MM-yyyy")</td>
+                            <td>@wl.Employee?.User?.LastName</td>
+                            <td>@wl.TaskDescription</td>
+                            <td>@wl.HoursWorked u</td>
+                            <td>€@wl.LaborCost</td>
+                            <td class="text-end">
+                                <form asp-action="DeleteSubItem" method="post">
+                                    <input type="hidden" name="id" value="@wl.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="WorkLog" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

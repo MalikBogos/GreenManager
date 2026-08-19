@@ -5,6 +5,7 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers
 {
+	// Controller die wordt gebruikt voor het aanmaken van accounts en login, /Accounts/Login en /Accounts/Register
 	public class AccountsController : Controller
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
@@ -34,6 +35,15 @@ namespace GreenManager_Web.Controllers
 
 			if (ModelState.IsValid)
 			{
+				var user = await _userManager.FindByEmailAsync(model.Email);
+
+				// Controleert of de gebruiker ongeldig is zodat hij niet kan inloggegn
+				if (user == null || user.IsBlocked || user.IsDeleted)
+				{
+					ModelState.AddModelError(string.Empty, "Ongeldige inloggegevens of account geblokkeerd");
+					return View(model);
+				}
+
 				// Resultaat (of de signin succesvol was ( of niet)
 				var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 

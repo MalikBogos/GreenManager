@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Data;
 
-[Authorize]
+[Authorize(Policy = "EmployeeAccess")]
 public class CustomersController : Controller
 {
     private readonly GreenManagerDbContext _context;
@@ -17,7 +17,9 @@ public class CustomersController : Controller
     // GET: CUSTOMERS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Customers.ToListAsync());
+        var activeCustomers = await _context.Customers.Where(c => !c.IsDeleted).ToListAsync();
+
+        return View(activeCustomers);
     }
 
     // GET: CUSTOMERS/Details/5
@@ -61,6 +63,8 @@ public class CustomersController : Controller
     }
 
     // GET: CUSTOMERS/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -111,8 +115,9 @@ public class CustomersController : Controller
         return View(customer);
     }
 
-    // GET: CUSTOMERS/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+	// GET: CUSTOMERS/Delete/5
+	[Authorize(Policy = "AdminOnly")]
+	public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
         {
@@ -132,12 +137,16 @@ public class CustomersController : Controller
     // POST: CUSTOMERS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+	[Authorize(Policy = "AdminOnly")]
+	public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var customer = await _context.Customers.FindAsync(id);
         if (customer != null)
         {
-            _context.Customers.Remove(customer);
+            customer.IsDeleted = true;
+            customer.DeletedAt = DateTime.UtcNow;
+            customer.DeletedReason = "Verwijderd voor administratieve redenen";
+            _context.Update(customer);
         }
 
         await _context.SaveChangesAsync();

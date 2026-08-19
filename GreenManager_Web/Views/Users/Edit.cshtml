@@ -1,0 +1,57 @@
+﻿@model GreenManager_Web.Models.UserViewModel
+
+@{
+    ViewData["Title"] = SR["EditUser"];
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]: @Model.FirstName @Model.LastName</h2>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label for="Email" class="form-label fw-bold">@SR["Email"]</label>
+                    <input asp-for="Email" class="form-control bg-light" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="FirstName" class="form-label fw-bold">@SR["FirstName"]</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="LastName" class="form-label fw-bold">@SR["LastName"]</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Role" class="form-label fw-bold">@SR["Role"]</label>
+                    <select asp-for="Role" asp-items="ViewBag.Roles" class="form-select"></select>
+                </div>
+
+                <div class="mb-4 form-check">
+                    <input asp-for="IsBlocked" class="form-check-input" />
+                    <label for="IsBlocked" class="form-check-label text-danger fw-bold">
+                        @SR["IsBlocked"]
+                    </label>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-success">@SR["Save"]</button>
+                    <a asp-action="Index" class="btn btn-secondary">@SR["Cancel"]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

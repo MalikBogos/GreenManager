@@ -27,4 +27,9 @@
 	<data name="BtnCancel" xml:space="preserve"><value>Annuleren</value></data>
 	<data name="BtnDelete" xml:space="preserve"><value>Verwijderen</value></data>
 	<data name="BtnEdit" xml:space="preserve"><value>Bewerken</value></data>
+	<data name="FirstName" xml:space="preserve"><value>Voornaam</value></data>
+	<data name="LastName" xml:space="preserve"><value>Achternaam</value></data>
+	<data name="Email" xml:space="preserve"><value>Emailadres</value></data>
+	<data name="Role" xml:space="preserve"><value>Rol</value></data>
+	<data name="IsBlocked" xml:space="preserve"><value>Geblokkerd</value></data>
 </root>

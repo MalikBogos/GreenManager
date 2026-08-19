@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GreenManager_Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GreenManager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,10 +35,39 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@SR["NavPrivacy"]</a>
                         </li>
 
+                        @if (User.IsInRole("Admin") || User.IsInRole("Employee")) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Customers" asp-action="Index">@SR["NavCustomers"]</a>
+                            </li>
+                            <li>
+                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Projects" asp-action="Index">@SR["NavProjects"]</a>
+                            </li>
+                            <li>
+                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Materials" asp-action="Index">@SR["NavMaterials"]</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Employees" asp-action="Index">@SR["NavEmployees"]</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Gebruikersbeheer</a>
+                            </li>
+                        }
+
+
+                        <partial name="_LoginPartial" />
+
                         <!-- De drie taalknoppen -->
                         <li class="nav-item d-flex align-items-center ms-auto">
                             <form asp-controller="Language" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" method="post" class="m-0">
-                                <button type="submit" name="culture" value="nl" class="btn btn-sm @(currentCulture == "nl" ? "btn-success" : "btn-outline-success") mx-1">NL</button>
+                                <button type="submit" name="culture" value="nl-BE" class="btn btn-sm @(currentCulture == "nl" ? "btn-success" : "btn-outline-success") mx-1">NL</button>
                                 <button type="submit" name="culture" value="en" class="btn btn-sm @(currentCulture == "en" ? "btn-primary" : "btn-outline-primary") mx-1">EN</button>
                                 <button type="submit" name="culture" value="fr" class="btn btn-sm @(currentCulture == "fr" ? "btn-danger" : "btn-outline-danger") mx-1">FR</button>
                             </form>

@@ -1,132 +1,111 @@
-@model Models.Entities.Employee
+@model GreenManager_Web.Models.EmployeeCreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = SR["AddEmployee"];
 }
 
-<h1>Create</h1>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> @SR["BackToList"]
+        </a>
+    </div>
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-success text-white fw-bold">
+            Algemene & HR Informatie
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 fw-bold"></div>
 
-            <div class="form-group">
-                <label asp-for="ApplicationUserId" class="control-label"></label>
-                <input asp-for="ApplicationUserId" class="form-control" />
-                <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
-            </div>
+                <div class="row">
+                    <!-- ReadOnly gegenereerd EmployeeNumber -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold text-muted">@SR["EmployeeNumber"]</label>
+                        <input asp-for="EmployeeNumber" class="form-control bg-light" readonly />
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="User" class="control-label"></label>
-                <input asp-for="User" class="form-control" />
-                <span asp-validation-for="User" class="text-danger"></span>
-            </div>
+                    <div class="col-12 mt-2 mb-2">
+                        <h5 class="fw-bold border-bottom pb-2">Identiteit & Inlogaccount</h5>
+                        <small class="text-muted">Deze werknemer krijgt automatisch het wachtwoord <b>Welcome123!</b></small>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="FirstName" class="form-label fw-bold">@SR["FirstName"] *</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="LastName" class="form-label fw-bold">@SR["LastName"] *</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="Email" class="form-label fw-bold">@SR["Email"] *</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="EmployeeNumber" class="control-label"></label>
-                <input asp-for="EmployeeNumber" class="form-control" />
-                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
-            </div>
+                    <div class="col-12 mt-3 mb-2">
+                        <h5 class="fw-bold border-bottom pb-2">Contractgegevens</h5>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="JobTitle" class="form-label fw-bold">@SR["JobTitle"] *</label>
+                        <input asp-for="JobTitle" class="form-control" />
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="HourlyWage" class="form-label fw-bold">@SR["HourlyWage"] *</label>
+                        <div class="input-group">
+                            <span class="input-group-text">€</span>
+                            <input asp-for="HourlyWage" type="number" step="0.01" class="form-control" />
+                        </div>
+                        <span asp-validation-for="HourlyWage" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="HourlyWage" class="control-label"></label>
-                <input asp-for="HourlyWage" class="form-control" />
-                <span asp-validation-for="HourlyWage" class="text-danger"></span>
-            </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="HireDate" class="form-label fw-bold">@SR["HireDate"] *</label>
+                        <input asp-for="HireDate" type="date" class="form-control" />
+                        <span asp-validation-for="HireDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="DateOfBirth" class="form-label fw-bold">@SR["DateOfBirth"]</label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="HireDate" class="control-label"></label>
-                <input asp-for="HireDate" class="form-control" />
-                <span asp-validation-for="HireDate" class="text-danger"></span>
-            </div>
+                    <div class="col-12 mt-3 mb-2">
+                        <h5 class="fw-bold border-bottom pb-2">@SR["Address"]</h5>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="Street" class="form-label fw-bold">@SR["Street"]</label>
+                        <input asp-for="Street" class="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="PostalCode" class="form-label fw-bold">@SR["PostalCode"]</label>
+                        <input asp-for="PostalCode" class="form-control" />
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label for="City" class="form-label fw-bold">@SR["City"]</label>
+                        <input asp-for="City" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
+                    <div class="col-12 mb-4 mt-2">
+                        <label for="Notes" class="form-label fw-bold">@SR["Notes"]</label>
+                        <textarea asp-for="Notes" class="form-control bg-light" rows="3"></textarea>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="JobTitle" class="control-label"></label>
-                <input asp-for="JobTitle" class="form-control" />
-                <span asp-validation-for="JobTitle" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ProjectEmployees" class="control-label"></label>
-                <input asp-for="ProjectEmployees" class="form-control" />
-                <span asp-validation-for="ProjectEmployees" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="WorkLogs" class="control-label"></label>
-                <input asp-for="WorkLogs" class="form-control" />
-                <span asp-validation-for="WorkLogs" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeletedReason" class="control-label"></label>
-                <input asp-for="DeletedReason" class="form-control" />
-                <span asp-validation-for="DeletedReason" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    <div class="col-12 text-end border-top pt-3">
+                        <button type="submit" class="btn btn-success px-4 fw-bold">@SR["Save"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

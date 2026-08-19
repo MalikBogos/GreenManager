@@ -1,137 +1,63 @@
 @model IEnumerable<Models.Entities.Employee>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = SR["NavEmployees"];
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]</h2>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> @SR["AddEmployee"]
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HourlyWage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HireDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Street)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectEmployees)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkLogs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedReason)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.ApplicationUserId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.User)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.EmployeeNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.HourlyWage)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.HireDate)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.JobTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Street)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.PostalCode)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ProjectEmployees)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.WorkLogs)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.DeletedReason)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.DeletedAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>@SR["EmployeeNumber"]</th>
+                            <th>@SR["FirstName"]</th>
+                            <th>@SR["LastName"]</th>
+                            <th>@SR["HourlyWage"]</th>
+                            <th>@SR["HireDate"]</th>
+                            <th>@SR["DateOfBirth"]</th>
+                            <th>@SR["JobTitle"]</th>
+                            <th>@SR["Street"]</th>
+                            <th>@SR["PostalCode"]</th>
+                            <th>@SR["City"]</th>
+                            <th>@SR["Notes"]</th>
+                            <th class="text-end pe-3">@SR["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="align-middle"><span class="badge bg-secondary">@item.EmployeeNumber</span></td>
+                                <!-- item.User linkt naar de Identity User voor de namen -->
+                                <td class="align-middle">@item.User?.FirstName</td>
+                                <td class="align-middle fw-bold">@item.User?.LastName</td>
+                                <td class="align-middle">@item.HourlyWage</td>
+                                <td class="align-middle fw-bold">@item.HireDate.ToString("dd-MM-yyyy")</td>
+                                <td class="align-middle fw-bold">@item.DateOfBirth?.ToString("dd-MM-yyyy")</td>
+                                <td class="align-middle">@item.JobTitle</td>
+                                <td class="align-middle">@item.Street</td>
+                                <td class="align-middle">@item.PostalCode</td>
+                                <td class="align-middle">@item.City</td>
+                                <td class="align-middle">@item.Notes</td>
+                                <td class="text-end align-middle pe-3">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1">@SR["Edit"]</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary me-1">@SR["Details"]</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">@SR["Delete"]</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

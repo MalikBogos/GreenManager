@@ -1,93 +1,91 @@
-﻿
-@{
+﻿@{
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-    // We bepalen op welke pagina de gebruiker nu is, zodat we hem na het wisselen van taal niet terugsturen naar het startscherm.
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
 }
-
 <!DOCTYPE html>
 <html lang="@currentCulture">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GreenManager_Web</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - GreenManager</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GreenManager_Web.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <!-- Simpele, effen groene navigatiebalk -->
+        <nav class="navbar navbar-expand-sm navbar-dark bg-success mb-4">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GreenManager</a>
+                <!-- Links: Logo / Brand -->
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">GreenManager</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@SR["NavHome"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@SR["NavPrivacy"]</a>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+
+                    <!-- CENTRAAL: Hoofdmenu (Dankzij mx-auto) -->
+                    <ul class="navbar-nav mx-auto text-center mt-2 mt-sm-0">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">@SR["NavHome"]</a>
                         </li>
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Employee")) {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Customers" asp-action="Index">@SR["NavCustomers"]</a>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item px-2">
+                                <a class="nav-link" asp-controller="Customers" asp-action="Index">@SR["NavCustomers"]</a>
                             </li>
-                            <li>
-                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Projects" asp-action="Index">@SR["NavProjects"]</a>
+                            <li class="nav-item px-2">
+                                <a class="nav-link" asp-controller="Projects" asp-action="Index">@SR["NavProjects"]</a>
                             </li>
-                            <li>
-                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Materials" asp-action="Index">@SR["NavMaterials"]</a>
+                            <li class="nav-item px-2">
+                                <a class="nav-link" asp-controller="Materials" asp-action="Index">@SR["NavMaterials"]</a>
                             </li>
                         }
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <li>
-                                <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Employees" asp-action="Index">@SR["NavEmployees"]</a>
+                            <li class="nav-item px-2">
+                                <a class="nav-link" asp-controller="Employees" asp-action="Index">@SR["NavEmployees"]</a>
+                            </li>
+                            <li class="nav-item px-2">
+                                <a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikersbeheer</a>
                             </li>
                         }
+                    </ul>
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Gebruikersbeheer</a>
-                            </li>
-                        }
-
-
+                    <!-- RECHTS: Login en Talen -->
+                    <div class="d-flex align-items-center justify-content-center mt-3 mt-sm-0">
                         <partial name="_LoginPartial" />
 
-                        <!-- De drie taalknoppen -->
-                        <li class="nav-item d-flex align-items-center ms-auto">
-                            <form asp-controller="Language" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" method="post" class="m-0">
-                                <button type="submit" name="culture" value="nl-BE" class="btn btn-sm @(currentCulture == "nl" ? "btn-success" : "btn-outline-success") mx-1">NL</button>
-                                <button type="submit" name="culture" value="en" class="btn btn-sm @(currentCulture == "en" ? "btn-primary" : "btn-outline-primary") mx-1">EN</button>
-                                <button type="submit" name="culture" value="fr" class="btn btn-sm @(currentCulture == "fr" ? "btn-danger" : "btn-outline-danger") mx-1">FR</button>
-                            </form>
-                        </li>
-                    </ul>
+                        <!-- Simpele taalknoppen -->
+                        <form asp-controller="Language" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" method="post" class="m-0 ms-4 d-flex">
+                            <button type="submit" name="culture" value="nl-BE" class="btn btn-sm @(currentCulture == "nl" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">NL</button>
+                            <button type="submit" name="culture" value="en" class="btn btn-sm @(currentCulture == "en" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">EN</button>
+                            <button type="submit" name="culture" value="fr" class="btn btn-sm @(currentCulture == "fr" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">FR</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - GreenManager_Web - @SR["FooterCopyright"]
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container text-center py-3">
+            &copy; 2026 - GreenManager Web - <a asp-controller="Home" asp-action="Privacy">@SR["NavPrivacy"]</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

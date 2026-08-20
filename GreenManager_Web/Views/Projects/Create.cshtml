@@ -1,132 +1,89 @@
-@model Models.Entities.Project
+@model GreenManager_Web.Models.ProjectCreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = SR["AddProject"];
 }
 
-<h1>Create</h1>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> @SR["BackToList"]
+        </a>
+    </div>
 
-<h4>Project</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-success text-white fw-bold">
+            Project &amp; Offerte Gegevens
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 fw-bold"></div>
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+                <div class="row">
+                    <!-- Projectnaam en Klant -->
+                    <div class="col-md-6 mb-3">
+                        <label for="Name" class="form-label fw-bold">@SR["ProjectName"] *</label>
+                        <input asp-for="Name" class="form-control" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="CustomerId" class="form-label fw-bold">@SR["Customer"] *</label>
+                        <select asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-select" required>
+                            <option value="">-- Selecteer een klant --</option>
+                        </select>
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+                    <!-- Status, Datums en Budget -->
+                    <div class="col-md-4 mb-3">
+                        <label for="Status" class="form-label fw-bold">@SR["Status"]</label>
+                        <!-- Genereert automatisch de ProjectStatus Enum -->
+                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<Models.Enums.ProjectStatus>()" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="StartDate" class="form-label fw-bold">@SR["StartDate"] *</label>
+                        <input asp-for="StartDate" type="date" class="form-control" required />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="EndDate" class="form-label fw-bold">@SR["EndDate"]</label>
+                        <input asp-for="EndDate" type="date" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="Budget" class="form-label fw-bold">@SR["Budget"]</label>
+                        <div class="input-group">
+                            <span class="input-group-text">€</span>
+                            <input asp-for="Budget" type="number" step="0.01" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="ProjectAddress" class="form-label fw-bold">@SR["ProjectAddress"]</label>
+                        <input asp-for="ProjectAddress" class="form-control" />
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
+                    <!-- Tekstvakken -->
+                    <div class="col-12 mb-3">
+                        <label for="Description" class="form-label fw-bold">@SR["Description"]</label>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label for="Notes" class="form-label fw-bold">@SR["Notes"]</label>
+                        <textarea asp-for="Notes" class="form-control bg-light" rows="2"></textarea>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <input asp-for="CustomerId" class="form-control" />
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Customer" class="control-label"></label>
-                <input asp-for="Customer" class="form-control" />
-                <span asp-validation-for="Customer" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ProjectAddress" class="control-label"></label>
-                <input asp-for="ProjectAddress" class="form-control" />
-                <span asp-validation-for="ProjectAddress" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Budget" class="control-label"></label>
-                <input asp-for="Budget" class="form-control" />
-                <span asp-validation-for="Budget" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ProjectEmployees" class="control-label"></label>
-                <input asp-for="ProjectEmployees" class="form-control" />
-                <span asp-validation-for="ProjectEmployees" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ProjectMaterials" class="control-label"></label>
-                <input asp-for="ProjectMaterials" class="form-control" />
-                <span asp-validation-for="ProjectMaterials" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="WorkLogs" class="control-label"></label>
-                <input asp-for="WorkLogs" class="form-control" />
-                <span asp-validation-for="WorkLogs" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeletedReason" class="control-label"></label>
-                <input asp-for="DeletedReason" class="form-control" />
-                <span asp-validation-for="DeletedReason" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    <div class="col-12 text-end border-top pt-3">
+                        <button type="submit" class="btn btn-success px-4 fw-bold">@SR["Save"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

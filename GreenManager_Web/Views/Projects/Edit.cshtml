@@ -1,5 +1,4 @@
-@model Models.Entities.Project
-
+@model GreenManager_Web.Models.ProjectEditViewModel
 @{
     ViewData["Title"] = SR["EditProject"];
 }
@@ -12,7 +11,7 @@
         </a>
     </div>
 
-    <!-- ALGEMEEN -->
+    <!-- Projectdetails -->
     <div class="card shadow-sm mb-4 border-0">
         <div class="card-header bg-dark text-white fw-bold">
             @SR["General"] &amp; Status
@@ -71,7 +70,7 @@
         </div>
     </div>
 
-    <!-- WERKNEMERS PLANNING -->
+    <!-- Planning -->
     <div class="card shadow-sm mb-4 border-0">
         <div class="card-header bg-primary text-white fw-bold">
             @SR["Employees"] (@SR["Planning"])
@@ -119,7 +118,7 @@
         </div>
     </div>
 
-    <!-- MATERIALEN -->
+    <!-- Materiaal -->
     <div class="card shadow-sm mb-4 border-0">
         <div class="card-header bg-warning text-dark fw-bold">
             @SR["Materials"]
@@ -161,7 +160,7 @@
         </div>
     </div>
 
-    <!-- WERKUREN REGISTRATIE -->
+    <!-- Worklogs -->
     <div class="card shadow-sm border-0">
         <div class="card-header bg-success text-white fw-bold">
             @SR["WorkLogs"]
@@ -179,7 +178,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="fw-bold mb-1">@SR["HoursWorked"]</label>
-                    <input type="number" step="0.25" name="HoursWorked" class="form-control" required />
+                    <input type="number" step="1" name="HoursWorked" class="form-control" required />
                 </div>
                 <div class="col-md-3">
                     <label class="fw-bold mb-1">@SR["Description"]</label>

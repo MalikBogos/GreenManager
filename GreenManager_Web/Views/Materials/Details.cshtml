@@ -1,101 +1,35 @@
 @model Models.Entities.Material
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = SR["Details"];
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Material</h4>
+<div class="container mt-4">
+    <h2>@ViewData["Title"]: @Model.Name</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+
+    <dl class="row mt-4">
+        <dt class="col-sm-3 fw-bold">@SR["Name"]</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Description"]</dt>
+        <dd class="col-sm-9">@(Model.Description ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Unit"]</dt>
+        <dd class="col-sm-9">@(Model.Unit ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["PurchasePrice"]</dt>
+        <dd class="col-sm-9">€@Model.PurchasePrice.ToString("G")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["StockQuantity"]</dt>
+        <dd class="col-sm-9">@Model.StockQuantity @Model.Unit</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Notes"]</dt>
+        <dd class="col-sm-9">@(Model.Notes ?? "-")</dd>
     </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchasePrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchasePrice)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StockQuantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StockQuantity)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectMaterials)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectMaterials)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedReason)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedReason)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <div class="mt-4 mb-5">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">@SR["BtnEdit"]</a>
+        <a asp-action="Index" class="btn btn-secondary">@SR["BackToList"]</a>
+    </div>
 </div>

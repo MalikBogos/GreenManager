@@ -1,143 +1,56 @@
 @model Models.Entities.Employee
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = SR["Details"];
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Employee</h4>
+<div class="container mt-4">
+    <h2>@ViewData["Title"]: @Model.User?.FirstName @Model.User?.LastName</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>
+
+    <dl class="row mt-4">
+        <dt class="col-sm-3 fw-bold">@SR["EmployeeNumber"]</dt>
+        <dd class="col-sm-9">@Model.EmployeeNumber</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["FirstName"]</dt>
+        <dd class="col-sm-9">@Model.User?.FirstName</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["LastName"]</dt>
+        <dd class="col-sm-9">@Model.User?.LastName</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Email"]</dt>
+        <dd class="col-sm-9">@Model.User?.Email</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["PhoneNumber"]</dt>
+        <dd class="col-sm-9">@(Model.User?.PhoneNumber ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["JobTitle"]</dt>
+        <dd class="col-sm-9">@Model.JobTitle</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["HourlyWage"]</dt>
+        <dd class="col-sm-9">€@Model.HourlyWage.ToString("G")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["HireDate"]</dt>
+        <dd class="col-sm-9">@Model.HireDate.ToString("dd-MM-yyyy")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["DateOfBirth"]</dt>
+        <dd class="col-sm-9">@(Model.DateOfBirth?.ToString("dd-MM-yyyy") ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Street"]</dt>
+        <dd class="col-sm-9">@(Model.Street ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["PostalCode"]</dt>
+        <dd class="col-sm-9">@(Model.PostalCode ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["City"]</dt>
+        <dd class="col-sm-9">@(Model.City ?? "-")</dd>
+
+        <dt class="col-sm-3 fw-bold">@SR["Notes"]</dt>
+        <dd class="col-sm-9">@(Model.Notes ?? "-")</dd>
     </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeeNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmployeeNumber)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HourlyWage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HourlyWage)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HireDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HireDate)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JobTitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JobTitle)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectEmployees)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectEmployees)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkLogs)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkLogs)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedReason)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedReason)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <div class="mt-4 mb-5">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">@SR["BtnEdit"]</a>
+        <a asp-action="Index" class="btn btn-secondary">@SR["BackToList"]</a>
+    </div>
 </div>

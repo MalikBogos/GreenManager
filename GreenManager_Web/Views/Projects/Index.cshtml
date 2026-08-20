@@ -6,56 +6,41 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]</h2>
-        <a asp-action="Create" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> @SR["AddProject"]
-        </a>
+        <h2>@ViewData["Title"]</h2>
+        <a asp-action="Create" class="btn btn-success">@SR["AddProject"]</a>
     </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>@SR["ProjectName"]</th>
-                            <th>@SR["Description"]</th>
-                            <th>@SR["StartDate"]</th>
-                            <th>@SR["EndDate"]</th>
-                            <th>@SR["Status"]</th>
-                            <th>@SR["Customer"]</th>
-                            <th>@SR["ProjectAddress"]</th>
-                            <th>@SR["Budget"]</th>
-                            <th>@SR["Notes"]</th>
-                            <th class="text-end pe-3">@SR["Actions"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <!-- item.Customer is beschikbaar via Entity Framework navigatie -->
-                                <td class="align-middle fw-bold">@item.Name</td>
-                                <td class="align-middle fw-bold">@item.Description</td>
-                                <td class="align-middle">@item.StartDate.ToString("dd-MM-yyyy")</td>
-                                <td class="align-middle">@item.EndDate?.ToString("dd-MM-yyyy")</td>
-                                <td class="align-middle">
-                                    <span class="badge bg-info text-dark">@item.Status</span>
-                                </td>
-                                <td class="align-middle">@item.Customer?.LastName</td>
-                                <td class="align-middle">@item.ProjectAddress</td>
-                                <td class="align-middle">@item.Budget</td>
-                                <td class="align-middle">@item.Notes</td>
-                                <td class="text-end align-middle pe-3">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1">@SR["Edit"]</a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary me-1">@SR["Details"]</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">@SR["Delete"]</a>
-                                </td>
-                            </tr>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>@SR["ProjectName"]</th>
+                <th>@SR["Customer"]</th>
+                <th>@SR["Status"]</th>
+                <th>@SR["StartDate"]</th>
+                <th>@SR["EndDate"]</th>
+                <th>@SR["Budget"]</th>
+                <th>@SR["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.Name</td>
+                    <td>@item.Customer?.LastName</td>
+                    <td><span class="badge bg-secondary">@item.Status</span></td>
+                    <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
+                    <td>@(item.EndDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                    <td>€@(item.Budget?.ToString("G") ?? "-")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">@SR["BtnEdit"]</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">@SR["Details"]</a>
+                        @if(User.IsInRole("Admin")){
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">@SR["BtnDelete"]</a>
                         }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

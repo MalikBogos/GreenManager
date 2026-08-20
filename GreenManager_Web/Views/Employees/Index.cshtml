@@ -6,58 +6,49 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="h2 text-dark fw-bold">@ViewData["Title"]</h2>
-        <a asp-action="Create" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> @SR["AddEmployee"]
-        </a>
+        <h2>@ViewData["Title"]</h2>
+        <a asp-action="Create" class="btn btn-success">@SR["AddEmployee"]</a>
     </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>@SR["EmployeeNumber"]</th>
-                            <th>@SR["FirstName"]</th>
-                            <th>@SR["LastName"]</th>
-                            <th>@SR["HourlyWage"]</th>
-                            <th>@SR["HireDate"]</th>
-                            <th>@SR["DateOfBirth"]</th>
-                            <th>@SR["JobTitle"]</th>
-                            <th>@SR["Street"]</th>
-                            <th>@SR["PostalCode"]</th>
-                            <th>@SR["City"]</th>
-                            <th>@SR["Notes"]</th>
-                            <th class="text-end pe-3">@SR["Actions"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td class="align-middle"><span class="badge bg-secondary">@item.EmployeeNumber</span></td>
-                                <!-- item.User linkt naar de Identity User voor de namen -->
-                                <td class="align-middle">@item.User?.FirstName</td>
-                                <td class="align-middle fw-bold">@item.User?.LastName</td>
-                                <td class="align-middle">@item.HourlyWage</td>
-                                <td class="align-middle fw-bold">@item.HireDate.ToString("dd-MM-yyyy")</td>
-                                <td class="align-middle fw-bold">@item.DateOfBirth?.ToString("dd-MM-yyyy")</td>
-                                <td class="align-middle">@item.JobTitle</td>
-                                <td class="align-middle">@item.Street</td>
-                                <td class="align-middle">@item.PostalCode</td>
-                                <td class="align-middle">@item.City</td>
-                                <td class="align-middle">@item.Notes</td>
-                                <td class="text-end align-middle pe-3">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1">@SR["Edit"]</a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary me-1">@SR["Details"]</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">@SR["Delete"]</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>@SR["EmployeeNumber"]</th>
+                <th>@SR["FirstName"]</th>
+                <th>@SR["LastName"]</th>
+                <th>@SR["JobTitle"]</th>
+                <th>@SR["HourlyWage"]</th>
+                <th>@SR["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">
+                        Geen werknemers gevonden in het systeem.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.EmployeeNumber</td>
+                        <!-- Via Entity Framework relatie ophalen we de gegevens uit ApplicationUser -->
+                        <td>@item.User?.FirstName</td>
+                        <td>@item.User?.LastName</td>
+                        <td>@item.JobTitle</td>
+                        <td>€@item.HourlyWage.ToString("G")</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">@SR["BtnEdit"]</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">@SR["Details"]</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">@SR["BtnDelete"]</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

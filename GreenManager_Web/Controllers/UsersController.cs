@@ -48,7 +48,7 @@ namespace GreenManager_Web.Controllers
         }
 
         // GET: /Users/Edit/5
-        // Opent het bewerkingsformulier en toont de gegevens van de gekozen gebruiker
+        // Opent het bewerkingsformulier en toont de gegevens van de gekozen gebruiker (email, rol, IsBlocked status)
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
@@ -73,7 +73,7 @@ namespace GreenManager_Web.Controllers
         }
 
         // POST: /Users/Edit/5
-        // Geeft de gegevens door van UserViewModel die bewerkt mogen worden
+        // Past de IsBlocked status aan, controleert of de gebruiker een andere rol heeft gekozen dan hij momenteel heeft (en past deze aan indien wel), anders gaat hij terug naar de index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserViewModel model)
@@ -88,8 +88,6 @@ namespace GreenManager_Web.Controllers
             if (user == null) return NotFound();
 
             // Past de gegevens van het account aan
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
             user.IsBlocked = model.IsBlocked;
 
             await _userManager.UpdateAsync(user);

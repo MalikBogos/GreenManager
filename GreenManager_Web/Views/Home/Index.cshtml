@@ -1,8 +1,87 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = SR["NavHome"];
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success">GreenManager</h1>
+        <p class="lead text-muted">Het centrale beheersysteem voor uw tuinbedrijf.</p>
+    </div>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+    {
+        <div class="row text-center mt-4 mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100 rounded-3">
+                    <div class="card-body py-4">
+                        <h3 class="h5 fw-bold text-muted mb-3">Actieve Klanten</h3>
+                        <h2 class="display-3 fw-bold text-primary">@ViewBag.TotalCustomers</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100 rounded-3">
+                    <div class="card-body py-4">
+                        <h3 class="h5 fw-bold text-muted mb-3">@SR["NavEmployees"]</h3>
+                        <h2 class="display-3 fw-bold text-success">@ViewBag.TotalEmployees</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100 rounded-3">
+                    <div class="card-body py-4">
+                        <h3 class="h5 fw-bold text-muted mb-3">Lopende Projecten</h3>
+                        <h2 class="display-3 fw-bold text-warning">@ViewBag.TotalActiveProjects</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (ViewBag.ActiveProjects != null)
+        {
+            <h4 class="fw-bold mb-3 border-bottom pb-2">Overzicht Lopende Projecten</h4>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>@SR["ProjectName"]</th>
+                                    <th>@SR["Customer"]</th>
+                                    <th>@SR["Status"]</th>
+                                    <th>@SR["StartDate"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var project in ViewBag.ActiveProjects)
+                                {
+                                    <tr>
+                                        <td class="fw-bold align-middle">@project.Name</td>
+                                        <td class="align-middle">@project.Customer?.LastName</td>
+                                        <td class="align-middle">
+                                            <span class="badge bg-warning text-dark">@project.Status</span>
+                                        </td>
+                                        <td class="align-middle">@project.StartDate.ToString("dd-MM-yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="alert alert-info text-center shadow-sm py-4 border-0 rounded-3">
+            <h4 class="alert-heading fw-bold">Toegang Beperkt</h4>
+            <p class="mb-0">U bent succesvol ingelogd als gast. Neem contact op met de beheerder om personeelsrechten te verkrijgen.</p>
+        </div>
+    }
+    else
+    {
+        <div class="text-center mt-4">
+            <a asp-controller="Accounts" asp-action="Login" class="btn btn-success btn-lg px-5 shadow-sm fw-bold">@SR["NavLogin"]</a>
+        </div>
+    }
 </div>

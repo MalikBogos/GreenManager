@@ -1,59 +1,68 @@
 @model Models.Entities.Material
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = SR["BtnEdit"];
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <h2>@ViewData["Title"]: @Model.Name</h2>
 
-<h4>Material</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Unit" class="control-label"></label>
-                <input asp-for="Unit" class="form-control" />
-                <span asp-validation-for="Unit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PurchasePrice" class="control-label"></label>
-                <input asp-for="PurchasePrice" class="form-control" />
-                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StockQuantity" class="control-label"></label>
-                <input asp-for="StockQuantity" class="form-control" />
-                <span asp-validation-for="StockQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">@SR["Name"]</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold">@SR["Description"]</label>
+                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Unit" class="form-label fw-bold">@SR["Unit"]</label>
+                    <input asp-for="Unit" class="form-control" />
+                    <span asp-validation-for="Unit" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PurchasePrice" class="form-label fw-bold">@SR["PurchasePrice"]</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="PurchasePrice" type="number" step="0.01" class="form-control" />
+                    </div>
+                    <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="StockQuantity" class="form-label fw-bold">@SR["StockQuantity"]</label>
+                    <input asp-for="StockQuantity" type="number" step="0.01" class="form-control" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label fw-bold">@SR["Notes"]</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 mb-5">
+                    <button type="submit" class="btn btn-success">@SR["Save"]</button>
+                    <a asp-action="Index" class="btn btn-secondary">@SR["BackToList"]</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

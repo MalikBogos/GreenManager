@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Data;
 
+// Heeft nog wat documentatie nodig
 [Authorize(Policy = "EmployeeAccess")]
 public class CustomersController : Controller
 {
@@ -47,11 +48,9 @@ public class CustomersController : Controller
     }
 
     // POST: CUSTOMERS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("FirstName,LastName,CompanyName,VATNumber,Notes,Email,PhoneNumber,Street,PostalCode,City,Projects,Id,CreatedAt,UpdatedAt,IsDeleted,DeletedReason,DeletedAt")] Customer customer)
+    public async Task<IActionResult> Create([Bind("FirstName,LastName,CompanyName,VATNumber,Notes,Email,PhoneNumber,Street,PostalCode,City,Projects")] Customer customer)
     {
         if (ModelState.IsValid)
         {
@@ -63,8 +62,6 @@ public class CustomersController : Controller
     }
 
     // GET: CUSTOMERS/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -81,8 +78,6 @@ public class CustomersController : Controller
     }
 
     // POST: CUSTOMERS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id, [Bind("FirstName,LastName,CompanyName,VATNumber,Notes,Email,PhoneNumber,Street,PostalCode,City,Projects,Id,CreatedAt,UpdatedAt,IsDeleted,DeletedReason,DeletedAt")] Customer customer)
@@ -96,6 +91,7 @@ public class CustomersController : Controller
         {
             try
             {
+                customer.UpdatedAt = DateTime.UtcNow;
                 _context.Update(customer);
                 await _context.SaveChangesAsync();
             }

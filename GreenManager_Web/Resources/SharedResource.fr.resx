@@ -32,4 +32,34 @@
 	<data name="Email" xml:space="preserve"><value>Emailadres</value></data>
 	<data name="Role" xml:space="preserve"><value>Rol</value></data>
 	<data name="IsBlocked" xml:space="preserve"><value>Geblokkerd</value></data>
+	<data name="CompanyName" xml:space="preserve"><value>Nom de l'entreprise</value></data>
+	<data name="VATNumber" xml:space="preserve"><value>Numéro de TVA</value></data>
+	<data name="PhoneNumber" xml:space="preserve"><value>Numéro de téléphone</value></data>
+	<data name="Street" xml:space="preserve"><value>Rue</value></data>
+	<data name="PostalCode" xml:space="preserve"><value>Code Postal</value></data>
+	<data name="City" xml:space="preserve"><value>Ville</value></data>
+	<data name="Notes" xml:space="preserve"><value>Remarques</value></data>
+	<data name="ProjectName" xml:space="preserve"><value>Nom du projet</value></data>
+	<data name="Description" xml:space="preserve"><value>Description</value></data>
+	<data name="StartDate" xml:space="preserve"><value>Date de début</value></data>
+	<data name="EndDate" xml:space="preserve"><value>Date de fin</value></data>
+	<data name="Status" xml:space="preserve"><value>Statut</value></data>
+	<data name="Budget" xml:space="preserve"><value>Budget</value></data>
+	<data name="ProjectAddress" xml:space="preserve"><value>Adresse du projet</value></data>
+	<data name="Name" xml:space="preserve"><value>Nom</value></data>
+	<data name="Unit" xml:space="preserve"><value>Unité</value></data>
+	<data name="PurchasePrice" xml:space="preserve"><value>Prix d'achat</value></data>
+	<data name="StockQuantity" xml:space="preserve"><value>Quantité en stock</value></data>
+	<data name="EmployeeNumber" xml:space="preserve"><value>Numéro d'employé</value></data>
+	<data name="JobTitle" xml:space="preserve"><value>Fonction</value></data>
+	<data name="HourlyWage" xml:space="preserve"><value>Taux horaire</value></data>
+	<data name="HireDate" xml:space="preserve"><value>Date d'embauche</value></data>
+	<data name="DateOfBirth" xml:space="preserve"><value>Date de naissance</value></data>
+	<data name="AddCustomer" xml:space="preserve"><value>Nouveau Client</value></data>
+	<data name="AddProject" xml:space="preserve"><value>Nouveau Projet</value></data>
+	<data name="AddMaterial" xml:space="preserve"><value>Nouveau Matériel</value></data>
+	<data name="AddEmployee" xml:space="preserve"><value>Nouvel Employé</value></data>
+	<data name="Actions" xml:space="preserve"><value>Actions</value></data>
+	<data name="Details" xml:space="preserve"><value>Détails</value></data>
+	<data name="BackToList" xml:space="preserve"><value>Retour à la liste</value></data>
 </root>

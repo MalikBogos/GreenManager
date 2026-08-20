@@ -48,8 +48,6 @@ public class MaterialsController : Controller
     }
 
     // POST: MATERIALS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Description,Unit,PurchasePrice,StockQuantity,ProjectMaterials,Notes,Id,CreatedAt,UpdatedAt,IsDeleted,DeletedReason,DeletedAt")] Material material)
@@ -80,8 +78,6 @@ public class MaterialsController : Controller
     }
 
     // POST: MATERIALS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id, [Bind("Name,Description,Unit,PurchasePrice,StockQuantity,ProjectMaterials,Notes,Id,CreatedAt,UpdatedAt,IsDeleted,DeletedReason,DeletedAt")] Material material)
@@ -95,6 +91,7 @@ public class MaterialsController : Controller
         {
             try
             {
+                material.UpdatedAt = DateTime.UtcNow;
                 _context.Update(material);
                 await _context.SaveChangesAsync();
             }

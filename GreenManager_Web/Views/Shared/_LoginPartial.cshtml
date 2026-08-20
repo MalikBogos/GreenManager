@@ -7,7 +7,6 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item d-flex align-items-center">
-            <!-- Mooie outline knop voor uitloggen -->
             <form asp-controller="Accounts" asp-action="Logout" method="post" class="m-0">
                 <button type="submit" class="btn btn-sm btn-outline-light fw-bold">
                     <i class="bi bi-box-arrow-right"></i> @SR["NavLogout"]

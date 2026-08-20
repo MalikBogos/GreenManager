@@ -2,26 +2,25 @@
 
 namespace GreenManager_Web.Models
 {
-	// Wordt gebruikt in de AccountsController voor het aanmaken van een nieuwe gebruiker
 	public class RegisterViewModel
 	{
-		[Required(ErrorMessage = "Voornaam is verplicht")]
+		[Required(ErrorMessage = "FirstNameRequired")]
 		public string FirstName { get; set; } = string.Empty;
 
-		[Required(ErrorMessage = "Achternaam is verplicht")]
+		[Required(ErrorMessage = "LastNameRequired")]
 		public string LastName { get; set; } = string.Empty;
 
-		[Required(ErrorMessage = "E-mailadres is verplicht")]
+		[Required(ErrorMessage = "EmailRequired")]
 		[EmailAddress]
 		public string Email { get; set; } = string.Empty;
 
-		[Required(ErrorMessage = "Wachtwoord is verplicht")]
+		[Required(ErrorMessage = "PasswordRequired")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; } = string.Empty;
 
 		[DataType(DataType.Password)]
-		[Display(Name = "Bevestig Wachtwoord")]
-		[Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen.")]
+		[Display(Name = "ConfirmPassword")]
+		[Compare("Password", ErrorMessage = "PasswordsDoNotMatch")]
 		public string ConfirmPassword { get; set; } = string.Empty;
 	}
 }

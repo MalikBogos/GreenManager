@@ -1,11 +1,10 @@
 ﻿@{
     ViewData["Title"] = SR["NavHome"];
 }
-
 <div class="container mt-5 mb-5">
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-success">GreenManager</h1>
-        <p class="lead text-muted">Het centrale beheersysteem voor uw tuinbedrijf.</p>
+        <p class="lead text-muted">@SR["HomeSubtitle"]</p>
     </div>
 
     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
@@ -14,7 +13,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm border-0 h-100 rounded-3">
                     <div class="card-body py-4">
-                        <h3 class="h5 fw-bold text-muted mb-3">Actieve Klanten</h3>
+                        <h3 class="h5 fw-bold text-muted mb-3">@SR["ActiveCustomers"]</h3>
                         <h2 class="display-3 fw-bold text-primary">@ViewBag.TotalCustomers</h2>
                     </div>
                 </div>
@@ -30,7 +29,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm border-0 h-100 rounded-3">
                     <div class="card-body py-4">
-                        <h3 class="h5 fw-bold text-muted mb-3">Lopende Projecten</h3>
+                        <h3 class="h5 fw-bold text-muted mb-3">@SR["ActiveProjects"]</h3>
                         <h2 class="display-3 fw-bold text-warning">@ViewBag.TotalActiveProjects</h2>
                     </div>
                 </div>
@@ -39,7 +38,7 @@
 
         @if (ViewBag.ActiveProjects != null)
         {
-            <h4 class="fw-bold mb-3 border-bottom pb-2">Overzicht Lopende Projecten</h4>
+            <h4 class="fw-bold mb-3 border-bottom pb-2">@SR["ActiveProjectsOverview"]</h4>
             <div class="card shadow-sm border-0">
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -74,8 +73,8 @@
     else if (User.Identity?.IsAuthenticated == true)
     {
         <div class="alert alert-info text-center shadow-sm py-4 border-0 rounded-3">
-            <h4 class="alert-heading fw-bold">Toegang Beperkt</h4>
-            <p class="mb-0">U bent succesvol ingelogd als gast. Neem contact op met de beheerder om personeelsrechten te verkrijgen.</p>
+            <h4 class="alert-heading fw-bold">@SR["AccessRestricted"]</h4>
+            <p class="mb-0">@SR["GuestWelcomeMessage"]</p>
         </div>
     }
     else

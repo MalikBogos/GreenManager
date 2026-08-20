@@ -16,7 +16,7 @@
 	<data name="NavPrivacy" xml:space="preserve"><value>Privacy</value></data>
 	<data name="NavCustomers" xml:space="preserve"><value>Klanten</value></data>
 	<data name="NavProjects" xml:space="preserve"><value>Projecten</value></data>
-	<data name="NavMaterials" xml:space="preserve"><value>Materialen</value></data>
+	<data name="NavMaterials" xml:space="preserve"><value>Materuaal</value></data>
 	<data name="NavEmployees" xml:space="preserve"><value>Werknemers</value></data>
 	<data name="NavLogin" xml:space="preserve"><value>Inloggen</value></data>
 	<data name="NavLogout" xml:space="preserve"><value>Uitloggen</value></data>
@@ -62,4 +62,68 @@
 	<data name="Actions" xml:space="preserve"><value>Acties</value></data>
 	<data name="Details" xml:space="preserve"><value>Details</value></data>
 	<data name="BackToList" xml:space="preserve"><value>Terug naar overzicht</value></data>
+	<data name="CreateCustomer" xml:space="preserve"><value>Nieuwe Klant Toevoegen</value></data>
+	<data name="CreateCustomerSubtitle" xml:space="preserve"><value>Vul de gegevens in om een nieuwe klant aan te maken</value></data>
+	<data name="PersonalDetails" xml:space="preserve"><value>Persoonlijke Gegevens</value></data>
+	<data name="AddressDetails" xml:space="preserve"><value>Adresgegevens</value></data>
+	<data name="InternalNotes" xml:space="preserve"><value>Interne Notities</value></data>
+	<data name="CreateProject" xml:space="preserve"><value>Nieuw Project Aanmaken</value></data>
+	<data name="CreateProjectSubtitle" xml:space="preserve"><value>Start een nieuw dossier of offerte</value></data>
+	<data name="SelectCustomer" xml:space="preserve"><value>Selecteer een klant</value></data>
+	<data name="CreateMaterial" xml:space="preserve"><value>Nieuw Materiaal Toevoegen</value></data>
+	<data name="CreateMaterialSubtitle" xml:space="preserve"><value>Voeg artikelen toe aan de bedrijfsvoorraad</value></data>
+	<data name="MaterialName" xml:space="preserve"><value>Naam Materiaal</value></data>
+	<data name="Save" xml:space="preserve"><value>Opslaan</value></data>
+	<data name="Cancel" xml:space="preserve"><value>Annuleren</value></data>
+	<data name="AreYouSureDelete" xml:space="preserve"><value>Bent u zeker dat u dit record wilt verwijderen?</value></data>
+	<data name="General" xml:space="preserve"><value>Algemeen</value></data>
+	<data name="Planning" xml:space="preserve"><value>Planning</value></data>
+	<data name="WorkLogs" xml:space="preserve"><value>Geregistreerde Werkuren</value></data>
+	<data name="Quantity" xml:space="preserve"><value>Hoeveelheid</value></data>
+	<data name="Date" xml:space="preserve"><value>Datum</value></data>
+	<data name="HoursWorked" xml:space="preserve"><value>Gepresteerde Uren</value></data>
+	<data name="LaborCost" xml:space="preserve"><value>Loonkost</value></data>
+	<data name="Add" xml:space="preserve"><value>Toevoegen</value></data>
+	<data name="Employee" xml:space="preserve"><value>Werknemer</value></data>
+	<data name="Material" xml:space="preserve"><value>Materiaal</value></data>
+	<data name="Materials" xml:space="preserve"><value>Materiaal</value></data>
+	<data name="EstimatedHours" xml:space="preserve"><value>Geschatte Uren</value></data>
+	<data name="PlannedDate" xml:space="preserve"><value>Geplande Datum</value></data>
+	<data name="Customer" xml:space="preserve"><value>Klant</value></data>
+	<data name="HomeSubtitle" xml:space="preserve"><value>Het centrale beheersysteem voor uw tuinbedrijf.</value></data>
+	<data name="ActiveCustomers" xml:space="preserve"><value>Actieve Klanten</value></data>
+	<data name="ActiveProjects" xml:space="preserve"><value>Lopende Projecten</value></data>
+	<data name="ActiveProjectsOverview" xml:space="preserve"><value>Overzicht Lopende Projecten</value></data>
+	<data name="AccessRestricted" xml:space="preserve"><value>Toegang Beperkt</value></data>
+	<data name="GuestWelcomeMessage" xml:space="preserve"><value>U bent succesvol ingelogd als gast. Neem contact op met de beheerder om personeelsrechten te verkrijgen.</value></data>
+	<data name="LoginTitle" xml:space="preserve"><value>Inloggen</value></data>
+	<data name="BtnLogin" xml:space="preserve"><value>Inloggen</value></data>
+	<data name="Password" xml:space="preserve"><value>Wachtwoord</value></data>
+	<data name="PasswordPlaceholder" xml:space="preserve"><value>Vul je wachtwoord in</value></data>
+	<data name="EmailPlaceholder" xml:space="preserve"><value>naam@bedrijf.be</value></data>
+	<data name="RememberMe" xml:space="preserve"><value>Onthoud mijn gegevens</value></data>
+	<data name="NoAccountYet" xml:space="preserve"><value>Heb je nog geen account?</value></data>
+	<data name="RegisterHere" xml:space="preserve"><value>Registreer je hier</value></data>
+	<data name="CreateAccountTitle" xml:space="preserve"><value>Nieuw Account Aanmaken</value></data>
+	<data name="BtnRegister" xml:space="preserve"><value>Registreren</value></data>
+	<data name="AlreadyHaveAccount" xml:space="preserve"><value>Heb je al een account?</value></data>
+	<data name="LoginHere" xml:space="preserve"><value>Log hier in</value></data>
+	<data name="AccessDeniedTitle" xml:space="preserve"><value>Toegang Geweigerd</value></data>
+	<data name="AccessDeniedMessage" xml:space="preserve"><value>Je hebt niet de juiste rechten om deze pagina te bekijken of deze actie uit te voeren.</value></data>
+	<data name="BackToHome" xml:space="preserve"><value>Terug naar Home</value></data>
+	<data name="EmailRequired" xml:space="preserve"><value>E-mailadres is verplicht.</value></data>
+	<data name="PasswordRequired" xml:space="preserve"><value>Wachtwoord is verplicht.</value></data>
+	<data name="FirstNameRequired" xml:space="preserve"><value>Voornaam is verplicht.</value></data>
+	<data name="LastNameRequired" xml:space="preserve"><value>Achternaam is verplicht.</value></data>
+	<data name="ConfirmPassword" xml:space="preserve"><value>Bevestig Wachtwoord</value></data>
+	<data name="PasswordsDoNotMatch" xml:space="preserve"><value>De wachtwoorden komen niet overeen.</value></data>
+	<data name="Yes" xml:space="preserve"><value>Ja</value></data>
+	<data name="No" xml:space="preserve"><value>Nee</value></data>
+	<data name="GeneralAndHRInfo" xml:space="preserve"><value>Algemene &amp; HR Informatie</value></data>
+	<data name="IdentityAndLogin" xml:space="preserve"><value>Identiteit &amp; Inlogaccount</value></data>
+	<data name="AutoPasswordMessage" xml:space="preserve"><value>Deze werknemer krijgt automatisch het wachtwoord</value></data>
+	<data name="ContractDetails" xml:space="preserve"><value>Contractgegevens</value></data>
+	<data name="Identity" xml:space="preserve"><value>Identiteit</value></data>
+	<data name="EditCustomer" xml:space="preserve"><value>Klant bewerken</value></data>
+
 </root>

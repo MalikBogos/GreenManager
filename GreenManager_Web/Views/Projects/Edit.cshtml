@@ -76,7 +76,6 @@
             @SR["Employees"] (@SR["Planning"])
         </div>
         <div class="card-body">
-            <!-- Inline form om toe te voegen -->
             <form asp-action="AddProjectEmployee" method="post" class="row mb-3 align-items-end">
                 <input type="hidden" name="ProjectId" value="@Model.Id" />
                 <div class="col-md-4">
@@ -108,7 +107,7 @@
                             <td class="text-end">
                                 <form asp-action="DeleteSubItem" method="post">
                                     <input type="hidden" name="id" value="@pe.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="Employee" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["BtnDelete"]</button>
                                 </form>
                             </td>
                         </tr>
@@ -150,7 +149,7 @@
                             <td class="text-end">
                                 <form asp-action="DeleteSubItem" method="post">
                                     <input type="hidden" name="id" value="@pm.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="Material" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["BtnDelete"]</button>
                                 </form>
                             </td>
                         </tr>
@@ -203,7 +202,7 @@
                             <td class="text-end">
                                 <form asp-action="DeleteSubItem" method="post">
                                     <input type="hidden" name="id" value="@wl.Id" /><input type="hidden" name="projectId" value="@Model.Id" /><input type="hidden" name="type" value="WorkLog" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["Delete"]</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@SR["BtnDelete"]</button>
                                 </form>
                             </td>
                         </tr>

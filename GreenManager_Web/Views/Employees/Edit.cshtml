@@ -14,7 +14,7 @@
 
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-header bg-dark text-white fw-bold">
-            Algemene & HR Informatie
+            @SR["GeneralAndHRInfo"]
         </div>
         <div class="card-body">
             <form asp-action="Edit" method="post">
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-12 mt-2 mb-2">
-                        <h5 class="fw-bold border-bottom pb-2">Identiteit</h5>
+                        <h5 class="fw-bold border-bottom pb-2">@SR["Identity"]</h5>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="FirstName" class="form-label fw-bold">@SR["FirstName"] *</label>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="col-12 mt-3 mb-2">
-                        <h5 class="fw-bold border-bottom pb-2">Contractgegevens</h5>
+                        <h5 class="fw-bold border-bottom pb-2">@SR["ContractDetails"]</h5>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="JobTitle" class="form-label fw-bold">@SR["JobTitle"] *</label>

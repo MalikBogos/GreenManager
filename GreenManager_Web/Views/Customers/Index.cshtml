@@ -10,7 +10,6 @@
         <a asp-action="Create" class="btn btn-success">@SR["AddCustomer"]</a>
     </div>
 
-    <!-- Dezelfde strakke tabel als bij /Users -->
     <table class="table table-bordered table-striped mt-3">
         <thead class="table-light">
             <tr>
@@ -32,10 +31,10 @@
                     <td>@item.Email</td>
                     <td>@item.PhoneNumber</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">@SR["Edit"]</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">@SR["BtnEdit"]</a>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">@SR["Details"]</a>
                             @if(User.IsInRole("Admin")){
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">@SR["Delete"]</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">@SR["BtnDelete"]</a>
                             }
                     </td>
                 </tr>

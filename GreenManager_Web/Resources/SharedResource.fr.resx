@@ -26,12 +26,13 @@
 	<data name="BtnSave" xml:space="preserve"><value>Enregistrer</value></data>
 	<data name="BtnCancel" xml:space="preserve"><value>Annuler</value></data>
 	<data name="BtnDelete" xml:space="preserve"><value>Supprimer</value></data>
+	<data name="Customer" xml:space="preserve"><value>Client</value></data>
 	<data name="BtnEdit" xml:space="preserve"><value>Modifier</value></data>
-	<data name="FirstName" xml:space="preserve"><value>Voornaam</value></data>
-	<data name="LastName" xml:space="preserve"><value>Achternaam</value></data>
-	<data name="Email" xml:space="preserve"><value>Emailadres</value></data>
-	<data name="Role" xml:space="preserve"><value>Rol</value></data>
-	<data name="IsBlocked" xml:space="preserve"><value>Geblokkerd</value></data>
+	<data name="FirstName" xml:space="preserve"><value>Prénom</value></data>
+	<data name="LastName" xml:space="preserve"><value>Nom</value></data>
+	<data name="Email" xml:space="preserve"><value>Adresse e-mail</value></data>
+	<data name="Role" xml:space="preserve"><value>Rôle</value></data>
+	<data name="IsBlocked" xml:space="preserve"><value>Bloqué</value></data>
 	<data name="CompanyName" xml:space="preserve"><value>Nom de l'entreprise</value></data>
 	<data name="VATNumber" xml:space="preserve"><value>Numéro de TVA</value></data>
 	<data name="PhoneNumber" xml:space="preserve"><value>Numéro de téléphone</value></data>
@@ -62,4 +63,68 @@
 	<data name="Actions" xml:space="preserve"><value>Actions</value></data>
 	<data name="Details" xml:space="preserve"><value>Détails</value></data>
 	<data name="BackToList" xml:space="preserve"><value>Retour à la liste</value></data>
+	<data name="HomeSubtitle" xml:space="preserve"><value>Le système de gestion central pour votre entreprise de jardinage.</value></data>
+	<data name="ActiveCustomers" xml:space="preserve"><value>Clients Actifs</value></data>
+	<data name="ActiveProjects" xml:space="preserve"><value>Projets Actifs</value></data>
+	<data name="ActiveProjectsOverview" xml:space="preserve"><value>Aperçu des Projets Actifs</value></data>
+	<data name="AccessRestricted" xml:space="preserve"><value>Accès Restreint</value></data>
+	<data name="GuestWelcomeMessage" xml:space="preserve"><value>Vous êtes connecté en tant qu'invité. Veuillez contacter l'administrateur pour obtenir les droits d'employé.</value></data>
+	<data name="LoginTitle" xml:space="preserve"><value>Connexion</value></data>
+	<data name="BtnLogin" xml:space="preserve"><value>Se connecter</value></data>
+	<data name="Password" xml:space="preserve"><value>Mot de passe</value></data>
+	<data name="PasswordPlaceholder" xml:space="preserve"><value>Entrez votre mot de passe</value></data>
+	<data name="EmailPlaceholder" xml:space="preserve"><value>nom@entreprise.fr</value></data>
+	<data name="RememberMe" xml:space="preserve"><value>Se souvenir de moi</value></data>
+	<data name="NoAccountYet" xml:space="preserve"><value>Vous n'avez pas encore de compte ?</value></data>
+	<data name="RegisterHere" xml:space="preserve"><value>Inscrivez-vous ici</value></data>
+	<data name="CreateAccountTitle" xml:space="preserve"><value>Créer un Nouveau Compte</value></data>
+	<data name="BtnRegister" xml:space="preserve"><value>S'inscrire</value></data>
+	<data name="AlreadyHaveAccount" xml:space="preserve"><value>Vous avez déjà un compte ?</value></data>
+	<data name="LoginHere" xml:space="preserve"><value>Connectez-vous ici</value></data>
+	<data name="AccessDeniedTitle" xml:space="preserve"><value>Accès Refusé</value></data>
+	<data name="AccessDeniedMessage" xml:space="preserve"><value>Vous n'avez pas les droits nécessaires pour voir cette page ou effectuer cette action.</value></data>
+	<data name="BackToHome" xml:space="preserve"><value>Retour à l'accueil</value></data>
+	<data name="EmailRequired" xml:space="preserve"><value>L'adresse e-mail est requise.</value></data>
+	<data name="PasswordRequired" xml:space="preserve"><value>Le mot de passe est requis.</value></data>
+	<data name="FirstNameRequired" xml:space="preserve"><value>Le prénom est requis.</value></data>
+	<data name="LastNameRequired" xml:space="preserve"><value>Le nom de famille est requis.</value></data>
+	<data name="ConfirmPassword" xml:space="preserve"><value>Confirmez le mot de passe</value></data>
+	<data name="PasswordsDoNotMatch" xml:space="preserve"><value>Les mots de passe ne correspondent pas.</value></data>
+	<data name="CreateCustomer" xml:space="preserve"><value>Ajouter un nouveau client</value></data>
+    <data name="CreateCustomerSubtitle" xml:space="preserve"><value>Remplissez les détails pour créer un nouveau client</value></data>
+    <data name="PersonalDetails" xml:space="preserve"><value>Détails personnels</value></data>
+    <data name="AddressDetails" xml:space="preserve"><value>Détails de l'adresse</value></data>
+    <data name="InternalNotes" xml:space="preserve"><value>Notes internes</value></data>
+    <data name="CreateProject" xml:space="preserve"><value>Créer un nouveau projet</value></data>
+    <data name="CreateProjectSubtitle" xml:space="preserve"><value>Démarrer un nouveau dossier ou devis</value></data>
+    <data name="SelectCustomer" xml:space="preserve"><value>Sélectionnez un client</value></data>
+    <data name="CreateMaterial" xml:space="preserve"><value>Ajouter un nouveau matériel</value></data>
+    <data name="CreateMaterialSubtitle" xml:space="preserve"><value>Ajouter des articles au stock de l'entreprise</value></data>
+    <data name="MaterialName" xml:space="preserve"><value>Nom du matériel</value></data>
+    <data name="Save" xml:space="preserve"><value>Enregistrer</value></data>
+    <data name="Cancel" xml:space="preserve"><value>Annuler</value></data>
+    <data name="AreYouSureDelete" xml:space="preserve"><value>Êtes-vous sûr de vouloir supprimer cet enregistrement ?</value></data>
+    <data name="General" xml:space="preserve"><value>Général</value></data>
+    <data name="Planning" xml:space="preserve"><value>Planification</value></data>
+    <data name="WorkLogs" xml:space="preserve"><value>Heures de travail</value></data>
+    <data name="Quantity" xml:space="preserve"><value>Quantité</value></data>
+    <data name="Date" xml:space="preserve"><value>Date</value></data>
+    <data name="HoursWorked" xml:space="preserve"><value>Heures travaillées</value></data>
+    <data name="LaborCost" xml:space="preserve"><value>Coût de la main-d'œuvre</value></data>
+    <data name="Add" xml:space="preserve"><value>Ajouter</value></data>
+    <data name="Employee" xml:space="preserve"><value>Employé</value></data>
+    <data name="Material" xml:space="preserve"><value>Matériau</value></data>
+    <data name="Materials" xml:space="preserve"><value>Matériaux</value></data>
+    <data name="EstimatedHours" xml:space="preserve"><value>Heures estimées</value></data>
+    <data name="PlannedDate" xml:space="preserve"><value>Date prévue</value></data>
+	<data name="Yes" xml:space="preserve"><value>Oui</value></data>
+	<data name="No" xml:space="preserve"><value>Non</value></data>
+	<data name="GeneralAndHRInfo" xml:space="preserve"><value>Informations générales et RH</value></data>
+	<data name="IdentityAndLogin" xml:space="preserve"><value>Identité et compte de connexion</value></data>
+	<data name="AutoPasswordMessage" xml:space="preserve"><value>Cet employé recevra automatiquement le mot de passe</value></data>
+	<data name="ContractDetails" xml:space="preserve"><value>Détails du contrat</value></data>
+	<data name="Identity" xml:space="preserve"><value>Identité</value></data>
+	<data name="EditCustomer" xml:space="preserve"><value>Modifier le client</value></data>
+
+
 </root>

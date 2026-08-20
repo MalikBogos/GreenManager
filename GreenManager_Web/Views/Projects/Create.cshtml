@@ -21,7 +21,6 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3 fw-bold"></div>
 
                 <div class="row">
-                    <!-- Projectnaam en Klant -->
                     <div class="col-md-6 mb-3">
                         <label for="Name" class="form-label fw-bold">@SR["ProjectName"] *</label>
                         <input asp-for="Name" class="form-control" required />
@@ -35,7 +34,6 @@
                         <span asp-validation-for="CustomerId" class="text-danger"></span>
                     </div>
 
-                    <!-- Status, Datums en Budget -->
                     <div class="col-md-4 mb-3">
                         <label for="Status" class="form-label fw-bold">@SR["Status"]</label>
                         <!-- Genereert automatisch de ProjectStatus Enum -->
@@ -63,7 +61,6 @@
                         <input asp-for="ProjectAddress" class="form-control" />
                     </div>
 
-                    <!-- Tekstvakken -->
                     <div class="col-12 mb-3">
                         <label for="Description" class="form-label fw-bold">@SR["Description"]</label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>

@@ -34,7 +34,7 @@ public class ProjectsController : Controller
             return NotFound();
         }
 
-        var project = await _context.Projects.FirstOrDefaultAsync(m => m.Id == id);
+        var project = await _context.Projects.Include(p => p.Customer).FirstOrDefaultAsync(m => m.Id == id);
         if (project == null)
         {
             return NotFound();
@@ -248,8 +248,7 @@ public class ProjectsController : Controller
             return NotFound();
         }
 
-        var project = await _context.Projects
-            .FirstOrDefaultAsync(m => m.Id == id);
+        var project = await _context.Projects.Include(p => p.Customer).FirstOrDefaultAsync(m => m.Id == id);
         if (project == null)
         {
             return NotFound();

@@ -1,5 +1,7 @@
 ﻿using GreenManager_Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
 
@@ -10,12 +12,14 @@ namespace GreenManager_Web.Controllers
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IEmailSender _emailSender;
 
 		// Dependency Injection
-		public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+		public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
 		{
 			_signInManager = signInManager;
 			_userManager = userManager;
+			_emailSender = emailSender;
 		}
 
 		// GET: /Accounts/Login
@@ -105,9 +109,24 @@ namespace GreenManager_Web.Controllers
 					// Geef de nieuwe gebruiker automatisch de rol 'Guest'
 					await _userManager.AddToRoleAsync(user, "Guest");
 
-					// Log de gebruiker in
-					await _signInManager.SignInAsync(user, isPersistent: false);
-					return RedirectToAction("Index", "Home");
+					// Maak een uniek, veilig e-mail token
+					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+					// Maak de klikbare URL op die in de mail komt
+					var confirmationLink = Url.Action("ConfirmEmail", "Accounts",
+						new { userId = user.Id, token = token }, Request.Scheme);
+
+					// Verstuur de email met onze nieuwe EmailSender
+					await _emailSender.SendEmailAsync(model.Email, "Bevestig je e-mailadres",
+						$"Beste {model.FirstName},<br><br>Klik op de onderstaande link om je account te activeren:<br><a href='{confirmationLink}'>Mijn account activeren</a>");
+
+					// Log NIET in, maar blijf op de registratiepagina met emailverificatie vereist bericht
+					ModelState.AddModelError(string.Empty, "Registratie succesvol! Controleer je e-mail om je account te activeren.");
+					return View(model);
+
+					//// Log de gebruiker in
+					//await _signInManager.SignInAsync(user, isPersistent: false);
+					//return RedirectToAction("Index", "Home");
 				}
 
 				// Toon foutbescrijving
@@ -119,6 +138,29 @@ namespace GreenManager_Web.Controllers
 
 			return View(model);
 		}
+
+		/// <summary>
+		/// Deze methode wordt aangeroepen wanneer de gebruiker op de link in zijn email klikt.
+		/// </summary>
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<IActionResult> ConfirmEmail(string userId, string token)
+		{
+			if (userId == null || token == null) return RedirectToAction("Index", "Home");
+
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null) return NotFound();
+
+			var result = await _userManager.ConfirmEmailAsync(user, token);
+			if (result.Succeeded)
+			{
+				// Succes! Stuur ze naar de inlogpagina
+				return RedirectToAction("Login", "Accounts");
+			}
+
+			return View("Error");
+		}
+
 
 		// POST: /Accounts/Logout
 		[HttpPost]

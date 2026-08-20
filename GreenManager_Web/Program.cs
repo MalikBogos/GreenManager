@@ -7,6 +7,8 @@ using Models.Entities;
 using Serilog;
 using System.Text;
 using GreenManager_Web.Middleware;
+using GreenManager_Web.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace GreenManager_Web
 {
@@ -37,7 +39,7 @@ namespace GreenManager_Web
 				options.Password.RequireLowercase = false;
 				options.Password.RequiredLength = 3;
 				options.Password.RequireDigit = false;
-				options.SignIn.RequireConfirmedEmail = false; // later op true zetten
+				options.SignIn.RequireConfirmedEmail = true;
 
 			})
 			.AddEntityFrameworkStores<GreenManagerDbContext>()
@@ -78,7 +80,6 @@ namespace GreenManager_Web
 			});
 
 
-
 			// Cookie-instelling
 			builder.Services.ConfigureApplicationCookie(options =>
 			{
@@ -105,7 +106,8 @@ namespace GreenManager_Web
 			};
 			});
 
-
+			// Gebruik van email confirmation
+			builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 			// Add services to the container. (+ AddRazorRuntimeCompilation)
 			builder.Services.AddControllersWithViews()

@@ -12,8 +12,8 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260819053615_initialcreate")]
-    partial class initialcreate
+    [Migration("20260820193753_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -306,7 +306,7 @@ namespace Models.Migrations
                             ConcurrencyStamp = "STATIC_CONCURRENCY_1",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@greenmanager.be",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             FirstName = "Jan",
                             IsBlocked = false,
                             IsDeleted = false,
@@ -350,7 +350,7 @@ namespace Models.Migrations
                             ConcurrencyStamp = "STATIC_CONCURRENCY_3",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "guest@greenmanager.be",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             FirstName = "Gaston",
                             IsBlocked = false,
                             IsDeleted = false,

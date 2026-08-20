@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Models.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -400,9 +400,9 @@ namespace Models.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BlockedAt", "BlockedReason", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "DeletedReason", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", false, "Jan", false, false, "Vandekapelle", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", "0485760623", false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
+                    { "admin-uuid-1", 0, null, null, "STATIC_CONCURRENCY_1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "admin@greenmanager.be", true, "Jan", false, false, "Vandekapelle", false, null, "ADMIN@GREENMANAGER.BE", "ADMIN@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", "0485760623", false, "STATIC_STAMP_1", false, null, "admin@greenmanager.be" },
                     { "employee-uuid-2", 0, null, null, "STATIC_CONCURRENCY_2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "employee@greenmanager.be", true, "John", false, false, "Doe", false, null, "EMPLOYEE@GREENMANAGER.BE", "EMPLOYEE@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", "0485767312", false, "STATIC_STAMP_2", false, null, "employee@greenmanager.be" },
-                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", false, "Gaston", false, false, "Verwelkomd", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
+                    { "guest-uuid-3", 0, null, null, "STATIC_CONCURRENCY_3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "guest@greenmanager.be", true, "Gaston", false, false, "Verwelkomd", false, null, "GUEST@GREENMANAGER.BE", "GUEST@GREENMANAGER.BE", "AQAAAAIAAYagAAAAEDBlDV8N8fYe0zL1l6fo716II8lI0fh/IP++gps1UZ79fOPsPtk9S72PukWm4Oh1sA==", null, false, "STATIC_STAMP_3", false, null, "guest@greenmanager.be" }
                 });
 
             migrationBuilder.InsertData(

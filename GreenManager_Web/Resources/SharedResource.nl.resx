@@ -16,7 +16,7 @@
 	<data name="NavPrivacy" xml:space="preserve"><value>Privacy</value></data>
 	<data name="NavCustomers" xml:space="preserve"><value>Klanten</value></data>
 	<data name="NavProjects" xml:space="preserve"><value>Projecten</value></data>
-	<data name="NavMaterials" xml:space="preserve"><value>Materuaal</value></data>
+	<data name="NavMaterials" xml:space="preserve"><value>Materiaal</value></data>
 	<data name="NavEmployees" xml:space="preserve"><value>Werknemers</value></data>
 	<data name="NavLogin" xml:space="preserve"><value>Inloggen</value></data>
 	<data name="NavLogout" xml:space="preserve"><value>Uitloggen</value></data>

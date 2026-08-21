@@ -11,7 +11,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Unobtrusive.Ajax" Version="3.2.0" />
     <PackageReference Include="AutoMapper" Version="16.2.0" />
-    <PackageReference Include="Azure.Core" Version="1.61.0" />
+    <PackageReference Include="Azure.Core" Version="1.62.0" />
     <PackageReference Include="BootstrapIcons.AspNetCore" Version="1.13.0" />
     <PackageReference Include="MailKit" Version="4.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />

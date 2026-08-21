@@ -1,14 +1,16 @@
+using GreenManager_Web.Middleware;
+using GreenManager_Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Models.Data;
 using Models.Entities;
 using Serilog;
 using System.Text;
-using GreenManager_Web.Middleware;
-using GreenManager_Web.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace GreenManager_Web
 {
@@ -46,22 +48,7 @@ namespace GreenManager_Web
 			.AddDefaultTokenProviders();
 
 
-			// JWT
-			builder.Services.AddAuthentication()
-			.AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ValidIssuer = builder.Configuration["Jwt:Issuer"],
-					ValidAudience = builder.Configuration["Jwt:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(
-						Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-				};
-			});
+			
 
 			// Gebruikt voor beperking van toegang tot bepaalde rollen
 			builder.Services.AddAuthorization(options =>
@@ -85,7 +72,7 @@ namespace GreenManager_Web
 			{
 				options.LoginPath = "/Accounts/Login";
 				options.AccessDeniedPath = "/Accounts/AccessDenied";
-				options.ExpireTimeSpan = TimeSpan.FromDays(14);
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 				options.SlidingExpiration = true;
 			});
 
@@ -125,7 +112,45 @@ namespace GreenManager_Web
 
 			// MAUI koppeling
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+
+			// Default Swagger configuratie
+			//builder.Services.AddSwaggerGen();
+
+			// JWT
+			builder.Services.AddAuthentication()
+			.AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					ValidIssuer = builder.Configuration["Jwt:Issuer"],
+					ValidAudience = builder.Configuration["Jwt:Audience"],
+					IssuerSigningKey = new SymmetricSecurityKey(
+						Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+				};
+			});
+
+			// Swagger configuratie voor het testen van JWT tokens
+			builder.Services.AddSwaggerGen(options =>
+			{
+				options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+				{
+					Name = "Authorization",
+					Type = SecuritySchemeType.Http,
+					Scheme = "bearer",
+					BearerFormat = "JWT",
+					In = ParameterLocation.Header,
+					Description = "Plak hieronder je JWT token die je verkreeg na succesvolle login"
+				});
+
+				options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+				{
+					[new OpenApiSecuritySchemeReference("bearer", document)] = []
+				});
+			});
 
 			var app = builder.Build();
 

@@ -1,0 +1,35 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.LoginPage"
+             x:DataType="viewmodels:LoginViewModel"
+             Title="Inloggen">
+
+	<VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+		<Label Text="Welkom bij GreenManager" FontSize="24" HorizontalOptions="Center" FontAttributes="Bold" />
+
+		<!-- We koppelen de Text aan de (gegenereerde) Email eigenschap uit het ViewModel -->
+		<Entry Placeholder="E-mailadres" 
+               Keyboard="Email"
+               Text="{Binding Email}" />
+
+		<Entry Placeholder="Wachtwoord" 
+               IsPassword="True"
+               Text="{Binding Password}" />
+
+		<!-- De knop wordt gekoppeld aan het gegenereerde LoginCommand -->
+		<Button Text="Inloggen" 
+                Command="{Binding LoginCommand}" 
+                BackgroundColor="DarkGreen" 
+                TextColor="White" 
+                CornerRadius="8"/>
+
+		<!-- Dit label is alleen zichtbaar (IsVisible) als HasError True is -->
+		<Label Text="{Binding ErrorMessage}" 
+               TextColor="Red" 
+               IsVisible="{Binding HasError}" 
+               HorizontalOptions="Center" />
+
+	</VerticalStackLayout>
+</ContentPage>

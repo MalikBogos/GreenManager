@@ -12,11 +12,15 @@ namespace GreenManager_App.Services
 
         public ApiService()
         {
-            var handler = new HttpsClientHandlerService(); 
-            _httpClient = new HttpClient(handler.GetPlatformMessageHandler());
-            
-            // 10.0.2.2 is de manier waarop de Android Emulator met het https project communiceert
-            _httpClient.BaseAddress = new Uri("https://10.0.2.2:7086/"); 
+#if DEBUG
+			var handler = new HttpsClientHandlerService();
+			_httpClient = new HttpClient(handler.GetPlatformMessageHandler());
+#else
+            _httpClient = new HttpClient();
+#endif
+
+			// 10.0.2.2 is de manier waarop de Android Emulator met het https project communiceert
+			_httpClient.BaseAddress = new Uri("https://10.0.2.2:7086/"); 
         }
 
 		/// <summary>
@@ -99,7 +103,7 @@ namespace GreenManager_App.Services
 			catch (Exception ex)
 			{
 				// Als het ophalen van gegevens faalt, tonen we de foutmelding in de console ipv. een applicatiecrash
-				Console.WriteLine($"Er ging iets mis bij het ophalen: {ex.Message}");
+				Console.WriteLine($"Fout in GetCustomersAsync(): {ex.Message}");
 			}
 
 			// Geef een lege lijst terug indien er iets mis ging

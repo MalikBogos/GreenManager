@@ -50,10 +50,12 @@ namespace GreenManager_App.ViewModels
 					// Roep de Main Thread aan om het scherm veilig te wisselen
 					MainThread.BeginInvokeOnMainThread(() =>
 					{
-						Page rootPage;
-						var customersPage = _serviceProvider.GetRequiredService<Views.CustomersPage>();
+						var window = Application.Current?.Windows.FirstOrDefault();
+						if (window == null) return;
 
-						rootPage = new NavigationPage(customersPage);
+						var dashboardPage = _serviceProvider.GetRequiredService<Views.DashboardPage>();
+
+						window.Page = new NavigationPage(dashboardPage);
 					});
 				}
 				else
@@ -63,7 +65,7 @@ namespace GreenManager_App.ViewModels
 				}
 			} catch (Exception ex)
 			{
-				Console.WriteLine($"De fout {ex} is opgetreden");
+				Console.WriteLine($"Fout in LoginAsync(): {ex}");
 			}
 			
 		}

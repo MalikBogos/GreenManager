@@ -28,6 +28,9 @@ namespace GreenManager_App
 			builder.Services.AddTransient<LoginViewModel>();
 			builder.Services.AddTransient<LoginPage>();
 
+			builder.Services.AddTransient<DashboardViewModel>();
+			builder.Services.AddTransient<DashboardPage>();
+
 			builder.Services.AddTransient<CustomersViewModel>();
 			builder.Services.AddTransient<CustomersPage>();
 

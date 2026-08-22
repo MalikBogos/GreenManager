@@ -19,35 +19,41 @@ namespace GreenManager_App
 		protected override Window CreateWindow(IActivationState? activationState)
 		{
 			// We starten tijdelijk op met een leeg laadscherm tijdens het wachten op de CheckAutoLoginAsync()
-			var window = new Window(new ContentPage { Content = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center } });
+			var window = new Window (new ContentPage { Content = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center } });
 
 			// Controleer auto login op de achtergrond
-			CheckAutoLoginAsync();
+			CheckAutoLoginAsync(window);
 
 			return window;
 		}
 
-		private async void CheckAutoLoginAsync()
+		private async void CheckAutoLoginAsync(Window window)
 		{
-			// Checkt of er een JWT token in de SecureStorage zit
-			bool isIngelogd = await _apiService.InitializeAutoLoginAsync();
-
-			MainThread.BeginInvokeOnMainThread(() =>
+			try
 			{
-				Page rootPage;
-				if (isIngelogd)
+				// Checkt of er een JWT token in de SecureStorage zit
+				bool isIngelogd = await _apiService.InitializeAutoLoginAsync();
+
+				MainThread.BeginInvokeOnMainThread(() =>
 				{
-					// Opent automatisch CustomersPage indien het token aanwezig en geldig is
-					var customersPage = _serviceProvider.GetRequiredService<CustomersPage>();
-					rootPage = new NavigationPage(customersPage);
-				}
-				else
-				{
-					// Opent automatisch LoginPage indien het token niet geldig is 
-					var loginPage = _serviceProvider.GetRequiredService<LoginPage>();
-					rootPage = new NavigationPage(loginPage);
-				}
-			});
+					if (isIngelogd)
+					{
+						// Opent automatisch dashboardPage indien het token aanwezig en geldig is
+						var dashboardPage = _serviceProvider.GetRequiredService<DashboardPage>();
+						window.Page = new NavigationPage(dashboardPage);
+					}
+					else
+					{
+						// Opent automatisch LoginPage indien het token niet geldig is 
+						var loginPage = _serviceProvider.GetRequiredService<LoginPage>();
+						window.Page = new NavigationPage(loginPage);
+					}
+				});
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in CheckAutoLoginAsync(): {ex}");
+			}
 		}
 	}
 }

@@ -1,0 +1,33 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.DashboardPage"
+             x:DataType="viewmodels:DashboardViewModel"
+             Title="Dashboard">
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Uitloggen" Command="{Binding LogoutCommand}" />
+	</ContentPage.ToolbarItems>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20" Spacing="20">
+			<Label Text="Welkom terug!" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Label Text="Kies een module om te beheren:" FontSize="16" TextColor="Gray" Margin="0,0,0,10" />
+
+			<Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *" RowSpacing="15" ColumnSpacing="15">
+
+				<!-- Knop naar Klanten -->
+				<Button Grid.Row="0" Grid.Column="0" Text="Klanten" Command="{Binding NavigateToCustomersCommand}" 
+                        HeightRequest="100" BackgroundColor="#2E7D32" TextColor="White" CornerRadius="10" FontSize="16" />
+
+				<!-- Tijdelijke (nog niet werkende) knoppen voor de rest -->
+				<Button Grid.Row="0" Grid.Column="1" Text="Projecten" HeightRequest="100" BackgroundColor="#4CAF50" TextColor="White" CornerRadius="10" />
+				<Button Grid.Row="1" Grid.Column="0" Text="Materialen" HeightRequest="100" BackgroundColor="#81C784" TextColor="Black" CornerRadius="10" />
+				<Button Grid.Row="1" Grid.Column="1" Text="Werknemers" HeightRequest="100" BackgroundColor="#A5D6A7" TextColor="Black" CornerRadius="10" />
+				<Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Instellingen &amp; Sync" 
+                        HeightRequest="60" BackgroundColor="#E0E0E0" TextColor="Black" CornerRadius="10" />
+			</Grid>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

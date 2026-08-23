@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GreenManager_App.Services;
+using GreenManager_App.Views.Customers;
 
 namespace GreenManager_App.ViewModels
 {
@@ -23,7 +24,7 @@ namespace GreenManager_App.ViewModels
 				var window = Application.Current?.Windows.FirstOrDefault();
 				if (window?.Page == null) return;
 
-				var customersPage = _serviceProvider.GetRequiredService<Views.CustomersPage>();
+				var customersPage = _serviceProvider.GetRequiredService<CustomersPage>();
 				await window.Page.Navigation.PushAsync(customersPage);
 			}
 			catch (Exception ex)

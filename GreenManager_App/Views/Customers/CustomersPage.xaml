@@ -1,8 +1,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
-			xmlns:models="clr-namespace:Models.Entities;assembly=Models"
-             x:Class="GreenManager_App.Views.CustomersPage"
+             xmlns:models="clr-namespace:Models.Entities;assembly=Models"
+             x:Class="GreenManager_App.Views.Customers.CustomersPage"
+             x:Name="RootPage"
              x:DataType="viewmodels:CustomersViewModel"
              Title="Klantenoverzicht">
 	<ContentPage.ToolbarItems>
@@ -23,6 +24,14 @@
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="models:Customer">
 					<Border Margin="0,0,0,10" Padding="15" BackgroundColor="#F5F5F5">
+
+						<!-- Klik-actie toevoegen, verwijst naar het ViewModel van de pagina -->
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer 
+								Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.NavigateToDetailsCommand}" 
+								CommandParameter="{Binding .}" />
+						</Border.GestureRecognizers>
+
 						<VerticalStackLayout>
 							<Label Text="{Binding FirstName}" FontSize="18" FontAttributes="Bold" TextColor="DarkGreen"/>
 							<Label Text="{Binding LastName}" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen"/>

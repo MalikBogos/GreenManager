@@ -1,0 +1,39 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Customers.CustomerDetailsPage"
+             x:DataType="viewmodels:CustomersViewModel"
+             Title="Klant Details">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+
+			<!-- We binden aan de 'SelectedCustomer' eigenschap uit het ViewModel -->
+			<Label Text="{Binding SelectedCustomer.FirstName, StringFormat='{0}s Profiel'}" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+
+			<Border Padding="15" BackgroundColor="#F5F5F5">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Naam:" FontAttributes="Bold" />
+					<Label Text="{Binding SelectedCustomer.FirstName}" />
+					<Label Text="{Binding SelectedCustomer.LastName}" />
+
+					<Label Text="Contact:" FontAttributes="Bold" Margin="0,10,0,0"/>
+					<Label Text="{Binding SelectedCustomer.Email}" />
+					<Label Text="{Binding SelectedCustomer.PhoneNumber}" />
+
+					<Label Text="Adres:" FontAttributes="Bold" Margin="0,10,0,0"/>
+					<Label Text="{Binding SelectedCustomer.Street}" />
+					<Label Text="{Binding SelectedCustomer.City}" />
+				</VerticalStackLayout>
+			</Border>
+
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,20,0,0">
+				<!-- De Edit knop bouwen we in de volgende stap -->
+				<Button Grid.Column="0" Text="Bewerken" BackgroundColor="Orange" TextColor="White" />
+
+				<Button Grid.Column="1" Text="Verwijderen" Command="{Binding DeleteCustomerCommand}" BackgroundColor="DarkRed" TextColor="White" />
+			</Grid>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

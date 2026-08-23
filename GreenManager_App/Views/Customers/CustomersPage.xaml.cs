@@ -1,6 +1,6 @@
 using GreenManager_App.ViewModels;
 
-namespace GreenManager_App.Views;
+namespace GreenManager_App.Views.Customers;
 
 public partial class CustomersPage : ContentPage
 {
@@ -11,7 +11,7 @@ public partial class CustomersPage : ContentPage
 		InitializeComponent();
 
 		_viewModel = viewModel;
-		BindingContext = _viewModel;
+		BindingContext = viewModel;
 	}
 
 	/// <summary>

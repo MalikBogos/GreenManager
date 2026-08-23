@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GreenManager_App.Services;
 using System.Collections.ObjectModel;
+using GreenManager_App.Views.Customers;
 
 namespace GreenManager_App.ViewModels
 {
@@ -16,6 +17,9 @@ namespace GreenManager_App.ViewModels
 
 		[ObservableProperty]
 		public partial bool IsBusy { get; set; }
+		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
+
+		[ObservableProperty] public partial Customer? SelectedCustomer { get; set; }
 
 		// --- NIEUWE KLANT EIGENSCHAPPEN ---
 		[ObservableProperty] public partial string NewFirstName { get; set; } = string.Empty;
@@ -29,8 +33,6 @@ namespace GreenManager_App.ViewModels
 		[ObservableProperty] public partial string NewCity { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewNotes { get; set; } = string.Empty;
 
-		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
-
 		public CustomersViewModel(ApiService apiService, IServiceProvider serviceProvider)
 		{
 			_apiService = apiService;
@@ -41,112 +43,160 @@ namespace GreenManager_App.ViewModels
 		public async Task LoadCustomersAsync()
 		{
 			if (IsBusy) return;
-			IsBusy = true;
-
-			var data = await _apiService.GetCustomersAsync();
-			Customers.Clear();
-			if (data != null)
+			try
 			{
-				foreach (var customer in data)
+				IsBusy = true;
+				var data = await _apiService.GetCustomersAsync();
+				Customers.Clear();
+				if (data != null)
 				{
-					Customers.Add(customer);
+					foreach (var customer in data) Customers.Add(customer);
 				}
 			}
-			IsBusy = false;
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in LoadCustomersAsync(): {ex}");
+			}
+			finally
+			{
+				IsBusy = false;
+			}
 		}
 
 		// Opent AddCustomerPage
 
 		[RelayCommand]
-		public void NavigateToAddCustomer()
+		public async Task NavigateToAddCustomerAsync()
 		{
-			MainThread.BeginInvokeOnMainThread(async () =>
+			try
 			{
 				var window = Application.Current?.Windows.FirstOrDefault();
-				if (window?.Page != null)
-				{
-					// Haal de nieuwe pagina op en navigeer ernaartoe
-					var addPage = _serviceProvider.GetRequiredService<Views.AddCustomerPage>();
-					await window.Page.Navigation.PushAsync(addPage);
+				if (window?.Page == null) return;
+
+				var addPage = _serviceProvider.GetRequiredService<AddCustomerPage>();
+				await window.Page.Navigation.PushAsync(addPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in NavigateToAddCustomerAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
+        public async Task SaveCustomerAsync()
+        {
+            try
+            {
+                ErrorMessage = string.Empty;
+                if (string.IsNullOrWhiteSpace(NewFirstName) || string.IsNullOrWhiteSpace(NewLastName) || 
+                    string.IsNullOrWhiteSpace(NewEmail) || string.IsNullOrWhiteSpace(NewPhoneNumber))
+                {
+                    ErrorMessage = "Voornaam, Achternaam, E-mail en Telefoonnummer zijn verplicht.";
+                    return;
+                }
+
+                var newCustomer = new Customer
+                {
+                    FirstName = NewFirstName, LastName = NewLastName, CompanyName = NewCompanyName,
+                    VATNumber = NewVATNumber, Email = NewEmail, PhoneNumber = NewPhoneNumber,
+                    Street = NewStreet, PostalCode = NewPostalCode, City = NewCity, Notes = NewNotes
+                };
+
+                bool success = await _apiService.CreateCustomerAsync(newCustomer);
+
+                if (success)
+                {
+                    // Wis velden
+                    NewFirstName = string.Empty; NewLastName = string.Empty; NewCompanyName = string.Empty;
+                    NewVATNumber = string.Empty; NewEmail = string.Empty; NewPhoneNumber = string.Empty;
+                    NewStreet = string.Empty; NewPostalCode = string.Empty; NewCity = string.Empty; NewNotes = string.Empty;
+
+                    var window = Application.Current?.Windows.FirstOrDefault();
+					if (window?.Page != null) { await window.Page.Navigation.PopAsync(); }
 				}
-			});
+                else
+                {
+                    ErrorMessage = "Opslaan mislukt.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fout in SaveCustomerAsync(): {ex}");
+            }
+        }
+
+		[RelayCommand]
+		public async Task NavigateToDetailsAsync(Customer selected)
+		{
+			try
+			{
+				if (selected == null) return;
+
+				SelectedCustomer = selected; // Sla op zodat de detailpagina dit kan gebruiken
+
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var detailsPage = _serviceProvider.GetRequiredService<CustomerDetailsPage>();
+				await window.Page.Navigation.PushAsync(detailsPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in NavigateToDetailsAsync(): {ex}");
+			}
 		}
 
 		[RelayCommand]
-		public async Task SaveCustomerAsync()
+		public async Task DeleteCustomerAsync()
 		{
-			ErrorMessage = string.Empty;
-
-			// Vereiste invulvelden
-			if (string.IsNullOrWhiteSpace(NewFirstName) ||
-				string.IsNullOrWhiteSpace(NewLastName) ||
-				string.IsNullOrWhiteSpace(NewEmail) ||
-				string.IsNullOrWhiteSpace(NewPhoneNumber))
+			try
 			{
-				ErrorMessage = "Voornaam, Achternaam, E-mail en Telefoonnummer zijn verplicht.";
-				return;
-			}
+				if (SelectedCustomer == null) return;
 
-			// Koppel alle MAUI velden aan het originele Customer model
-			var newCustomer = new Customer
-			{
-				FirstName = NewFirstName,
-				LastName = NewLastName,
-				CompanyName = NewCompanyName,
-				VATNumber = NewVATNumber,
-				Email = NewEmail,
-				PhoneNumber = NewPhoneNumber,
-				Street = NewStreet,
-				PostalCode = NewPostalCode,
-				City = NewCity,
-				Notes = NewNotes
-			};
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
 
-			// Stuur het naar de server
-			bool success = await _apiService.CreateCustomerAsync(newCustomer);
+				bool confirm = await window.Page.DisplayAlertAsync("Verwijderen", $"Weet je zeker dat je {SelectedCustomer.FirstName} wilt verwijderen?", "Ja", "Nee");
+				if (!confirm) return;
 
-			if (success)
-			{
-				// Wis alle velden voor de volgende keer
-				NewFirstName = string.Empty;
-				NewLastName = string.Empty;
-				NewCompanyName = string.Empty;
-				NewVATNumber = string.Empty;
-				NewEmail = string.Empty;
-				NewPhoneNumber = string.Empty;
-				NewStreet = string.Empty;
-				NewPostalCode = string.Empty;
-				NewCity = string.Empty;
-				NewNotes = string.Empty;
+				bool success = await _apiService.DeleteCustomerAsync(SelectedCustomer.Id);
 
-				// Ga veilig terug naar het overzicht
-				MainThread.BeginInvokeOnMainThread(async () =>
+				if (success)
 				{
-					var window = Application.Current?.Windows.FirstOrDefault();
-					if (window?.Page != null)
-					{
-						await window.Page.Navigation.PopAsync();
-					}
-				});
+					// Ga veilig terug naar het klantenoverzicht
+					await window.Page.Navigation.PopAsync();
+
+					SelectedCustomer = null;
+					await LoadCustomersAsync();
+				}
+				else
+				{
+					await window.Page.DisplayAlertAsync("Fout", "Klant kon niet worden verwijderd.", "OK");
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-				ErrorMessage = "Opslaan mislukt. Controleer je gegevens of de serververbinding.";
+				Console.WriteLine($"Fout in DeleteCustomerAsync(): {ex}");
 			}
 		}
 
 		[RelayCommand]
-		public void Logout()
+		public async Task Logout()
 		{
-			_apiService.Logout();
-			MainThread.BeginInvokeOnMainThread(() =>
+			try
 			{
+				_apiService.Logout();
 				var window = Application.Current?.Windows.FirstOrDefault();
 				if (window == null) return;
 
 				var loginPage = _serviceProvider.GetRequiredService<Views.LoginPage>();
-				window.Page = new NavigationPage(loginPage);
-			});
+				window.Page = new NavigationPage(loginPage); // Reset de stack
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in Logout(): {ex}");
+			}
 		}
 	}
 }

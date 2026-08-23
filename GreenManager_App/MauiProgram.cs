@@ -1,5 +1,6 @@
 ﻿using GreenManager_App.ViewModels;
 using GreenManager_App.Views;
+using GreenManager_App.Views.Customers;
 using Microsoft.Extensions.Logging;
 
 namespace GreenManager_App
@@ -23,6 +24,7 @@ namespace GreenManager_App
 
 			// Registreer de service
 			builder.Services.AddSingleton<Services.ApiService>();
+			builder.Services.AddSingleton<CustomersViewModel>();
 
 			// Registreer de ViewModels & Views
 			builder.Services.AddTransient<LoginViewModel>();
@@ -31,9 +33,10 @@ namespace GreenManager_App
 			builder.Services.AddTransient<DashboardViewModel>();
 			builder.Services.AddTransient<DashboardPage>();
 
-			builder.Services.AddTransient<CustomersViewModel>();
+			//builder.Services.AddTransient<CustomersViewModel>();
 			builder.Services.AddTransient<CustomersPage>();
 			builder.Services.AddTransient<AddCustomerPage>();
+			builder.Services.AddTransient<CustomerDetailsPage>();
 
 			return builder.Build();
 		}

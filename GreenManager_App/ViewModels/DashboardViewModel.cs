@@ -18,14 +18,17 @@ namespace GreenManager_App.ViewModels
 		[RelayCommand]
 		public async Task NavigateToCustomersAsync()
 		{
-			// Haal de bestaande klantenpagina op
-			var customersPage = _serviceProvider.GetRequiredService<Views.CustomersPage>();
-
-			// PushAsync zorgt ervoor dat we een 'Terug'-knop krijgen in de app!
-			var currentPage = Application.Current?.Windows.FirstOrDefault()?.Page;
-			if (currentPage != null)
+			try
 			{
-				await currentPage.Navigation.PushAsync(customersPage);
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var customersPage = _serviceProvider.GetRequiredService<Views.CustomersPage>();
+				await window.Page.Navigation.PushAsync(customersPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in NavigateToCustomersAsync(): {ex}");
 			}
 		}
 
@@ -33,7 +36,6 @@ namespace GreenManager_App.ViewModels
 		public void Logout()
 		{
 			_apiService.Logout();
-
 			MainThread.BeginInvokeOnMainThread(() =>
 			{
 				var window = Application.Current?.Windows.FirstOrDefault();

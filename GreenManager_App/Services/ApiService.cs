@@ -111,6 +111,30 @@ namespace GreenManager_App.Services
 		}
 
 		/// <summary>
+		/// Stuurt een nieuwe klant naar de API om opgeslagen te worden
+		/// </summary>
+		public async Task<bool> CreateCustomerAsync(Customer newCustomer)
+		{
+			try
+			{
+				// Zet het C# Klant object om naar JSON-tekst
+				var json = JsonSerializer.Serialize(newCustomer);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+				// Stuur een POST verzoek naar de ASP.NET API
+				var response = await _httpClient.PostAsync("api/Customers", content);
+
+				// Geeft True terug als de server succesvol antwoordt
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout bij toevoegen van klant: {ex.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// Logt de gebruiker uit door het token te verwijderen
 		/// </summary>
 		public void Logout()

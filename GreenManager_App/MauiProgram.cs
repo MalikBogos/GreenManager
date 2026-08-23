@@ -33,6 +33,7 @@ namespace GreenManager_App
 
 			builder.Services.AddTransient<CustomersViewModel>();
 			builder.Services.AddTransient<CustomersPage>();
+			builder.Services.AddTransient<AddCustomerPage>();
 
 			return builder.Build();
 		}

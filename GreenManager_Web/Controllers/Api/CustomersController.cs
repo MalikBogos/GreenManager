@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.Data;
+using Models.Entities;
 
 namespace GreenManager_Web.Controllers.Api
 {
@@ -23,33 +24,18 @@ namespace GreenManager_Web.Controllers.Api
 		}
 
 		/// <summary>
-		/// GET: api/customersapi
+		/// GET: api/Customers
 		/// Haalt een lijst op van alle actieve klanten in JSON formaat
 		/// </summary>
 		[HttpGet]
-		public async Task<IActionResult> GetCustomers()
+		public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
 		{
-			// Haal actieve klanten op uit de database
-			var customers = await _context.Customers
-				.Where(c => !c.IsDeleted)
-				// Maakt een 'anoniem object' aan met alleen de nodige gegevens voor de MAUI app om JSON crashes te voorkomen 
-				.Select(c => new
-				{
-					c.Id,
-					c.FirstName,
-					c.LastName,
-					c.Email,
-					c.PhoneNumber,
-					c.City
-				})
-				.ToListAsync();
-
-			// Ok() zorgt ervoor dat de lijst wordt omgezet in een HTTP 200 JSON-antwoord
-			return Ok(customers);
+			// We halen alleen de klanten op die niet (soft) deleted zijn
+			return await _context.Customers.Where(c => !c.IsDeleted).ToListAsync();
 		}
 
 		/// <summary>
-		/// GET: api/customersapi/5
+		/// GET: api/Customers/5
 		/// Haalt de details van een specifieke klant op
 		/// </summary>
 		[HttpGet("{id}")]
@@ -78,5 +64,85 @@ namespace GreenManager_Web.Controllers.Api
 
 			return Ok(customer);
 		}
+
+		/// <summary>
+		/// PUT: api/Customers/5
+		/// Past een bestaande klant aan via MAUI
+		/// </summary>
+		[HttpPut("{id}")]
+		public async Task<IActionResult> PutCustomer(int id, Customer customer)
+		{
+			if (id != customer.Id)
+			{
+				return BadRequest("Het ID komt niet overeen.");
+			}
+
+			customer.UpdatedAt = DateTime.UtcNow;
+			_context.Entry(customer).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!CustomerExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
+		}
+
+		/// <summary>
+		/// POST: api/Customers
+		/// Maakt een nieuwe klant aan via MAUI
+		/// </summary>
+		// POST: api/Customers
+		[HttpPost]
+		public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+		{
+			_context.Customers.Add(customer);
+			await _context.SaveChangesAsync();
+
+			// Dit stuurt een '201 Created' succescode terug naar MAUI, inclusief de nieuwe ID
+			return CreatedAtAction(nameof(GetCustomers), new { id = customer.Id }, customer);
+		}
+
+
+		/// <summary>
+		/// DELETE: api/Customers/5
+		/// Verwijdert (soft delete) een klant via MAUI
+		/// </summary>
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteCustomer(int id)
+		{
+			var customer = await _context.Customers.FindAsync(id);
+			if (customer == null)
+			{
+				return NotFound();
+			}
+
+			// Soft-delete toepassen (we verwijderen het niet echt uit de database)
+			customer.IsDeleted = true;
+			customer.DeletedAt = DateTime.UtcNow;
+			customer.DeletedReason = "Verwijderd via de mobiele app";
+
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		private bool CustomerExists(int id)
+		{
+			return _context.Customers.Any(e => e.Id == id);
+		}
+
+		
 	}
 }

@@ -1,0 +1,48 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.AddCustomerPage"
+             x:DataType="viewmodels:CustomersViewModel"
+             Title="Nieuwe Klant">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+
+			<Label Text="Persoonlijke Gegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Entry Placeholder="Voornaam *" Text="{Binding NewFirstName}" />
+			<Entry Placeholder="Achternaam *" Text="{Binding NewLastName}" />
+
+			<Label Text="Bedrijfsgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Bedrijfsnaam (Optioneel)" Text="{Binding NewCompanyName}" />
+			<Entry Placeholder="BTW-nummer (Optioneel)" Text="{Binding NewVATNumber}" />
+
+			<Label Text="Contactgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="E-mailadres *" Text="{Binding NewEmail}" Keyboard="Email" />
+
+			<Entry Placeholder="Telefoonnummer *" Text="{Binding NewPhoneNumber}" Keyboard="Telephone" />
+
+			<Label Text="Adresgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Straat en Huisnummer" Text="{Binding NewStreet}" />
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+				<Entry Grid.Column="0" Placeholder="Postcode" Text="{Binding NewPostalCode}" />
+				<Entry Grid.Column="1" Placeholder="Stad" Text="{Binding NewCity}" />
+			</Grid>
+
+			<Label Text="Extra" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+
+			<Editor Placeholder="Notities" Text="{Binding NewNotes}" HeightRequest="100" />
+
+			<!-- Foutmelding en Opslaan -->
+			<Label Text="{Binding ErrorMessage}" TextColor="Red" HorizontalOptions="Center" FontAttributes="Bold" />
+
+			<Button Text="Klant Opslaan" 
+                    Command="{Binding SaveCustomerCommand}" 
+                    BackgroundColor="DarkGreen" 
+                    TextColor="White" 
+                    CornerRadius="8" 
+                    Margin="0,15,0,20"/>
+
+		</VerticalStackLayout>
+	</ScrollView>
+
+</ContentPage>

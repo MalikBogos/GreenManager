@@ -147,6 +147,69 @@ namespace GreenManager_App.ViewModels
 		}
 
 		[RelayCommand]
+		public async Task NavigateToEditCustomerAsync()
+		{
+			try
+			{
+				if (SelectedCustomer == null) return;
+
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var editPage = _serviceProvider.GetRequiredService<EditCustomerPage>();
+				await window.Page.Navigation.PushAsync(editPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in NavigateToEditCustomerAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
+		public async Task UpdateCustomerAsync()
+		{
+			try
+			{
+				ErrorMessage = string.Empty;
+				if (SelectedCustomer == null) return;
+
+				// Controleer of de vereiste velden niet leeg zijn gemaakt door de gebruiker
+				if (string.IsNullOrWhiteSpace(SelectedCustomer.FirstName) ||
+					string.IsNullOrWhiteSpace(SelectedCustomer.LastName) ||
+					string.IsNullOrWhiteSpace(SelectedCustomer.Email) ||
+					string.IsNullOrWhiteSpace(SelectedCustomer.PhoneNumber))
+				{
+					ErrorMessage = "Voornaam, Achternaam, E-mail en Telefoonnummer zijn verplicht.";
+					return;
+				}
+
+				bool isSuccess = await _apiService.UpdateCustomerAsync(SelectedCustomer.Id, SelectedCustomer);
+
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				if (isSuccess)
+				{
+					await window.Page.Navigation.PopAsync();
+
+					int currentCustomerId = SelectedCustomer.Id;
+
+					await LoadCustomersAsync();
+
+					SelectedCustomer = Customers.FirstOrDefault(c => c.Id == currentCustomerId);
+				}
+				else
+				{
+					await window.Page.DisplayAlertAsync("Fout", "De klant kon niet worden aangepast.", "OK");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in UpdateCustomerAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
 		public async Task DeleteCustomerAsync()
 		{
 			try
@@ -177,25 +240,6 @@ namespace GreenManager_App.ViewModels
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Fout in DeleteCustomerAsync(): {ex}");
-			}
-		}
-
-		[RelayCommand]
-		public async Task Logout()
-		{
-			try
-			{
-				_apiService.Logout();
-				var window = Application.Current?.Windows.FirstOrDefault();
-				if (window == null) return;
-
-				var loginPage = _serviceProvider.GetRequiredService<Views.LoginPage>();
-				window.Page = new NavigationPage(loginPage); // Reset de stack
-
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Fout in Logout(): {ex}");
 			}
 		}
 	}

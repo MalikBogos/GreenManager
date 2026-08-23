@@ -21,7 +21,6 @@ public partial class CustomersPage : ContentPage
 	{
 		base.OnAppearing();
 
-		// Voer het LoadCustomersCommand uit dat in het ViewModel staat
 		_viewModel.LoadCustomersCommand.Execute(null);
 	}
 }

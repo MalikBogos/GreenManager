@@ -12,7 +12,7 @@ using Models.Data;
 namespace Models.Migrations
 {
     [DbContext(typeof(GreenManagerDbContext))]
-    [Migration("20260820193753_InitialCreate")]
+    [Migration("20260823203125_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -1,0 +1,56 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Employees.EditEmployeePage"
+             x:DataType="viewmodels:EmployeesViewModel"
+             Title="Werknemer Bewerken">
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+			<Label Text="Persoonsgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" />
+
+			<Label Text="Voornaam *" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="Vul voornaam in" Text="{Binding SelectedEmployee.FirstName}" />
+
+			<Label Text="Achternaam *" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="Vul achternaam in" Text="{Binding SelectedEmployee.LastName}" />
+
+			<Label Text="E-mailadres *" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="bijv. naam@domein.nl" Text="{Binding SelectedEmployee.Email}" Keyboard="Email" />
+
+			<Label Text="Geboortedatum" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<DatePicker Date="{Binding SelectedEmployee.DateOfBirth}" Format="dd/MM/yyyy" />
+
+			<Label Text="Contractgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+
+			<Label Text="Functietitel" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="bijv. Hovenier, Planner" Text="{Binding SelectedEmployee.JobTitle}" />
+
+			<Label Text="Uurloon (€)" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="0.00" Text="{Binding SelectedEmployee.HourlyWage}" Keyboard="Numeric" />
+
+			<Label Text="Adresgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+
+			<Label Text="Straat en Huisnummer" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Placeholder="bijv. Hoofdstraat 1" Text="{Binding SelectedEmployee.Street}" />
+
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+				<VerticalStackLayout Grid.Column="0">
+					<Label Text="Postcode" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+					<Entry Placeholder="1234 AB" Text="{Binding SelectedEmployee.PostalCode}" />
+				</VerticalStackLayout>
+				<VerticalStackLayout Grid.Column="1">
+					<Label Text="Stad" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+					<Entry Placeholder="bijv. Amsterdam" Text="{Binding SelectedEmployee.City}" />
+				</VerticalStackLayout>
+			</Grid>
+
+			<Label Text="Extra" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+
+			<Label Text="Interne notities" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Editor Placeholder="Schrijf hier bijzonderheden op..." Text="{Binding SelectedEmployee.Notes}" HeightRequest="100" />
+
+			<Label Text="{Binding ErrorMessage}" TextColor="Red" HorizontalOptions="Center" FontAttributes="Bold" />
+			<Button Text="Opslaan" Command="{Binding UpdateEmployeeCommand}" BackgroundColor="Orange" TextColor="White" CornerRadius="8" Margin="0,15,0,20"/>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

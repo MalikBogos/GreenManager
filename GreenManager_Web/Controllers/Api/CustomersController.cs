@@ -103,7 +103,6 @@ namespace GreenManager_Web.Controllers.Api
 		/// POST: api/Customers
 		/// Maakt een nieuwe klant aan via MAUI
 		/// </summary>
-		// POST: api/Customers
 		[HttpPost]
 		public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
 		{

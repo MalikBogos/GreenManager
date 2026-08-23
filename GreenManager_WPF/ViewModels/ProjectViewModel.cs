@@ -17,7 +17,7 @@ namespace GreenManager_WPF.ViewModels
 {
 	public partial class ProjectViewModel : ObservableObject
 	{
-		#region --- 1. HOOFDSCHERM (OVERZICHT LIJST) ---
+		#region --- HOOFDSCHERM  ---
 		private readonly IDbContextFactory<GreenManagerDbContext> _contextFactory;
 		
 		public ObservableCollection<Project> Projects { get; set; }
@@ -77,7 +77,7 @@ namespace GreenManager_WPF.ViewModels
 
 		#endregion
 
-		#region --- 2. BEWERKSCHERM (EDIT PROJECT STATE) ---
+		#region --- BEWERKSCHERM  ---
 
 		[ObservableProperty] private Project _editedProject;
 		[ObservableProperty] private List<Customer> _availableCustomers;
@@ -89,16 +89,16 @@ namespace GreenManager_WPF.ViewModels
 		public ObservableCollection<ProjectMaterial> ProjectMaterials { get; set; }
 		public ObservableCollection<WorkLog> WorkLogs { get; set; }
 
-		// Inputs voor Tab 2: Planning
+		// Tab 2: Planning
 		[ObservableProperty] private int _selectedEmployeeId;
 		[ObservableProperty] private DateTime _newPlannedDate = DateTime.Today;
 		[ObservableProperty] private decimal _newEstimatedHours;
 
-		// Inputs voor Tab 3: Materials
+		// Tab 3: Materials
 		[ObservableProperty] private int _selectedMaterialId;
 		[ObservableProperty] private decimal _newQuantity;
 
-		// Inputs voor Tab 4: WorkLogs
+		// Tab 4: WorkLogs
 		[ObservableProperty] private int _selectedWorkEmployeeId;
 		[ObservableProperty] private DateTime _newWorkDate = DateTime.Today;
 		[ObservableProperty] private decimal _newHoursWorked;
@@ -198,7 +198,7 @@ namespace GreenManager_WPF.ViewModels
 
 		#endregion
 
-		#region --- 3. TABBLAD COMMANDO'S ---
+		#region --- TABBLAD Commands ---
 
 		[RelayCommand]
 		private void AddEmployee()

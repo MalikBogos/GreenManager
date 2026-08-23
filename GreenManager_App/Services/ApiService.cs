@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Models.DTOs;
 
 namespace GreenManager_App.Services
 {
@@ -70,7 +71,7 @@ namespace GreenManager_App.Services
             }
         }
 
-
+		// ---------------------------- Customers
 
 		/// <summary>
 		/// Haalt de actieve klanten op via de API, met gebruik van het JWT-token.
@@ -130,6 +131,258 @@ namespace GreenManager_App.Services
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Fout bij toevoegen van klant: {ex.Message}");
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateCustomerAsync(int id, Customer customer)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(customer);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PutAsync($"api/Customers/{id}", content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in UpdateCustomerAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+		public async Task<bool> DeleteCustomerAsync(int id)
+		{
+			try
+			{
+				var response = await _httpClient.DeleteAsync($"api/Customers/{id}");
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in DeleteCustomerAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+
+
+		// ------------------------------ Projects
+
+		public async Task<List<ProjectDto>> GetProjectsAsync()
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(_jwtToken)) return new List<ProjectDto>();
+
+				var response = await _httpClient.GetAsync("api/Projects");
+				if (response.IsSuccessStatusCode)
+				{
+					string jsonResult = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+					var projects = JsonSerializer.Deserialize<List<ProjectDto>>(jsonResult, options);
+					return projects ?? new List<ProjectDto>();
+				}
+				return new List<ProjectDto>();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in GetProjectsAsync: {ex}");
+				return new List<ProjectDto>();
+			}
+		}
+
+		public async Task<bool> CreateProjectAsync(ProjectRequestDto newProject)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(newProject);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PostAsync("api/Projects", content);
+
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in CreateProjectAsync: {ex}");
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateProjectAsync(int id, ProjectRequestDto updatedProject)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(updatedProject);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PutAsync($"api/Projects/{id}", content);
+
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in UpdateProjectAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+		public async Task<bool> DeleteProjectAsync(int id)
+		{
+			try
+			{
+				var response = await _httpClient.DeleteAsync($"api/Projects/{id}");
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in DeleteProjectAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+
+
+
+		// ------------------------------ Materials
+
+
+		public async Task<List<Material>> GetMaterialsAsync()
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(_jwtToken)) return new List<Material>();
+
+				var response = await _httpClient.GetAsync("api/Materials");
+				if (response.IsSuccessStatusCode)
+				{
+					string jsonResult = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+					var materials = JsonSerializer.Deserialize<List<Material>>(jsonResult, options);
+					return materials ?? new List<Material>();
+				}
+				return new List<Material>();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in GetMaterialsAsync: {ex.Message}");
+				return new List<Material>();
+			}
+		}
+
+		public async Task<bool> CreateMaterialAsync(Material newMaterial)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(newMaterial);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PostAsync("api/Materials", content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in CreateMaterialAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateMaterialAsync(int id, Material material)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(material);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PutAsync($"api/Materials/{id}", content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in UpdateMaterialAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+		public async Task<bool> DeleteMaterialAsync(int id)
+		{
+			try
+			{
+				var response = await _httpClient.DeleteAsync($"api/Materials/{id}");
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in DeleteMaterialAsync: {ex.Message}");
+				return false;
+			}
+		}
+
+
+		// ------------------------------- Employees
+
+		public async Task<List<EmployeeDto>> GetEmployeesAsync()
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(_jwtToken)) return new List<EmployeeDto>();
+
+				var response = await _httpClient.GetAsync("api/Employees");
+				if (response.IsSuccessStatusCode)
+				{
+					string jsonResult = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+					var employees = JsonSerializer.Deserialize<List<EmployeeDto>>(jsonResult, options);
+					return employees ?? new List<EmployeeDto>();
+				}
+				return new List<EmployeeDto>();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in GetEmployeesAsync: {ex}");
+				return new List<EmployeeDto>();
+			}
+		}
+
+		public async Task<bool> CreateEmployeeAsync(EmployeeRequestDto newEmployee)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(newEmployee);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PostAsync("api/Employees", content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in CreateEmployeeAsync: {ex}");
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateEmployeeAsync(int id, EmployeeRequestDto employee)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(employee);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PutAsync($"api/Employees/{id}", content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in UpdateEmployeeAsync: {ex}");
+				return false;
+			}
+		}
+
+		public async Task<bool> DeleteEmployeeAsync(int id)
+		{
+			try
+			{
+				var response = await _httpClient.DeleteAsync($"api/Employees/{id}");
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in DeleteEmployeeAsync: {ex}");
 				return false;
 			}
 		}

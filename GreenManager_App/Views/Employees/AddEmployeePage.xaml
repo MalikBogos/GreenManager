@@ -1,0 +1,35 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Employees.AddEmployeePage"
+             x:DataType="viewmodels:EmployeesViewModel"
+             Title="Nieuwe Werknemer">
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+			<Label Text="Persoonsgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Entry Placeholder="Voornaam *" Text="{Binding NewFirstName}" />
+			<Entry Placeholder="Achternaam *" Text="{Binding NewLastName}" />
+			<Entry Placeholder="E-mail *" Text="{Binding NewEmail}" Keyboard="Email" />
+
+			<Label Text="Geboortedatum (Optioneel)" FontSize="12" TextColor="Gray" Margin="0,5,0,-10" />
+			<DatePicker Date="{Binding NewDateOfBirth}" Format="dd/MM/yyyy" />
+
+			<Label Text="Contractgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Functie" Text="{Binding NewJobTitle}" />
+			<Entry Placeholder="Uurloon (€)" Text="{Binding NewHourlyWage}" Keyboard="Numeric" />
+
+			<Label Text="Adresgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Straat en Huisnummer" Text="{Binding NewStreet}" />
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+				<Entry Grid.Column="0" Placeholder="Postcode" Text="{Binding NewPostalCode}" />
+				<Entry Grid.Column="1" Placeholder="Stad" Text="{Binding NewCity}" />
+			</Grid>
+
+			<Label Text="Extra" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Editor Placeholder="Interne notities" Text="{Binding NewNotes}" HeightRequest="100" />
+
+			<Label Text="{Binding ErrorMessage}" TextColor="Red" HorizontalOptions="Center" FontAttributes="Bold" />
+			<Button Text="Opslaan" Command="{Binding SaveEmployeeCommand}" BackgroundColor="#A5D6A7" TextColor="Black" CornerRadius="8" Margin="0,15,0,20"/>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

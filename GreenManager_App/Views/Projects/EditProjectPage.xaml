@@ -1,0 +1,52 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Projects.EditProjectPage"
+             x:DataType="viewmodels:ProjectsViewModel"
+             Title="Project Bewerken">
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+			<Label Text="Projectgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" />
+
+			<Label Text="Projectnaam *" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Text="{Binding SelectedProject.Name}" />
+
+			<Label Text="Beschrijving" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Editor Text="{Binding SelectedProject.Description}" HeightRequest="80" />
+
+			<Label Text="Koppeling &amp; Status" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+
+			<Label Text="Gekoppelde Klant *" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Picker ItemsSource="{Binding CustomersForPicker}" ItemDisplayBinding="{Binding LastName}" SelectedItem="{Binding SelectedCustomerForEdit}" />
+
+			<Label Text="Status" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Text="{Binding SelectedProject.Status}" />
+
+			<Label Text="Planning &amp; Financiën" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+				<VerticalStackLayout Grid.Column="0">
+					<Label Text="Startdatum" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+					<DatePicker Date="{Binding SelectedProject.StartDate}" Format="dd/MM/yyyy" />
+				</VerticalStackLayout>
+				<VerticalStackLayout Grid.Column="1">
+					<Label Text="Einddatum" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+					<DatePicker Date="{Binding SelectedProject.EndDate}" Format="dd/MM/yyyy" />
+				</VerticalStackLayout>
+			</Grid>
+
+			<Label Text="Budget (€)" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Text="{Binding SelectedProject.Budget}" Keyboard="Numeric" />
+
+			<Label Text="Locatie &amp; Notities" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,15,0,0"/>
+
+			<Label Text="Projectadres" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Entry Text="{Binding SelectedProject.ProjectAddress}" />
+
+			<Label Text="Interne notities" FontSize="12" TextColor="Gray" Margin="0,5,0,-5" />
+			<Editor Text="{Binding SelectedProject.Notes}" HeightRequest="100" />
+
+			<Label Text="{Binding ErrorMessage}" TextColor="Red" HorizontalOptions="Center" FontAttributes="Bold" />
+			<Button Text="Wijzigingen Opslaan" Command="{Binding UpdateProjectCommand}" BackgroundColor="Orange" TextColor="White" CornerRadius="8" Margin="0,15,0,20"/>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

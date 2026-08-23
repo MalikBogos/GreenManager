@@ -1,0 +1,60 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Employees.EmployeeDetailsPage"
+             x:DataType="viewmodels:EmployeesViewModel"
+             Title="Details Werknemer">
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+			<!-- Voor- en achternaam -->
+			<HorizontalStackLayout Spacing="5">
+				<Label Text="{Binding SelectedEmployee.FirstName}" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+				<Label Text="{Binding SelectedEmployee.LastName}" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+			</HorizontalStackLayout>
+
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Persoonsgegevens:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedEmployee.Email, StringFormat='E-mail: {0}'}" />
+					<Label Text="{Binding SelectedEmployee.DateOfBirth, StringFormat='Geboortedatum: {0:dd/MM/yyyy}'}" />
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Contractgegevens -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Contract:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedEmployee.EmployeeNumber, StringFormat='Nummer: {0}'}" />
+					<Label Text="{Binding SelectedEmployee.JobTitle, StringFormat='Functie: {0}'}" />
+					<Label Text="{Binding SelectedEmployee.HourlyWage, StringFormat='Loon: €{0}'}" />
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Adresgegevens -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Adres:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedEmployee.Street}" />
+					<HorizontalStackLayout Spacing="5">
+						<Label Text="{Binding SelectedEmployee.PostalCode}" />
+						<Label Text="{Binding SelectedEmployee.City}" />
+					</HorizontalStackLayout>
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Notities -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Notities:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedEmployee.Notes}" />
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Knoppen -->
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,20,0,0">
+				<Button Grid.Column="0" Text="Bewerken" Command="{Binding NavigateToEditEmployeeCommand}" BackgroundColor="Orange" TextColor="White" />
+				<Button Grid.Column="1" Text="Verwijderen" Command="{Binding DeleteEmployeeCommand}" BackgroundColor="DarkRed" TextColor="White" />
+			</Grid>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

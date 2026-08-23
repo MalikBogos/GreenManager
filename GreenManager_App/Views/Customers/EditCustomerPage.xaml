@@ -1,0 +1,44 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.Views.Customers.EditCustomerPage"
+             x:DataType="viewmodels:CustomersViewModel"
+             Title="Klant Bewerken">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="15">
+
+			<Label Text="Persoonlijke Gegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Entry Placeholder="Voornaam *" Text="{Binding SelectedCustomer.FirstName}" />
+			<Entry Placeholder="Achternaam *" Text="{Binding SelectedCustomer.LastName}" />
+
+			<Label Text="Bedrijfsgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Bedrijfsnaam (Optioneel)" Text="{Binding SelectedCustomer.CompanyName}" />
+			<Entry Placeholder="BTW-nummer (Optioneel)" Text="{Binding SelectedCustomer.VATNumber}" />
+
+			<Label Text="Contactgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="E-mailadres *" Text="{Binding SelectedCustomer.Email}" Keyboard="Email" />
+			<Entry Placeholder="Telefoonnummer *" Text="{Binding SelectedCustomer.PhoneNumber}" Keyboard="Telephone" />
+
+			<Label Text="Adresgegevens" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Entry Placeholder="Straat en Huisnummer" Text="{Binding SelectedCustomer.Street}" />
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+				<Entry Grid.Column="0" Placeholder="Postcode" Text="{Binding SelectedCustomer.PostalCode}" />
+				<Entry Grid.Column="1" Placeholder="Stad" Text="{Binding SelectedCustomer.City}" />
+			</Grid>
+
+			<Label Text="Extra" FontSize="16" FontAttributes="Bold" TextColor="DarkGreen" Margin="0,10,0,0"/>
+			<Editor Placeholder="Notities" Text="{Binding SelectedCustomer.Notes}" HeightRequest="100" />
+
+			<Label Text="{Binding ErrorMessage}" TextColor="Red" HorizontalOptions="Center" FontAttributes="Bold" />
+
+			<Button Text="Wijzigingen Opslaan" 
+                    Command="{Binding UpdateCustomerCommand}" 
+                    BackgroundColor="Orange" 
+                    TextColor="White" 
+                    CornerRadius="8" 
+                    Margin="0,15,0,20"/>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

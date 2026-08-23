@@ -50,7 +50,7 @@ namespace GreenManager_Web.Services
 					// Verbinden en mail versturen via MailKit
 					await client.ConnectAsync(mailServer, mailPort, SecureSocketOptions.StartTls);
 
-					// Hier loggen we in met de unieke Mailtrap Username in plaats van het e-mailadres!
+					// Hier loggen we in met de unieke Mailtrap Username in plaats van het e-mailadres
 					await client.AuthenticateAsync(senderUsername, senderPassword);
 
 					await client.SendAsync(emailMessage);

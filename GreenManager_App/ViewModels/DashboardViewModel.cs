@@ -2,6 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GreenManager_App.Services;
 using GreenManager_App.Views.Customers;
+using GreenManager_App.Views.Projects;
+using GreenManager_App.Views.Materials;
+using GreenManager_App.Views.Employees;
 
 namespace GreenManager_App.ViewModels
 {
@@ -34,17 +37,71 @@ namespace GreenManager_App.ViewModels
 		}
 
 		[RelayCommand]
-		public void Logout()
+		public async Task NavigateToProjectsAsync()
 		{
-			_apiService.Logout();
-			MainThread.BeginInvokeOnMainThread(() =>
+			try
 			{
 				var window = Application.Current?.Windows.FirstOrDefault();
-				if (window == null) return;
+				if (window?.Page == null) return;
 
-				var loginPage = _serviceProvider.GetRequiredService<Views.LoginPage>();
-				window.Page = new NavigationPage(loginPage);
-			});
+				var projectsPage = _serviceProvider.GetRequiredService<ProjectsPage>();
+				await window.Page.Navigation.PushAsync(projectsPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in NavigateToProjectsAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
+		public async Task NavigateToMaterialsAsync()
+		{
+			try
+			{
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var materialsPage = _serviceProvider.GetRequiredService<MaterialsPage>();
+				await window.Page.Navigation.PushAsync(materialsPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in NavigateToMaterialsAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
+		public async Task NavigateToEmployeesAsync()
+		{
+			try
+			{
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var materialsPage = _serviceProvider.GetRequiredService<EmployeesPage>();
+				await window.Page.Navigation.PushAsync(materialsPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in NavigateToMaterialsAsync(): {ex}");
+			}
+		}
+
+		[RelayCommand]
+		public async Task NavigateToSettingsAsync()
+		{
+			try
+			{
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				var settingsPage = _serviceProvider.GetRequiredService<SettingsPage>();
+				await window.Page.Navigation.PushAsync(settingsPage);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error in NavigateToSettingsAsync(): {ex}");
+			}
 		}
 	}
 }

@@ -1,0 +1,39 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             
+	xmlns:dtos="clr-namespace:Models.DTOs;assembly=Models"
+             
+             x:Class="GreenManager_App.Views.Projects.ProjectsPage"
+             x:Name="RootPage"
+             x:DataType="viewmodels:ProjectsViewModel"
+             Title="Projecten">
+	<Grid RowDefinitions="Auto, *">
+		<Button Grid.Row="0" Text="+ Nieuw Project" Command="{Binding NavigateToAddProjectCommand}" BackgroundColor="DarkGreen" TextColor="White" Margin="15,15,15,0" />
+
+		<CollectionView Grid.Row="1" ItemsSource="{Binding Projects}">
+			<CollectionView.ItemTemplate>
+
+				<DataTemplate x:DataType="dtos:ProjectDto">
+
+					<Border Margin="0,0,0,10" Padding="15" BackgroundColor="#F5F5F5">
+
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer 
+                                Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.NavigateToDetailsCommand}" 
+                                CommandParameter="{Binding .}" />
+						</Border.GestureRecognizers>
+
+						<VerticalStackLayout>
+							<Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="DarkGreen"/>
+							<Label Text="{Binding CustomerLastName, StringFormat='Klant: {0}'}" FontSize="16" TextColor="Black" />
+							<Label Text="{Binding Status}" FontSize="14" TextColor="Gray" />
+						</VerticalStackLayout>
+					</Border>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+
+		<ActivityIndicator Grid.Row="0" Grid.RowSpan="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" VerticalOptions="Center" Color="DarkGreen" />
+	</Grid>
+</ContentPage>

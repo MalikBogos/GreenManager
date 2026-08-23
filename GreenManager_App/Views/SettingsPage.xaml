@@ -1,0 +1,29 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             x:Class="GreenManager_App.SettingsPage"
+             x:DataType="viewmodels:SettingsViewModel"
+             Title="Instellingen">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="30" Spacing="20">
+			<Label Text="Applicatie Instellingen" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Label Text="Beheer je account en app-voorkeuren." FontSize="14" TextColor="Gray" Margin="0,0,0,10"/>
+
+			<Border Padding="20" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="10">
+					<Label Text="Accountbeheer" FontSize="18" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="Log veilig uit van dit apparaat om je gegevens te beschermen. Je zult opnieuw moeten inloggen met je e-mailadres en wachtwoord." FontSize="14" TextColor="Gray" />
+
+					<Button Text="Uitloggen" 
+                            Command="{Binding LogoutCommand}" 
+                            BackgroundColor="DarkRed" 
+                            TextColor="White" 
+                            CornerRadius="8" 
+                            Margin="0,15,0,0" />
+				</VerticalStackLayout>
+			</Border>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

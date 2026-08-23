@@ -8,30 +8,62 @@
 	<ScrollView>
 		<VerticalStackLayout Padding="30" Spacing="15">
 
-			<!-- We binden aan de 'SelectedCustomer' eigenschap uit het ViewModel -->
-			<Label Text="{Binding SelectedCustomer.FirstName, StringFormat='{0}s Profiel'}" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
+			<Label Text="{Binding SelectedCustomer.FirstName, StringFormat='Profiel van: {0}'}" FontSize="24" FontAttributes="Bold" TextColor="DarkGreen" />
 
-			<Border Padding="15" BackgroundColor="#F5F5F5">
+			<!-- Naam & Bedrijf -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
 				<VerticalStackLayout Spacing="5">
-					<Label Text="Naam:" FontAttributes="Bold" />
-					<Label Text="{Binding SelectedCustomer.FirstName}" />
-					<Label Text="{Binding SelectedCustomer.LastName}" />
+					<Label Text="Persoonlijk &amp; Bedrijf:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedCustomer.FirstName, StringFormat='Voornaam: {0}'}" />
+					<Label Text="{Binding SelectedCustomer.LastName, StringFormat='Achternaam: {0}'}" />
 
-					<Label Text="Contact:" FontAttributes="Bold" Margin="0,10,0,0"/>
-					<Label Text="{Binding SelectedCustomer.Email}" />
-					<Label Text="{Binding SelectedCustomer.PhoneNumber}" />
-
-					<Label Text="Adres:" FontAttributes="Bold" Margin="0,10,0,0"/>
-					<Label Text="{Binding SelectedCustomer.Street}" />
-					<Label Text="{Binding SelectedCustomer.City}" />
+					<Label Text="{Binding SelectedCustomer.CompanyName, StringFormat='Bedrijf: {0}'}" Margin="0,5,0,0"/>
+					<Label Text="{Binding SelectedCustomer.VATNumber, StringFormat='BTW: {0}'}" />
 				</VerticalStackLayout>
 			</Border>
 
-			<Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,20,0,0">
-				<!-- De Edit knop bouwen we in de volgende stap -->
-				<Button Grid.Column="0" Text="Bewerken" BackgroundColor="Orange" TextColor="White" />
+			<!-- Contactgegevens -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Contact:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedCustomer.Email, StringFormat='E-mail: {0}'}" />
+					<Label Text="{Binding SelectedCustomer.PhoneNumber, StringFormat='Tel: {0}'}" />
+				</VerticalStackLayout>
+			</Border>
 
-				<Button Grid.Column="1" Text="Verwijderen" Command="{Binding DeleteCustomerCommand}" BackgroundColor="DarkRed" TextColor="White" />
+			<!-- Adres -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Adres:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedCustomer.Street}" />
+					<HorizontalStackLayout Spacing="5">
+						<Label Text="{Binding SelectedCustomer.PostalCode}" />
+						<Label Text="{Binding SelectedCustomer.City}" />
+					</HorizontalStackLayout>
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Extra Notities -->
+			<Border Padding="15" BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 8">
+				<VerticalStackLayout Spacing="5">
+					<Label Text="Notities:" FontAttributes="Bold" TextColor="DarkGreen" />
+					<Label Text="{Binding SelectedCustomer.Notes}" />
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Knoppen voor Acties -->
+			<Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,20,0,0">
+				<Button Grid.Column="0" 
+                        Text="Bewerken" 
+                        Command="{Binding NavigateToEditCustomerCommand}" 
+                        BackgroundColor="Orange" 
+                        TextColor="White" />
+
+				<Button Grid.Column="1" 
+                        Text="Verwijderen" 
+                        Command="{Binding DeleteCustomerCommand}" 
+                        BackgroundColor="DarkRed" 
+                        TextColor="White" />
 			</Grid>
 
 		</VerticalStackLayout>

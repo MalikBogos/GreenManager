@@ -1,0 +1,32 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GreenManager_App.ViewModels"
+             xmlns:models="clr-namespace:Models.Entities;assembly=Models"
+             x:Class="GreenManager_App.Views.Materials.MaterialsPage"
+             x:Name="RootPage"
+             x:DataType="viewmodels:MaterialsViewModel"
+             Title="Materialen">
+
+	<Grid RowDefinitions="Auto, *">
+		<Button Grid.Row="0" Text="+ Nieuw Materiaal" Command="{Binding NavigateToAddMaterialCommand}" Padding="10" Margin="15,15,15,0" BackgroundColor="#81C784" TextColor="Black" />
+
+		<CollectionView Grid.Row="1" ItemsSource="{Binding Materials}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="models:Material">
+					<Border Margin="0,0,0,10" Padding="15" BackgroundColor="#F5F5F5">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.NavigateToDetailsCommand}" CommandParameter="{Binding .}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout>
+							<Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="DarkGreen"/>
+							<Label Text="{Binding StockQuantity, StringFormat='Voorraad: {0}'}" FontSize="14" TextColor="Gray" />
+							<Label Text="{Binding Unit, StringFormat='Eenheid: {0}'}" FontSize="14" TextColor="Gray" />
+						</VerticalStackLayout>
+					</Border>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+
+		<ActivityIndicator Grid.Row="0" Grid.RowSpan="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" VerticalOptions="Center" Color="DarkGreen" />
+	</Grid>
+</ContentPage>

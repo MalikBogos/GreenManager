@@ -55,7 +55,7 @@
 				<TextBlock Text="Datum indiensttreding *" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<DatePicker SelectedDate="{Binding EditedEmployee.HireDate}" Padding="5" Margin="0,0,0,25" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
-				<TextBlock Text="👤 Persoonlijke Gegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+				<TextBlock Text="Persoonlijke Gegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 
 				<TextBlock Text="Voornaam *" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<TextBox Text="{Binding EditedFirstName}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
@@ -66,7 +66,7 @@
 				<TextBlock Text="Geboortedatum" FontWeight="SemiBold" Margin="0,0,0,5"/>
 				<DatePicker SelectedDate="{Binding EditedEmployee.DateOfBirth}" Padding="5" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
-				<!-- Address-->
+				<!-- Adres -->
 
 				<TextBlock Text="Adresgegevens" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
                 
@@ -89,7 +89,7 @@
                     </StackPanel>
                 </Grid>
 
-				<TextBlock Text="📝 Interne Notities" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+				<TextBlock Text="Interne Notities" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
 				<TextBox Text="{Binding EditedEmployee.Notes}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalContentAlignment="Top" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
 			</StackPanel>

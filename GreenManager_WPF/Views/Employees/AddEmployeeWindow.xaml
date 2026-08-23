@@ -13,7 +13,7 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0" Margin="0,0,0,20">
-			<TextBlock Text="👥 Nieuwe Werknemer" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="Nieuwe Werknemer" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
 		</StackPanel>
 
 		<StackPanel Grid.Row="1">

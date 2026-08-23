@@ -21,7 +21,6 @@ namespace GreenManager_WPF.Views
 	{
 		public Employee EditedEmployee { get; set; }
 
-		// NIEUW: Eigenschappen voor de voornaam en achternaam
 		public string EditedFirstName { get; set; } = string.Empty;
 		public string EditedLastName { get; set; } = string.Empty;
 		public string EditedPhoneNumber { get; set; } = string.Empty;

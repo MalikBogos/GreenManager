@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,15">
-            <TextBlock Text="⚙️ Project Details &amp; Beheer" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+            <TextBlock Text="Project Details &amp; Beheer" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
             <TextBlock Text="{Binding EditedProject.Name}" FontSize="16" Foreground="#7F8C8D"/>
         </StackPanel>
 
@@ -32,7 +32,6 @@
                             <TextBox Text="{Binding EditedProject.Name}" Padding="8" Margin="0,0,0,15" BorderThickness="1" BorderBrush="#DCDDE1"/>
 
 							<TextBlock Text="Gekoppelde Klant (Kan niet gewijzigd worden)" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#7F8C8D"/>
-							<!-- NIEUW: IsEnabled="False" zorgt ervoor dat de dropdown vergrendeld is -->
 							<ComboBox ItemsSource="{Binding AvailableCustomers}" 
                                       SelectedValue="{Binding EditedProject.CustomerId}" 
                                       SelectedValuePath="Id" 
@@ -114,7 +113,7 @@
                 </Grid>
             </TabItem>
 
-            <!-- TAB 3: MATERIALEN -->
+            <!-- TAB 3: MATERIAAL -->
             <TabItem Header="Materialen" FontSize="14" FontWeight="SemiBold">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>

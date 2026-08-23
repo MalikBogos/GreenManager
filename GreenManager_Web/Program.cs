@@ -1,4 +1,3 @@
-using GreenManager_Web.Middleware;
 using GreenManager_Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;

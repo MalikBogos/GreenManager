@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GreenManager_WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+			 Background="White">
 
 	<Grid Margin="20">
 		<Grid.RowDefinitions>
@@ -14,9 +15,8 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock Text="Werknemersbeheer" FontSize="26" FontWeight="Bold" Margin="0,0,0,10"/>
+		<TextBlock Style="{StaticResource HeaderStyle}" Text="Werknemersbeheer"/>
 
-		<!-- Knoppenbalk -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
             <Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Werknemer" Command="{Binding OpenAddWindowCommand}"/>
 			
@@ -25,7 +25,6 @@
 			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Werknemer" Command="{Binding DeleteEmployeeCommand}"/>
 		</StackPanel>
 
-		<!-- Tabel met Werknemers-->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Employees}" 
                   SelectedItem="{Binding SelectedEmployee}"
@@ -34,7 +33,6 @@
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
                   BorderThickness="1"
-                  BorderBrush="#E0E0E0"
 				  HorizontalScrollBarVisibility="Auto"
                   RowHeight="35">
 			<DataGrid.Columns>

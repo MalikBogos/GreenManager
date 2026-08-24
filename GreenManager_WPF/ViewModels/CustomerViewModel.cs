@@ -39,25 +39,34 @@ namespace GreenManager_WPF.ViewModels
 
 		private void LoadCustomers()
         {
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var query = context.Customers.Where(c => c.IsDeleted == false).AsQueryable();
-
-				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					query = query.Where(c => c.FirstName.Contains(SearchQuery) ||
-												c.LastName.Contains(SearchQuery) ||
-												c.Email.Contains(SearchQuery) ||
-												(c.CompanyName != null && c.CompanyName.Contains(SearchQuery)));
+					var query = context.Customers.Where(c => c.IsDeleted == false).AsQueryable();
+
+					if (!string.IsNullOrWhiteSpace(SearchQuery))
+					{
+						query = query.Where(c => c.FirstName.Contains(SearchQuery) ||
+													c.LastName.Contains(SearchQuery) ||
+													c.Email.Contains(SearchQuery) ||
+													(c.CompanyName != null && c.CompanyName.Contains(SearchQuery)));
+					}
+
+					// Voer de zoekopdracht uit
+					var customersFromDb = query.ToList();
+
+					Customers.Clear();
+					foreach (var customer in customersFromDb)
+					{
+						Customers.Add(customer);
+					}
 				}
-
-				// Voer de zoekopdracht uit
-				var customersFromDb = query.ToList();
-
-				Customers.Clear();
-				foreach (var customer in customersFromDb)
+			} catch (Exception ex)
+			{
 				{
-					Customers.Add(customer);
+					MessageBox.Show($"Er ging iets mis bij LoadCustomers(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
             
@@ -66,64 +75,96 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private void OpenAddWindow()
 		{
-			var addWindow = new AddCustomerWindow();
-
-			if (addWindow.ShowDialog() == true)
+			try
 			{
-				using (var context = _contextFactory.CreateDbContext())
-				{
-					var CustomerToSave = addWindow.NewCustomer;
+				var addWindow = new AddCustomerWindow();
 
-					context.Customers.Add(CustomerToSave);
-					context.SaveChanges();
+				if (addWindow.ShowDialog() == true)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						var CustomerToSave = addWindow.NewCustomer;
+
+						context.Customers.Add(CustomerToSave);
+						context.SaveChanges();
+					}
+					LoadCustomers();
 				}
-				LoadCustomers();
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij OpenAddWindow(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void EditCustomer()
 		{
-			if (SelectedCustomer == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een klant om te bewerken.");
-				return;
-			}
-
-			var editWindow = new EditCustomerWindow(SelectedCustomer);
-
-			using (var context = _contextFactory.CreateDbContext()) {
-				if (editWindow.ShowDialog() == true)
+				if (SelectedCustomer == null)
 				{
-					editWindow.EditedCustomer.UpdatedAt = DateTime.UtcNow;
-					context.Customers.Update(editWindow.EditedCustomer);
-					context.SaveChanges();
+					MessageBox.Show("Selecteer eerst een klant om te bewerken.");
+					return;
 				}
-				LoadCustomers();
+
+				var editWindow = new EditCustomerWindow(SelectedCustomer);
+
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					if (editWindow.ShowDialog() == true)
+					{
+						editWindow.EditedCustomer.UpdatedAt = DateTime.UtcNow;
+						context.Customers.Update(editWindow.EditedCustomer);
+						context.SaveChanges();
+					}
+					LoadCustomers();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij EditCustomer(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void SoftDeleteCustomer()
 		{
-			if (SelectedCustomer == null)
+			try
 			{
-				MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			var result = MessageBox.Show($"Ben je zeker dat je {SelectedCustomer.FirstName} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
-			using (var context = _contextFactory.CreateDbContext()) {
-				if (result == MessageBoxResult.Yes)
+				if (SelectedCustomer == null)
 				{
-					SelectedCustomer.IsDeleted = true;
-					SelectedCustomer.DeletedAt = DateTime.UtcNow;
-					SelectedCustomer.DeletedReason = "Verwijderd voor archivering";
-					context.Customers.Update(SelectedCustomer);
-					context.SaveChanges();
+					MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
 				}
 
-				LoadCustomers();
+				var result = MessageBox.Show($"Ben je zeker dat je {SelectedCustomer.FirstName} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					if (result == MessageBoxResult.Yes)
+					{
+						SelectedCustomer.IsDeleted = true;
+						SelectedCustomer.DeletedAt = DateTime.UtcNow;
+						SelectedCustomer.DeletedReason = "Verwijderd voor archivering";
+						context.Customers.Update(SelectedCustomer);
+						context.SaveChanges();
+					}
+
+					LoadCustomers();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LoadCustomers(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 	}

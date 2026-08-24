@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Models.Data;
 using Models.Entities;
 using Models.Enums;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
+using System.Windows;
 
 namespace GreenManager_WPF.ViewModels
 {
@@ -34,29 +35,39 @@ namespace GreenManager_WPF.ViewModels
 
 		private void LoadDashboardData()
 		{
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				TotalCustomers = context.Customers.AsNoTracking().Count(c => !c.IsDeleted);
-				TotalEmployees = context.Employees.AsNoTracking().Count(e => !e.IsDeleted);
-
-				TotalActiveProjects = context.Projects.AsNoTracking().Count(p => !p.IsDeleted &&
-																 (p.Status == ProjectStatus.Accepted ||
-																  p.Status == ProjectStatus.InProgress));
-
-				var recentProjects = context.Projects
-					.AsNoTracking()
-					.Include(p => p.Customer)
-					.Where(p => !p.IsDeleted &&
-								p.Status != ProjectStatus.Completed &&
-								p.Status != ProjectStatus.Cancelled)
-					.OrderBy(p => p.StartDate)
-					.Take(5)
-					.ToList();
-
-				ActiveProjects.Clear();
-				foreach (var project in recentProjects)
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					ActiveProjects.Add(project);
+					TotalCustomers = context.Customers.AsNoTracking().Count(c => !c.IsDeleted);
+					TotalEmployees = context.Employees.AsNoTracking().Count(e => !e.IsDeleted);
+
+					TotalActiveProjects = context.Projects.AsNoTracking().Count(p => !p.IsDeleted &&
+																	 (p.Status == ProjectStatus.Accepted ||
+																	  p.Status == ProjectStatus.InProgress));
+
+					var recentProjects = context.Projects
+						.AsNoTracking()
+						.Include(p => p.Customer)
+						.Where(p => !p.IsDeleted &&
+									p.Status != ProjectStatus.Completed &&
+									p.Status != ProjectStatus.Cancelled)
+						.OrderBy(p => p.StartDate)
+						.Take(5)
+						.ToList();
+
+					ActiveProjects.Clear();
+					foreach (var project in recentProjects)
+					{
+						ActiveProjects.Add(project);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LoadDashboardData(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}

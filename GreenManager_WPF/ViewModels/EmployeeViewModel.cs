@@ -30,18 +30,28 @@ namespace GreenManager_WPF.ViewModels
 
 		private void LoadEmployees()
 		{
-			using (var context = _contextFactory.CreateDbContext()) { 
-				var query = context.Employees
-					.Include(e => e.User)
-					.Where(e => !e.IsDeleted)
-					.AsQueryable();
-
-				var employeesFromDb = query.ToList();
-
-				Employees.Clear();
-				foreach (var employee in employeesFromDb)
+			try
+			{
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					Employees.Add(employee);
+					var query = context.Employees
+						.Include(e => e.User)
+						.Where(e => !e.IsDeleted)
+						.AsQueryable();
+
+					var employeesFromDb = query.ToList();
+
+					Employees.Clear();
+					foreach (var employee in employeesFromDb)
+					{
+						Employees.Add(employee);
+					}
+				}
+			} catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LoadEmployees(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -49,143 +59,173 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private void OpenAddWindow()
 		{
-			string newEmployeeNumber = "EMP001";
-
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var lastEmployee = context.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
+				string newEmployeeNumber = "EMP001";
 
-				if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
-				{
-					string numberPart = lastEmployee.EmployeeNumber.Substring(3);
-
-					if (int.TryParse(numberPart, out int lastNumber))
-					{
-						newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
-					}
-				}
-			}
-
-			var addWindow = new AddEmployeeWindow(newEmployeeNumber);
-
-			if (addWindow.ShowDialog() == true)
-			{
 				using (var context = _contextFactory.CreateDbContext())
 				{
-					var newLoginAccount = new ApplicationUser
+					var lastEmployee = context.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
+
+					if (lastEmployee != null && lastEmployee.EmployeeNumber != null && lastEmployee.EmployeeNumber.StartsWith("EMP"))
 					{
-						Id = Guid.NewGuid().ToString(),
-						UserName = addWindow.UserEmail,
-						NormalizedUserName = addWindow.UserEmail.ToUpper(),
-						Email = addWindow.UserEmail,
-						NormalizedEmail = addWindow.UserEmail.ToUpper(),
-						FirstName = addWindow.UserFirstName,
-						LastName = addWindow.UserLastName,
-						EmailConfirmed = true,
-						CreatedAt = DateTime.UtcNow
-					};
+						string numberPart = lastEmployee.EmployeeNumber.Substring(3);
 
-					var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
-					newLoginAccount.PasswordHash = hasher.HashPassword(newLoginAccount, "Welcome123!");
-
-					context.Users.Add(newLoginAccount);
-
-					addWindow.NewEmployee.ApplicationUserId = newLoginAccount.Id;
-
-				context.Employees.Add(addWindow.NewEmployee);
-				context.SaveChanges();
+						if (int.TryParse(numberPart, out int lastNumber))
+						{
+							newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+						}
+					}
 				}
 
-				LoadEmployees();
+				var addWindow = new AddEmployeeWindow(newEmployeeNumber);
+
+				if (addWindow.ShowDialog() == true)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						var newLoginAccount = new ApplicationUser
+						{
+							Id = Guid.NewGuid().ToString(),
+							UserName = addWindow.UserEmail,
+							NormalizedUserName = addWindow.UserEmail.ToUpper(),
+							Email = addWindow.UserEmail,
+							NormalizedEmail = addWindow.UserEmail.ToUpper(),
+							FirstName = addWindow.UserFirstName,
+							LastName = addWindow.UserLastName,
+							EmailConfirmed = true,
+							CreatedAt = DateTime.UtcNow
+						};
+
+						var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>();
+						newLoginAccount.PasswordHash = hasher.HashPassword(newLoginAccount, "Welcome123!");
+
+						context.Users.Add(newLoginAccount);
+
+						addWindow.NewEmployee.ApplicationUserId = newLoginAccount.Id;
+
+						context.Employees.Add(addWindow.NewEmployee);
+						context.SaveChanges();
+					}
+
+					LoadEmployees();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij OpenAddWindow(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void EditEmployee()
 		{
-			if (SelectedEmployee == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een werknemer om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			using (var context = _contextFactory.CreateDbContext())
-			{
-				var availableRoles = context.Roles.ToList();
-				var currentRoleMap = context.UserRoles.FirstOrDefault(ur => ur.UserId == SelectedEmployee.ApplicationUserId);
-				string currentRoleId = currentRoleMap != null ? currentRoleMap.RoleId : null;
-
-				var editWindow = new EditEmployeeWindow(SelectedEmployee, availableRoles, currentRoleId);
-
-				if (editWindow.ShowDialog() == true)
+				if (SelectedEmployee == null)
 				{
-					var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
-					if (userToUpdate != null)
-					{
-						userToUpdate.FirstName = editWindow.EditedFirstName;
-						userToUpdate.LastName = editWindow.EditedLastName;
-						userToUpdate.PhoneNumber = editWindow.EditedPhoneNumber;
-						context.Users.Update(userToUpdate);
-					}
-
-					if (editWindow.SelectedRoleId != null)
-					{
-						var existingRole = context.UserRoles.FirstOrDefault(ur => ur.UserId == editWindow.EditedEmployee.ApplicationUserId);
-
-						if (existingRole != null && existingRole.RoleId != editWindow.SelectedRoleId)
-						{
-							context.UserRoles.Remove(existingRole);
-							context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
-						}
-						else if (existingRole == null)
-						{
-							context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
-						}
-					}
-					editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
-					context.Employees.Update(editWindow.EditedEmployee);
-					context.SaveChanges();
+					MessageBox.Show("Selecteer eerst een werknemer om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
 				}
-				LoadEmployees();
+
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					var availableRoles = context.Roles.ToList();
+					var currentRoleMap = context.UserRoles.FirstOrDefault(ur => ur.UserId == SelectedEmployee.ApplicationUserId);
+					string currentRoleId = currentRoleMap != null ? currentRoleMap.RoleId : null;
+
+					var editWindow = new EditEmployeeWindow(SelectedEmployee, availableRoles, currentRoleId);
+
+					if (editWindow.ShowDialog() == true)
+					{
+						var userToUpdate = context.Users.Find(editWindow.EditedEmployee.ApplicationUserId);
+						if (userToUpdate != null)
+						{
+							userToUpdate.FirstName = editWindow.EditedFirstName;
+							userToUpdate.LastName = editWindow.EditedLastName;
+							userToUpdate.PhoneNumber = editWindow.EditedPhoneNumber;
+							context.Users.Update(userToUpdate);
+						}
+
+						if (editWindow.SelectedRoleId != null)
+						{
+							var existingRole = context.UserRoles.FirstOrDefault(ur => ur.UserId == editWindow.EditedEmployee.ApplicationUserId);
+
+							if (existingRole != null && existingRole.RoleId != editWindow.SelectedRoleId)
+							{
+								context.UserRoles.Remove(existingRole);
+								context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
+							}
+							else if (existingRole == null)
+							{
+								context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = editWindow.EditedEmployee.ApplicationUserId, RoleId = editWindow.SelectedRoleId });
+							}
+						}
+						editWindow.EditedEmployee.UpdatedAt = DateTime.UtcNow;
+						context.Employees.Update(editWindow.EditedEmployee);
+						context.SaveChanges();
+					}
+					LoadEmployees();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij EditEmployee(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void DeleteEmployee()
 		{
-			if (SelectedEmployee == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
-				return;
-			}
-
-			var result = MessageBox.Show($"Weet je zeker dat je werknemer '{SelectedEmployee.EmployeeNumber}' wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-			if (result == MessageBoxResult.Yes)
-			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (SelectedEmployee == null)
 				{
-					var employeeToDelete = context.Employees.Include(e => e.User).FirstOrDefault(e => e.Id == SelectedEmployee.Id);
-
-					if (employeeToDelete != null)
-					{
-						employeeToDelete.IsDeleted = true;
-						employeeToDelete.DeletedAt = DateTime.UtcNow;
-						employeeToDelete.DeletedReason = "Verwijderd via werknemersoverzicht";
-
-						if (employeeToDelete.User != null)
-						{
-							employeeToDelete.User.IsDeleted = true;
-							employeeToDelete.User.DeletedAt = DateTime.UtcNow;
-							employeeToDelete.User.DeletedReason = "Gekoppelde werknemer verwijderd";
-						}
-
-						context.Employees.Update(employeeToDelete);
-						context.SaveChanges();
-					}
+					MessageBox.Show("Selecteer eerst een werknemer om te verwijderen.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Warning);
+					return;
 				}
 
-				LoadEmployees();
+				var result = MessageBox.Show($"Weet je zeker dat je werknemer '{SelectedEmployee.EmployeeNumber}' wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+				if (result == MessageBoxResult.Yes)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						var employeeToDelete = context.Employees.Include(e => e.User).FirstOrDefault(e => e.Id == SelectedEmployee.Id);
+
+						if (employeeToDelete != null)
+						{
+							employeeToDelete.IsDeleted = true;
+							employeeToDelete.DeletedAt = DateTime.UtcNow;
+							employeeToDelete.DeletedReason = "Verwijderd via werknemersoverzicht";
+
+							if (employeeToDelete.User != null)
+							{
+								employeeToDelete.User.IsDeleted = true;
+								employeeToDelete.User.DeletedAt = DateTime.UtcNow;
+								employeeToDelete.User.DeletedReason = "Gekoppelde werknemer verwijderd";
+							}
+
+							context.Employees.Update(employeeToDelete);
+							context.SaveChanges();
+						}
+					}
+
+					LoadEmployees();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij DeleteEmployee(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 	}

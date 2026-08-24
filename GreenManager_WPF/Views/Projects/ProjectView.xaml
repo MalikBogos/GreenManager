@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GreenManager_WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+			 Background="White">
 	<Grid Margin="20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -15,7 +16,6 @@
 
 		<TextBlock Style="{StaticResource HeaderStyle}" Text="Projectenbeheer"/>
 
-		<!-- Knoppenbalk -->
 		<StackPanel Grid.Row="1" Style="{StaticResource StackPanelStyle}">
 			<Button Style="{StaticResource AddButtonStyle}" Content="Nieuw Project" Command="{Binding OpenAddProjectWindowCommand}"/>
 
@@ -24,7 +24,6 @@
 			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Project" Command="{Binding SoftDeleteProjectCommand}"/>
 		</StackPanel>
 
-		<!-- Tabel met projecten -->
 		<DataGrid Grid.Row="2"
                   ItemsSource="{Binding Projects}"
                   SelectedItem="{Binding SelectedProject}"
@@ -33,7 +32,6 @@
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
                   BorderThickness="1"
-                  BorderBrush="#E0E0E0"
                   RowHeight="35">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Projectnaam" Binding="{Binding Name}" Width="*"/>

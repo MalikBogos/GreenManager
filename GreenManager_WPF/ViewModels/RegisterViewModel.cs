@@ -46,85 +46,96 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		public async Task Register()
 		{
-			ErrorMessage = string.Empty;
-
-			if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName) ||
-				string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+			try
 			{
-				ErrorMessage = "Vul a.u.b. alle velden in.";
-				return;
-			}
+				ErrorMessage = string.Empty;
 
-			if (Password != ConfirmPassword)
-			{
-				ErrorMessage = "Wachtwoorden komen niet overeen.";
-				return;
-			}
-
-			var newUser = new ApplicationUser
-			{
-				Id = Guid.NewGuid().ToString(),
-				UserName = Email,
-				NormalizedUserName = Email.ToUpper(),
-				Email = Email,
-				NormalizedEmail = Email.ToUpper(),
-				FirstName = this.FirstName,
-				LastName = this.LastName,
-				EmailConfirmed = true,
-				CreatedAt = DateTime.UtcNow
-			};
-
-			var result = await _userManager.CreateAsync(newUser, Password);
-
-			if (result.Succeeded)
-			{
-				await _userManager.AddToRoleAsync(newUser, "Guest");
-
-				using (var context = _contextFactory.CreateDbContext())
+				if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName) ||
+					string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
 				{
-					string newEmployeeNumber = "EMP001";
-					var lastEmployee = context.Employees.AsNoTracking().OrderByDescending(e => e.Id).FirstOrDefault();
+					ErrorMessage = "Vul a.u.b. alle velden in.";
+					return;
+				}
 
-					if (lastEmployee != null && lastEmployee.EmployeeNumber != null)
+				if (Password != ConfirmPassword)
+				{
+					ErrorMessage = "Wachtwoorden komen niet overeen.";
+					return;
+				}
+
+				var newUser = new ApplicationUser
+				{
+					Id = Guid.NewGuid().ToString(),
+					UserName = Email,
+					NormalizedUserName = Email.ToUpper(),
+					Email = Email,
+					NormalizedEmail = Email.ToUpper(),
+					FirstName = this.FirstName,
+					LastName = this.LastName,
+					EmailConfirmed = true,
+					CreatedAt = DateTime.UtcNow
+				};
+
+				var result = await _userManager.CreateAsync(newUser, Password);
+
+				if (result.Succeeded)
+				{
+					await _userManager.AddToRoleAsync(newUser, "Guest");
+
+					using (var context = _contextFactory.CreateDbContext())
 					{
-						string numberPart = lastEmployee.EmployeeNumber.Substring(3);
+						string newEmployeeNumber = "EMP001";
+						var lastEmployee = context.Employees.AsNoTracking().OrderByDescending(e => e.Id).FirstOrDefault();
 
-						if (int.TryParse(numberPart, out int lastNumber))
+						if (lastEmployee != null && lastEmployee.EmployeeNumber != null)
 						{
-							newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+							string numberPart = lastEmployee.EmployeeNumber.Substring(3);
+
+							if (int.TryParse(numberPart, out int lastNumber))
+							{
+								newEmployeeNumber = $"EMP{(lastNumber + 1):D3}";
+							}
+						}
+
+						var newEmployee = new Employee
+						{
+							ApplicationUserId = newUser.Id,
+							EmployeeNumber = newEmployeeNumber,
+							JobTitle = "Gast account",
+							HireDate = DateTime.Today,
+							CreatedAt = DateTime.UtcNow
+						};
+
+						context.Employees.Add(newEmployee);
+						context.SaveChanges();
+					}
+
+					MessageBox.Show("Account succesvol aangemaakt! Je kan nu inloggen.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+
+					var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
+					loginWindow.Show();
+
+					foreach (Window window in Application.Current.Windows)
+					{
+						if (window.DataContext == this)
+						{
+							window.Close();
+							break;
 						}
 					}
-
-					var newEmployee = new Employee
-					{
-						ApplicationUserId = newUser.Id,
-						EmployeeNumber = newEmployeeNumber,
-						JobTitle = "Gast account",
-						HireDate = DateTime.Today,
-						CreatedAt = DateTime.UtcNow
-					};
-
-					context.Employees.Add(newEmployee);
-					context.SaveChanges();
 				}
-
-				MessageBox.Show("Account succesvol aangemaakt! Je kan nu inloggen.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
-
-				var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
-				loginWindow.Show();
-
-				foreach (Window window in Application.Current.Windows)
+				else
 				{
-					if (window.DataContext == this)
-					{
-						window.Close();
-						break;
-					}
+					var errorList = result.Errors.Select(e => e.Description);
+					ErrorMessage = string.Join("\n", errorList);
 				}
-			} else
+			}
+			catch (Exception ex)
 			{
-				var errorList = result.Errors.Select(e => e.Description);
-				ErrorMessage = string.Join("\n", errorList);
+				{
+					MessageBox.Show($"Er ging iets mis bij Register(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 	}

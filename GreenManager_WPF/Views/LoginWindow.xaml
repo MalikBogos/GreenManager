@@ -4,45 +4,36 @@
         Title="Inloggen - GreenManager" 
         Height="500" Width="450" 
         WindowStartupLocation="CenterScreen"
-        Background="#F5F6FA"
+        Background="White"
         ResizeMode="NoResize">
 
 	<Grid>
 		<Border Width="400" Height="430" Background="White" CornerRadius="10" 
                 VerticalAlignment="Center" HorizontalAlignment="Center">
-
 			<Border.Effect>
 				<DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.1"/>
 			</Border.Effect>
 
 			<StackPanel Margin="40">
 				<TextBlock Text="GreenManager" FontSize="28" FontWeight="Bold" 
-                           Foreground="#27AE60" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-
+                           Foreground="DarkGreen" HorizontalAlignment="Center" Margin="0,0,0,10"/>
 				<TextBlock Text="Welkom terug! Log in om verder te gaan." 
-                           Foreground="#7F8C8D" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+                           Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,30"/>
 
-				<TextBlock Text="E-mailadres" FontWeight="SemiBold" Margin="0,0,0,5"/>
-				<TextBox Text="{Binding EmailInput}" Padding="10" Margin="0,0,0,20" 
-                         BorderThickness="1" BorderBrush="#DCDDE1" FontSize="14"/>
+				<TextBlock Text="E-mailadres"/>
+				<TextBox Text="{Binding EmailInput}"/>
 
-				<TextBlock Text="Wachtwoord" FontWeight="SemiBold" Margin="0,0,0,5"/>
-				<PasswordBox x:Name="TxtPassword" Padding="10" Margin="0,0,0,10" 
-                             BorderThickness="1" BorderBrush="#DCDDE1" FontSize="14"/>
+				<TextBlock Text="Wachtwoord"/>
+				<PasswordBox x:Name="TxtPassword"/>
 
-				<TextBlock Text="{Binding ErrorMessage}" Foreground="#E74C3C" 
-                           FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20" TextWrapping="Wrap"/>
+				<TextBlock Text="{Binding ErrorMessage}" Foreground="DarkRed" 
+                           FontWeight="SemiBold" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 
 				<Button Content="Inloggen" Command="{Binding LoginCommand}" 
-                        CommandParameter="{Binding ElementName=TxtPassword}"
-                        Padding="0" Background="#2C3E50" Foreground="White" 
-                        FontSize="16" FontWeight="Bold" BorderThickness="0" Cursor="Hand"/>
+                        CommandParameter="{Binding ElementName=TxtPassword}"  Width="Auto" HorizontalAlignment="Stretch" Margin="0, 5" Background="Thistle"/>
 
-				<Button Content="Account aanmaken" Command="{Binding RegisterCommand}" Padding="0" Background="CadetBlue" Foreground="White" 
-FontSize="16" FontWeight="Bold" BorderThickness="0" Cursor="Hand"/>
-				
+				<Button Content="Account aanmaken" Command="{Binding RegisterCommand}"  Width="Auto" HorizontalAlignment="Stretch" Background="Coral"/>
 			</StackPanel>
-			
 		</Border>
 	</Grid>
 </Window>

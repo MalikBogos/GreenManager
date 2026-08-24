@@ -29,7 +29,6 @@
 			</StackPanel>
 		</Grid>
 		
-		<!-- Knoppenbalk -->
 		<StackPanel Grid.Row="1" Style="{StaticResource StackPanelStyle}">
 			<Button Style="{StaticResource AddButtonStyle}" Content="Nieuwe Klant" Command="{Binding OpenAddWindowCommand}"/>
 
@@ -38,7 +37,6 @@
 			<Button Style="{StaticResource DeleteButtonStyle}" Content="Verwijder Klant" Command="{Binding SoftDeleteCustomerCommand}"/>
 		</StackPanel>
 
-		<!-- Tabel met Klanten -->
 		<DataGrid Grid.Row="2" 
                   ItemsSource="{Binding Customers}" 
 				  SelectedItem="{Binding SelectedCustomer}"

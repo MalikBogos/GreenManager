@@ -22,9 +22,9 @@ Het project maakt gebruik van Entity Framework Core. Je moet de database generer
 
 **Standaard Testaccounts (Seeded Users):**
 Na het updaten van de database zijn de volgende accounts direct beschikbaar om mee in te loggen. Ze staan standaard ingesteld op geactiveerd (`EmailConfirmed = true`):
-* `admin@greenmanager.be`
-* `employee@greenmanager.be`
-* `guest@greenmanager.be`
+* `admin@greenmanager.be` : wachtwoord = 123
+* `employee@greenmanager.be` : wachtwoord = 123
+* `guest@greenmanager.be` : wachtwoord = 123
 
 ## 3. Configuratie (User Secrets)
 

@@ -31,15 +31,25 @@ namespace GreenManager_WPF.ViewModels
 
 		private void LoadMaterials()
 		{
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var MaterialsFromDb = context.Materials.Where(m => m.IsDeleted == false).ToList();
-
-				Materials.Clear();
-
-				foreach (var materials in MaterialsFromDb)
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					Materials.Add(materials);
+					var MaterialsFromDb = context.Materials.Where(m => m.IsDeleted == false).ToList();
+
+					Materials.Clear();
+
+					foreach (var materials in MaterialsFromDb)
+					{
+						Materials.Add(materials);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LoadMaterials(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -47,66 +57,96 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private void OpenAddWindow()
 		{
-			var addWindow = new AddMaterialWindow();
-
-			if (addWindow.ShowDialog() == true)
+			try
 			{
-				using (var context = _contextFactory.CreateDbContext())
-				{
-					var MaterialToSave = addWindow.NewMaterial;
+				var addWindow = new AddMaterialWindow();
 
-					context.Materials.Add(MaterialToSave);
-					context.SaveChanges();
+				if (addWindow.ShowDialog() == true)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						var MaterialToSave = addWindow.NewMaterial;
+
+						context.Materials.Add(MaterialToSave);
+						context.SaveChanges();
+					}
+					LoadMaterials();
 				}
-				LoadMaterials();
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij OpenAddWindow(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void EditMaterial()
 		{
-			if (SelectedMaterial == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een materiaal om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			var editWindow = new EditMaterialWindow(SelectedMaterial);
-
-			if (editWindow.ShowDialog() == true)
-			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (SelectedMaterial == null)
 				{
-					editWindow.EditedMaterial.UpdatedAt = DateTime.UtcNow;
-					context.Materials.Update(editWindow.EditedMaterial);
-					context.SaveChanges();
+					MessageBox.Show("Selecteer eerst een materiaal om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
 				}
-				LoadMaterials();
+
+				var editWindow = new EditMaterialWindow(SelectedMaterial);
+
+				if (editWindow.ShowDialog() == true)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						editWindow.EditedMaterial.UpdatedAt = DateTime.UtcNow;
+						context.Materials.Update(editWindow.EditedMaterial);
+						context.SaveChanges();
+					}
+					LoadMaterials();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij EditMaterial(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void SoftDeleteMaterial()
 		{
-			if (SelectedMaterial == null)
+			try
 			{
-				MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			var result = MessageBox.Show($"Ben je zeker dat je {SelectedMaterial.Name} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-			if (result == MessageBoxResult.Yes)
-			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (SelectedMaterial == null)
 				{
-					SelectedMaterial.IsDeleted = true;
-					SelectedMaterial.DeletedAt = DateTime.UtcNow;
-					SelectedMaterial.DeletedReason = "Verwijderd voor archivering";
-					context.Materials.Update(SelectedMaterial);
-					context.SaveChanges();
+					MessageBox.Show($"Selecteer een materiaal om te verwijderen", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
 				}
-				LoadMaterials();
+
+				var result = MessageBox.Show($"Ben je zeker dat je {SelectedMaterial.Name} wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+				if (result == MessageBoxResult.Yes)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						SelectedMaterial.IsDeleted = true;
+						SelectedMaterial.DeletedAt = DateTime.UtcNow;
+						SelectedMaterial.DeletedReason = "Verwijderd voor archivering";
+						context.Materials.Update(SelectedMaterial);
+						context.SaveChanges();
+					}
+					LoadMaterials();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij SoftDeleteMaterial(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 	}

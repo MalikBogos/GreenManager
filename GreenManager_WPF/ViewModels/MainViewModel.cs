@@ -21,10 +21,10 @@ namespace GreenManager_WPF.ViewModels
 		[ObservableProperty]
 		private string _currentUserRole;
 
-		// Deze is WAAR (true) als de rol 'Admin' is. Anders is hij onwaar (false).
+		// Deze is WAAR (true) als de rol 'Admin' is. Anders is hij false
 		public bool IsAdmin => CurrentUserRole == "Admin";
 
-		// Deze is WAAR (true) als de gebruiker GEEN gast is (dus Admin of Werknemer mag dit zien).
+		// Deze is WAAR (true) als de gebruiker GEEN gast is (dus Admin of Werknemer)
 		public bool IsNotGuest => CurrentUserRole != "Guest";
 
 		public string WelcomeMessage => $"Welkom, {CurrentUserRole} {CurrentUser.FirstName}!";
@@ -42,16 +42,26 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		public void Logout()
 		{
-			var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
-
-			loginWindow.Show();
-
-			foreach (Window window in Application.Current.Windows)
+			try
 			{
-				if (window.DataContext == this)
+				var loginWindow = App.AppHost.Services.GetRequiredService<LoginWindow>();
+
+				loginWindow.Show();
+
+				foreach (Window window in Application.Current.Windows)
 				{
-					window.Close();
-					break;
+					if (window.DataContext == this)
+					{
+						window.Close();
+						break;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LogOut(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}

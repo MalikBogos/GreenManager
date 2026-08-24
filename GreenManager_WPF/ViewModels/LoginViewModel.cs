@@ -31,39 +31,74 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private async Task Login(object parameter)
 		{
-			ErrorMessage = string.Empty;
-
-			var passwordBox = parameter as PasswordBox;
-			var password = passwordBox?.Password;
-
-			if (string.IsNullOrWhiteSpace(EmailInput) || string.IsNullOrWhiteSpace(password))
+			try
 			{
-				ErrorMessage = "Vul a.u.b. zowel een e-mailadres als een wachtwoord in.";
-				return;
-			}
+				ErrorMessage = string.Empty;
 
-			var user = await _userManager.FindByEmailAsync(EmailInput);
+				var passwordBox = parameter as PasswordBox;
+				var password = passwordBox?.Password;
 
-			if (user == null || user.IsDeleted)
-			{
-				ErrorMessage = "E-mailadres of wachtwoord is onjuist, of dit account bestaat niet (meer)";
-				return;
-			}
-
-			bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
-
-			if (isPasswordCorrect)
-			{
-				var roles = await _userManager.GetRolesAsync(user);
-				string roleName = roles.Count > 0 ? roles[0] : "Onbekend";
-
-				var mainWindow = App.AppHost.Services.GetRequiredService<MainWindow>();
-
-				if (mainWindow.DataContext is MainViewModel mainVM)
+				if (string.IsNullOrWhiteSpace(EmailInput) || string.IsNullOrWhiteSpace(password))
 				{
-					mainVM.SetupUser(user, roleName);
+					ErrorMessage = "Vul a.u.b. zowel een e-mailadres als een wachtwoord in.";
+					return;
 				}
-				mainWindow.Show();
+
+				var user = await _userManager.FindByEmailAsync(EmailInput);
+
+				if (user == null || user.IsDeleted)
+				{
+					ErrorMessage = "E-mailadres of wachtwoord is onjuist, of dit account bestaat niet (meer)";
+					return;
+				}
+
+				bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
+
+				if (isPasswordCorrect)
+				{
+					var roles = await _userManager.GetRolesAsync(user);
+					string roleName = roles.Count > 0 ? roles[0] : "Onbekend";
+
+					var mainWindow = App.AppHost.Services.GetRequiredService<MainWindow>();
+
+					if (mainWindow.DataContext is MainViewModel mainVM)
+					{
+						mainVM.SetupUser(user, roleName);
+					}
+					mainWindow.Show();
+
+					foreach (Window window in Application.Current.Windows)
+					{
+						if (window.DataContext == this)
+						{
+							window.Close();
+							break;
+						}
+					}
+				}
+				else
+				{
+					ErrorMessage = "Emailadres of wachtwoord is niet juist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij Login(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+
+		}
+
+		[RelayCommand]
+		private void Register(object parameter)
+		{
+			try
+			{
+				var registerWindow = App.AppHost.Services.GetRequiredService<RegisterWindow>();
+
+				registerWindow.Show();
 
 				foreach (Window window in Application.Current.Windows)
 				{
@@ -73,26 +108,12 @@ namespace GreenManager_WPF.ViewModels
 						break;
 					}
 				}
-			} else
-			{
-				ErrorMessage = "Emailadres of wachtwoord is niet juist.";
 			}
-			
-		}
-
-		[RelayCommand]
-		private void Register(object parameter)
-		{
-			var registerWindow = App.AppHost.Services.GetRequiredService<RegisterWindow>();
-
-			registerWindow.Show();
-
-			foreach (Window window in Application.Current.Windows)
+			catch (Exception ex)
 			{
-				if (window.DataContext == this)
 				{
-					window.Close();
-					break;
+					MessageBox.Show($"Er ging iets mis bij Register(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}

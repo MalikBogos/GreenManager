@@ -107,92 +107,122 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private void EditProject()
 		{
-			if (SelectedProject == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een project om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
+				if (SelectedProject == null)
+				{
+					MessageBox.Show("Selecteer eerst een project om te bewerken.", "Geen selectie", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
+				}
 
-			using (var context = _contextFactory.CreateDbContext())
-			{
-				AvailableCustomers = context.Customers.Where(c => !c.IsDeleted).ToList();
-				AvailableStatuses = Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().ToList();
-			}
-
-			EditedProject = new Project
-			{
-				Id = SelectedProject.Id,
-				Name = SelectedProject.Name,
-				CustomerId = SelectedProject.CustomerId,
-				Status = SelectedProject.Status,
-				StartDate = SelectedProject.StartDate,
-				EndDate = SelectedProject.EndDate,
-				ProjectAddress = SelectedProject.ProjectAddress,
-				Budget = SelectedProject.Budget,
-				Description = SelectedProject.Description,
-				Notes = SelectedProject.Notes,
-				CreatedAt = SelectedProject.CreatedAt
-			};
-
-			LoadTabData();
-
-			var editWindow = new EditProjectWindow(this);
-			if (editWindow.ShowDialog() == true)
-			{
 				using (var context = _contextFactory.CreateDbContext())
 				{
-					EditedProject.UpdatedAt = DateTime.UtcNow;
-					context.Projects.Update(EditedProject);
-					context.SaveChanges();
+					AvailableCustomers = context.Customers.Where(c => !c.IsDeleted).ToList();
+					AvailableStatuses = Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().ToList();
 				}
-				LoadProjects();
+
+				EditedProject = new Project
+				{
+					Id = SelectedProject.Id,
+					Name = SelectedProject.Name,
+					CustomerId = SelectedProject.CustomerId,
+					Status = SelectedProject.Status,
+					StartDate = SelectedProject.StartDate,
+					EndDate = SelectedProject.EndDate,
+					ProjectAddress = SelectedProject.ProjectAddress,
+					Budget = SelectedProject.Budget,
+					Description = SelectedProject.Description,
+					Notes = SelectedProject.Notes,
+					CreatedAt = SelectedProject.CreatedAt
+				};
+
+				LoadTabData();
+
+				var editWindow = new EditProjectWindow(this);
+				if (editWindow.ShowDialog() == true)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						EditedProject.UpdatedAt = DateTime.UtcNow;
+						context.Projects.Update(EditedProject);
+						context.SaveChanges();
+					}
+					LoadProjects();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij EditProject(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		private void LoadTabData()
 		{
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				AvailableEmployees = context.Employees.Include(e => e.User).Where(e => !e.IsDeleted).OrderBy(e => e.User.LastName).ToList();
-				AvailableMaterials = context.Materials.Where(m => !m.IsDeleted).OrderBy(m => m.Name).ToList();
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					AvailableEmployees = context.Employees.Include(e => e.User).Where(e => !e.IsDeleted).OrderBy(e => e.User.LastName).ToList();
+					AvailableMaterials = context.Materials.Where(m => !m.IsDeleted).OrderBy(m => m.Name).ToList();
 
-				var pEmployees = context.Set<ProjectEmployee>().Include(pe => pe.Employee).ThenInclude(e => e.User).Where(pe => pe.ProjectId == EditedProject.Id && !pe.IsDeleted).ToList();
-				ProjectEmployees.Clear();
-				foreach (var pe in pEmployees) ProjectEmployees.Add(pe);
+					var pEmployees = context.Set<ProjectEmployee>().Include(pe => pe.Employee).ThenInclude(e => e.User).Where(pe => pe.ProjectId == EditedProject.Id && !pe.IsDeleted).ToList();
+					ProjectEmployees.Clear();
+					foreach (var pe in pEmployees) ProjectEmployees.Add(pe);
 
-				var pMaterials = context.Set<ProjectMaterial>().Include(pm => pm.Material).Where(pm => pm.ProjectId == EditedProject.Id && !pm.IsDeleted).ToList();
-				ProjectMaterials.Clear();
-				foreach (var pm in pMaterials) ProjectMaterials.Add(pm);
+					var pMaterials = context.Set<ProjectMaterial>().Include(pm => pm.Material).Where(pm => pm.ProjectId == EditedProject.Id && !pm.IsDeleted).ToList();
+					ProjectMaterials.Clear();
+					foreach (var pm in pMaterials) ProjectMaterials.Add(pm);
 
-				var wLogs = context.WorkLogs.Include(w => w.Employee).ThenInclude(e => e.User).Where(w => w.ProjectId == EditedProject.Id && !w.IsDeleted).ToList();
-				WorkLogs.Clear();
-				foreach (var w in wLogs) WorkLogs.Add(w);
+					var wLogs = context.WorkLogs.Include(w => w.Employee).ThenInclude(e => e.User).Where(w => w.ProjectId == EditedProject.Id && !w.IsDeleted).ToList();
+					WorkLogs.Clear();
+					foreach (var w in wLogs) WorkLogs.Add(w);
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij LoadTabData(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void SoftDeleteProject()
 		{
-			if (SelectedProject == null)
+			try
 			{
-				MessageBox.Show("Selecteer eerst een project om te verwijderen.", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			var result = MessageBox.Show($"Ben je zeker dat je het project '{SelectedProject.Name}' wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-			if (result == MessageBoxResult.Yes)
-			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (SelectedProject == null)
 				{
-					SelectedProject.IsDeleted = true;
-					SelectedProject.DeletedAt = DateTime.UtcNow;
-					SelectedProject.DeletedReason = "Verwijderd via projectenbeheer";
-
-					context.Projects.Update(SelectedProject);
-					context.SaveChanges();
+					MessageBox.Show("Selecteer eerst een project om te verwijderen.", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Information);
+					return;
 				}
-				LoadProjects();
+
+				var result = MessageBox.Show($"Ben je zeker dat je het project '{SelectedProject.Name}' wil verwijderen?", "Bevestiging", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+				if (result == MessageBoxResult.Yes)
+				{
+					using (var context = _contextFactory.CreateDbContext())
+					{
+						SelectedProject.IsDeleted = true;
+						SelectedProject.DeletedAt = DateTime.UtcNow;
+						SelectedProject.DeletedReason = "Verwijderd via projectenbeheer";
+
+						context.Projects.Update(SelectedProject);
+						context.SaveChanges();
+					}
+					LoadProjects();
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij SoftDeleteProject(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
@@ -203,138 +233,208 @@ namespace GreenManager_WPF.ViewModels
 		[RelayCommand]
 		private void AddEmployee()
 		{
-			if (SelectedEmployeeId == 0 || NewEstimatedHours <= 0) return;
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var newPlan = new ProjectEmployee { ProjectId = EditedProject.Id, EmployeeId = SelectedEmployeeId, PlannedDate = NewPlannedDate, EstimatedHours = NewEstimatedHours };
-				context.Set<ProjectEmployee>().Add(newPlan);
-				context.SaveChanges();
+				if (SelectedEmployeeId == 0 || NewEstimatedHours <= 0) return;
+				using (var context = _contextFactory.CreateDbContext())
+				{
+					var newPlan = new ProjectEmployee { ProjectId = EditedProject.Id, EmployeeId = SelectedEmployeeId, PlannedDate = NewPlannedDate, EstimatedHours = NewEstimatedHours };
+					context.Set<ProjectEmployee>().Add(newPlan);
+					context.SaveChanges();
+				}
+				LoadTabData();
 			}
-			LoadTabData();
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij AddEmployee(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
 		}
 
 		[RelayCommand]
 		private void DeleteProjectEmployee(ProjectEmployee pe)
 		{
-			if (pe != null)
+			try
 			{
-				SoftDeleteEntity<ProjectEmployee>(pe.Id);
-				pe.IsDeleted = true;
-				pe.DeletedAt = DateTime.UtcNow;
-				pe.DeletedReason = "Verwijderd voor administratieve redenen";
+				if (pe != null)
+				{
+					SoftDeleteEntity<ProjectEmployee>(pe.Id);
+					pe.IsDeleted = true;
+					pe.DeletedAt = DateTime.UtcNow;
+					pe.DeletedReason = "Verwijderd voor administratieve redenen";
+				}
 			}
-			
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij DeleteProjectEmployee(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+
 		}
 
 		[RelayCommand]
 		private void AddMaterial()
 		{
-			if (SelectedMaterialId == 0 || NewQuantity <= 0) return;
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var materialInDb = context.Materials.Find(SelectedMaterialId);
-				if (materialInDb != null)
+				if (SelectedMaterialId == 0 || NewQuantity <= 0) return;
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					if (NewQuantity > materialInDb.StockQuantity)
+					var materialInDb = context.Materials.Find(SelectedMaterialId);
+					if (materialInDb != null)
 					{
-						MessageBox.Show($"Niet genoeg voorraad! Er zijn slechts {materialInDb.StockQuantity} {materialInDb.Unit} beschikbaar.", "Voorraad Tekort", MessageBoxButton.OK, MessageBoxImage.Warning);
-						return;
-					}
-					materialInDb.StockQuantity -= NewQuantity;
-					context.Materials.Update(materialInDb);
+						if (NewQuantity > materialInDb.StockQuantity)
+						{
+							MessageBox.Show($"Niet genoeg voorraad! Er zijn slechts {materialInDb.StockQuantity} {materialInDb.Unit} beschikbaar.", "Voorraad Tekort", MessageBoxButton.OK, MessageBoxImage.Warning);
+							return;
+						}
+						materialInDb.StockQuantity -= NewQuantity;
+						context.Materials.Update(materialInDb);
 
-					var newMat = new ProjectMaterial { ProjectId = EditedProject.Id, MaterialId = SelectedMaterialId, Quantity = NewQuantity };
-					context.Set<ProjectMaterial>().Add(newMat);
-					context.SaveChanges();
+						var newMat = new ProjectMaterial { ProjectId = EditedProject.Id, MaterialId = SelectedMaterialId, Quantity = NewQuantity };
+						context.Set<ProjectMaterial>().Add(newMat);
+						context.SaveChanges();
+					}
+				}
+				NewQuantity = 0;
+				LoadTabData();
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij AddMaterial(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
-			NewQuantity = 0;
-			LoadTabData();
 		}
 
 		[RelayCommand]
 		private void DeleteProjectMaterial(ProjectMaterial pm)
 		{
-			if (pm != null && MessageBox.Show("Materiaal verwijderen en voorraad herstellen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+			try
 			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (pm != null && MessageBox.Show("Materiaal verwijderen en voorraad herstellen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 				{
-					var entity = context.Set<ProjectMaterial>().Find(pm.Id);
-					if (entity != null)
+					using (var context = _contextFactory.CreateDbContext())
 					{
-						entity.IsDeleted = true;
-						entity.DeletedAt = DateTime.UtcNow;
-						entity.DeletedReason = "Verwijderd voor administratieve redenen";
-						context.Set<ProjectMaterial>().Update(entity);
-
-						var materialInDb = context.Materials.Find(entity.MaterialId);
-						if (materialInDb != null)
+						var entity = context.Set<ProjectMaterial>().Find(pm.Id);
+						if (entity != null)
 						{
-							materialInDb.StockQuantity += entity.Quantity;
-							context.Materials.Update(materialInDb);
+							entity.IsDeleted = true;
+							entity.DeletedAt = DateTime.UtcNow;
+							entity.DeletedReason = "Verwijderd voor administratieve redenen";
+							context.Set<ProjectMaterial>().Update(entity);
+
+							var materialInDb = context.Materials.Find(entity.MaterialId);
+							if (materialInDb != null)
+							{
+								materialInDb.StockQuantity += entity.Quantity;
+								context.Materials.Update(materialInDb);
+							}
+							context.SaveChanges();
 						}
-						context.SaveChanges();
 					}
+					LoadTabData();
 				}
-				LoadTabData();
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij DeleteProjectMaterial(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		[RelayCommand]
 		private void AddWorkLog()
 		{
-			if (SelectedWorkEmployeeId == 0 || NewHoursWorked <= 0) return;
-
-			using (var context = _contextFactory.CreateDbContext())
+			try
 			{
-				var employee = context.Employees.Find(SelectedWorkEmployeeId);
-				decimal wageAtTime = employee != null ? employee.HourlyWage : 0;
-				var newLog = new WorkLog
+				if (SelectedWorkEmployeeId == 0 || NewHoursWorked <= 0) return;
+
+				using (var context = _contextFactory.CreateDbContext())
 				{
-					ProjectId = EditedProject.Id,
-					EmployeeId = SelectedWorkEmployeeId,
-					WorkDate = NewWorkDate,
-					HoursWorked = NewHoursWorked,
-					TaskDescription = NewTaskDescription,
-					HourlyWageAtTime = wageAtTime
-				};
-				context.WorkLogs.Add(newLog);
-				context.SaveChanges();
+					var employee = context.Employees.Find(SelectedWorkEmployeeId);
+					decimal wageAtTime = employee != null ? employee.HourlyWage : 0;
+					var newLog = new WorkLog
+					{
+						ProjectId = EditedProject.Id,
+						EmployeeId = SelectedWorkEmployeeId,
+						WorkDate = NewWorkDate,
+						HoursWorked = NewHoursWorked,
+						TaskDescription = NewTaskDescription,
+						HourlyWageAtTime = wageAtTime
+					};
+					context.WorkLogs.Add(newLog);
+					context.SaveChanges();
+				}
+				NewTaskDescription = string.Empty;
+				NewHoursWorked = 0;
+				LoadTabData();
 			}
-			NewTaskDescription = string.Empty;
-			NewHoursWorked = 0;
-			LoadTabData();
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij AddWorkLog(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
 		}
 
 		[RelayCommand]
 		private void DeleteWorkLog(WorkLog wl)
 		{
-			if (wl != null)
+			try
 			{
-				SoftDeleteEntity<WorkLog>(wl.Id);
-				wl.IsDeleted = true;
-				wl.DeletedAt = DateTime.UtcNow;
-				wl.DeletedReason = "Verwijderd voor administratieve redenen";
+				if (wl != null)
+				{
+					SoftDeleteEntity<WorkLog>(wl.Id);
+					wl.IsDeleted = true;
+					wl.DeletedAt = DateTime.UtcNow;
+					wl.DeletedReason = "Verwijderd voor administratieve redenen";
+				}
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij DeleteWorkLog(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
 		private void SoftDeleteEntity<T>(int id) where T : BaseEntity<int>
 		{
-			if (MessageBox.Show("Weet je zeker dat je dit record wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+			try
 			{
-				using (var context = _contextFactory.CreateDbContext())
+				if (MessageBox.Show("Weet je zeker dat je dit record wilt verwijderen?", "Bevestiging", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 				{
-					var entity = context.Set<T>().Find(id);
-					if (entity != null)
+					using (var context = _contextFactory.CreateDbContext())
 					{
-						entity.IsDeleted = true;
-						entity.DeletedAt = DateTime.UtcNow;
-						entity.DeletedReason = "Verwijderd voor administratieve redenen";
-						context.Set<T>().Update(entity);
-						context.SaveChanges();
+						var entity = context.Set<T>().Find(id);
+						if (entity != null)
+						{
+							entity.IsDeleted = true;
+							entity.DeletedAt = DateTime.UtcNow;
+							entity.DeletedReason = "Verwijderd voor administratieve redenen";
+							context.Set<T>().Update(entity);
+							context.SaveChanges();
+						}
 					}
+					LoadTabData();
 				}
-				LoadTabData();
+			}
+			catch (Exception ex)
+			{
+				{
+					MessageBox.Show($"Er ging iets mis bij SoftDeleteEntity(): {ex.Message}",
+									"Fout opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 		#endregion

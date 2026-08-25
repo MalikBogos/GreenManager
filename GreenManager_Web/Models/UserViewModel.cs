@@ -11,7 +11,7 @@ namespace GreenManager_Web.Models
 		public string LastName { get; set; } = string.Empty;
 		public string Email { get; set; } = string.Empty;
 
-		[Required(ErrorMessage = "Rol is verplicht")]
+		[Required(ErrorMessage = "RoleRequired")]
 		public string Role { get; set; } = string.Empty;
 
 		public bool IsBlocked { get; set; }

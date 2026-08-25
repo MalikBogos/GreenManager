@@ -10,19 +10,19 @@ namespace GreenManager_Web.Models
 
 		public DateTime CreatedAt { get; set; }
 
-		[Required(ErrorMessage = "Name is verplicht")]
+		[Required(ErrorMessage = "NameRequired")]
 		public string Name { get; set; } = string.Empty;
 
 		public string? Description { get; set; }
 
-		[Required(ErrorMessage = "Startdate is verplicht")]
+		[Required(ErrorMessage = "StartDateRequired")]
 		public DateTime StartDate { get; set; }
 
 		public DateTime? EndDate { get; set; }
 
 		public ProjectStatus Status { get; set; }
 
-		[Required(ErrorMessage = "CustomerId is verplicht")]
+		[Required(ErrorMessage = "CustomerRequired")]
 		public int CustomerId { get; set; }
 
 		public string? ProjectAddress { get; set; }

@@ -5,19 +5,19 @@ namespace GreenManager_Web.Models
 {
 	public class ProjectCreateViewModel
 	{
-		[Required(ErrorMessage = "Naam is verplicht")]
+		[Required(ErrorMessage = "NameRequired")]
 		public string Name { get; set; } = string.Empty;
 
 		public string? Description { get; set; }
 
-		[Required(ErrorMessage = "StartDate is verplicht")]
+		[Required(ErrorMessage = "StartDateRequired")]
 		public DateTime StartDate { get; set; } = DateTime.Today;
 
 		public DateTime? EndDate { get; set; }
 
 		public ProjectStatus Status { get; set; } = ProjectStatus.Quotation;
 
-		[Required(ErrorMessage = "CustomerId is verplicht")]
+		[Required(ErrorMessage = "CustomerRequired")]
 		public int CustomerId { get; set; }
 
 		public string? ProjectAddress { get; set; }

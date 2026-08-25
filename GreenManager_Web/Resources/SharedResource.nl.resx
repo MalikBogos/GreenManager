@@ -18,6 +18,12 @@
 	<data name="NavProjects" xml:space="preserve"><value>Projecten</value></data>
 	<data name="NavMaterials" xml:space="preserve"><value>Materiaal</value></data>
 	<data name="NavEmployees" xml:space="preserve"><value>Werknemers</value></data>
+	<data name="NavUserManagement" xml:space="preserve"><value>Gebruikersbeheer</value></data>
+	<data name="Users" xml:space="preserve"><value>Gebruikers</value></data>
+	<data name="EditProject" xml:space="preserve"><value>Project bewerken</value></data>
+	<data name="EditEmployee" xml:space="preserve"><value>Werknemer bewerken</value></data>
+	<data name="EditUser" xml:space="preserve"><value>Gebruiker bewerken</value></data>
+	<data name="EditMaterial" xml:space="preserve"><value>Materiaal bewerken</value></data>
 	<data name="NavLogin" xml:space="preserve"><value>Inloggen</value></data>
 	<data name="NavLogout" xml:space="preserve"><value>Uitloggen</value></data>
 	<data name="NavRegister" xml:space="preserve"><value>Registreren</value></data>
@@ -52,6 +58,7 @@
 	<data name="StockQuantity" xml:space="preserve"><value>Voorraad</value></data>
 	<data name="EmployeeNumber" xml:space="preserve"><value>Personeelsnummer</value></data>
 	<data name="JobTitle" xml:space="preserve"><value>Functie</value></data>
+	<data name="JobTitleRequired" xml:space="preserve"><value>Functie is verplicht.</value></data>
 	<data name="HourlyWage" xml:space="preserve"><value>Uurloon</value></data>
 	<data name="HireDate" xml:space="preserve"><value>In dienst sinds</value></data>
 	<data name="DateOfBirth" xml:space="preserve"><value>Geboortedatum</value></data>
@@ -125,5 +132,10 @@
 	<data name="ContractDetails" xml:space="preserve"><value>Contractgegevens</value></data>
 	<data name="Identity" xml:space="preserve"><value>Identiteit</value></data>
 	<data name="EditCustomer" xml:space="preserve"><value>Klant bewerken</value></data>
-
+	<data name="EmailInvalid" xml:space="preserve"><value>Ongeldig e-mailadres.</value></data>
+	<data name="HourlyWageInvalid" xml:space="preserve"><value>Uurloon moet groter dan of gelijk zijn aan 0.</value></data>
+	<data name="NameRequired" xml:space="preserve"><value>Naam is verplicht.</value></data>
+	<data name="StartDateRequired" xml:space="preserve"><value>Startdatum is verplicht.</value></data>
+	<data name="CustomerRequired" xml:space="preserve"><value>Klant is verplicht.</value></data>
+	<data name="RoleRequired" xml:space="preserve"><value>Rol is verplicht.</value></data>
 </root>

@@ -62,7 +62,7 @@
 
                         <!-- Simpele taalknoppen -->
                         <form asp-controller="Language" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" method="post" class="m-0 ms-4 d-flex">
-                            <button type="submit" name="culture" value="nl-BE" class="btn btn-sm @(currentCulture == "nl" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">NL</button>
+                            <button type="submit" name="culture" value="nl" class="btn btn-sm @(currentCulture == "nl" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">NL</button>
                             <button type="submit" name="culture" value="en" class="btn btn-sm @(currentCulture == "en" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">EN</button>
                             <button type="submit" name="culture" value="fr" class="btn btn-sm @(currentCulture == "fr" ? "btn-light text-success fw-bold" : "btn-outline-light") ms-1">FR</button>
                         </form>

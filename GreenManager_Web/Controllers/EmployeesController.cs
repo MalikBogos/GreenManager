@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Models.Data;
 using Models.Entities;
 
+/// <summary>
+/// Beheert de pagina's voor de CRUD-acties op /Employees (Werknemers). Alleen toegankelijk voor gebruikers met de rol 'Admin', anders wordt de gebruiker doorverwezen naar de 'toegang beperkt' pagina (/Accounts/AccessDenied).
+/// </summary>
 [Authorize(Policy = "AdminOnly")]
 public class EmployeesController : Controller
 {
@@ -19,13 +22,22 @@ public class EmployeesController : Controller
 	}
 
 	// GET: EMPLOYEES
+	/// <summary>
+	/// Toont een overzicht van alle, niet soft-deleted werknemers, inclusief de gekoppelde inloggegevens (.Include(e => e.User)).
+	/// </summary>
+	/// <returns>/Views/Employees/Index met een overzicht van actieve werknemers.</returns>
 	public async Task<IActionResult> Index()
 	{
 		var activeEmployees = await _context.Employees.Include(e => e.User).Where(e => !e.IsDeleted).ToListAsync();
 		return View(activeEmployees);
 	}
 
-	// GET: EMPLOYEES/Details/5
+	// GET: EMPLOYEES/Details/{Id}
+	/// <summary>
+	/// Toont een overzicht met alle details van een specifieke, niet soft-deleted Employee, inclusief inloggegevens.
+	/// </summary>
+	/// <param name="id">Verwijst naar Id in de Employees database-tabel van de specifieke werknemer die werd opgehaald.</param>
+	/// <returns>/Views/Employees/Details/{Id} of een 404NotFound-pagina indien de werknemer niet bestaat.</returns>
 	public async Task<IActionResult> Details(int? id)
 	{
 		if (id == null)
@@ -43,9 +55,13 @@ public class EmployeesController : Controller
 	}
 
 	// GET: EMPLOYEES/Create
+	/// <summary>
+	/// Toont een formulier om een nieuwe Employee aan te maken. Genereert automatisch een oplopend EmployeeNumber (bv. EMP004).
+	/// </summary>
+	/// <returns>/Views/Employees/Create met een Employee aanmaak-formulier.</returns>
 	public IActionResult Create()
 	{
-		// Code voor de automatische generatie van de EmployeeNumber bij het openen van de creation form
+		// Code voor de automatische generatie van de EmployeeNumber bij het openen van het aanmaak formulier
 		string newEmployeeNumber = "EMP001";
 		var lastEmployee = _context.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
 
@@ -58,7 +74,7 @@ public class EmployeesController : Controller
 			}
 		}
 
-		// Gebruik het schone ViewModel
+		// Gebruik het ViewModel
 		var vm = new EmployeeCreateViewModel
 		{
 			EmployeeNumber = newEmployeeNumber
@@ -67,13 +83,18 @@ public class EmployeesController : Controller
 	}
 
 	// POST: EMPLOYEES/Create
+	/// <summary>
+	/// Verwerkt het /Employees/Create formulier. Maakt eerst een ApplicationUser (inlogaccount) aan met rol 'Employee' en koppelt deze vervolgens aan een nieuwe Employee entry in de database.
+	/// </summary>
+	/// <param name="model">Verwijst naar een EmployeeCreateViewModel instantie met de ingevulde formuliergegevens.</param>
+	/// <returns>/Views/Employees/Index of /Views/Employees/Create indien er een fout is opgetreden.</returns>
 	[HttpPost]
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Create(EmployeeCreateViewModel model)
 	{
 		if (ModelState.IsValid)
 		{
-			// 1. Maak het Identity inlogaccount aan
+			// Maak het Identity inlogaccount aan
 			var newUser = new ApplicationUser
 			{
 				UserName = model.Email,
@@ -124,7 +145,12 @@ public class EmployeesController : Controller
 		return View(model);
 	}
 
-	// GET: EMPLOYEES/Edit/5
+	// GET: EMPLOYEES/Edit/{Id}
+	/// <summary>
+	/// Toont een formulier om een bestaande Employee en de daaraan gekoppelde ApplicationUser (inloggegevens) te bewerken.
+	/// </summary>
+	/// <param name="id">Verwijst naar het Id in de Employees database-tabel van de specifieke werknemer die werd opgehaald voor het bewerk-formulier.</param>
+	/// <returns>/Views/Employees/Index of een 404NotFound-pagina indien de werknemer niet bestaat.</returns>
 	public async Task<IActionResult> Edit(int? id)
 	{
 		if (id == null) return NotFound();
@@ -157,8 +183,13 @@ public class EmployeesController : Controller
 		return View(vm);
 	}
 
-	// POST: EMPLOYEES/Edit/5
-	// EmployeeEditViewModel bevat enkel de properties die bewerkt mogen worden
+	// POST: EMPLOYEES/Edit/{Id}
+	/// <summary>
+	/// Verwerkt /Employees/Edit/{Id} om zowel de Employee als de gekoppelde ApplicationUser te bewerken. Past het UpdatedAt veld aan.
+	/// </summary>
+	/// <param name="id">Verwijst naar Id in de Employees database-tabel van de specifieke werknemer die werd bewerkt.</param>
+	/// <param name="model">Verwijst naar een EmployeeEditViewModel instantie met de bewerkbare formuliergegevens (wordt gebruikt om overposting te voorkomen).</param>
+	/// <returns>/Views/Employees/Index of /Views/Employees/Edit/{Id} indien er een fout is opgetreden.</returns>	
 	[HttpPost]
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Edit(int? id, EmployeeEditViewModel model)
@@ -207,7 +238,12 @@ public class EmployeesController : Controller
 		return View(model);
 	}
 
-	// GET: EMPLOYEES/Delete/5
+	// GET: EMPLOYEES/Delete/{Id}
+	/// <summary>
+	/// Toont een bevestigingspagina voor het verwijderen (soft-delete) van een specifieke Employee.
+	/// </summary>
+	/// <param name="id">Verwijst naar het Id van de werknemer die verwijderd moet worden.</param>
+	/// <returns>/Views/Employees/Delete/{Id} of een 404NotFound-pagina indien de werknemer niet bestaat.</returns>
 	public async Task<IActionResult> Delete(int? id)
 	{
 		if (id == null)
@@ -224,7 +260,12 @@ public class EmployeesController : Controller
 		return View(employee);
 	}
 
-	// POST: EMPLOYEES/Delete/5
+	// POST: EMPLOYEES/Delete/{Id}
+	/// <summary>
+	/// Verwerkt /Employees/Delete/{Id} om een Employee te verwijderen (soft-delete). Past de IsDeleted, DeletedAt & DeletedReason velden aan.
+	/// </summary>
+	/// <param name="id">Verwijst naar het Id van de werknemer die verwijderd moet worden.</param>
+	/// <returns>Een redirect naar /Views/Employees/Index.</returns>
 	[HttpPost, ActionName("Delete")]
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> DeleteConfirmed(int? id)

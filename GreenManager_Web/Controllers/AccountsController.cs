@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
 
+
 namespace GreenManager_Web.Controllers
 {
-	// Controller die wordt gebruikt voor het aanmaken van accounts en login, /Accounts/Login en /Accounts/Register
+	/// <summary>
+	/// Beheert de login, registratie, emailbevestiging & logout-code op /Accounts/Login & /Accounts/Register.
+	/// </summary>
 	public class AccountsController : Controller
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
@@ -23,6 +26,11 @@ namespace GreenManager_Web.Controllers
 		}
 
 		// GET: /Accounts/Login
+		/// <summary>
+		/// Toont het formulier om zich aan te melden.
+		/// </summary>
+		/// <param name="returnUrl">Verwijst naar de pagina-URL waar de gebruiker (opnieuw) zal belanden na het aanmelden.</param>
+		/// <returns>/Views/Accounts/Login</returns>
 		[HttpGet]
 		public IActionResult Login(string? returnUrl = null)
 		{
@@ -31,6 +39,12 @@ namespace GreenManager_Web.Controllers
 		}
 
 		// POST: /Accounts/Login
+		/// <summary>
+		/// Verwerkt het formulier voor de aanmelding. Weigert toegang voor geblokkeerde of verwijdere accounts.
+		/// </summary>
+		/// <param name="model">Verwijst naar de ingevulde gegevens die werden doorgeeven aan het LoginViewModel.</param>
+		/// <param name="returnUrl">Verwijst naar de pagina-URL waar de gebruiker (opnieuw) zal belanden na het aanmelden.</param>
+		/// <returns>returnUrl of /Views/Home/Index of /Views/Accounts/Login met een foutmelding.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -70,6 +84,10 @@ namespace GreenManager_Web.Controllers
 		}
 
 		// GET: /Accounts/Register
+		/// <summary>
+		/// Toont het registratieformulier om zich te registreren.
+		/// </summary>
+		/// <returns>/Views/Accounts/Register</returns>
 		[HttpGet]
 		public IActionResult Register()
 		{
@@ -77,13 +95,11 @@ namespace GreenManager_Web.Controllers
 		}
 
 		// POST: /Accounts/Register
-		/// <summary> 
-		/// (Reference voor documentatiestijl)
-		/// Verwerkt de registratie van een nieuwe gebruiker: valideert het model,
-		/// maakt een ApplicationUser aan op basis van de ingevulde RegisterViewModel-gegevens,
-		/// geeft de standaardrol "Guest" en logt de gebruiker automatisch in
+		/// <summary>
+		/// Verwerkt de registratie van een nieuwe gebruiker: valideert het model, maakt een ApplicationUser aan op basis van de ingevulde RegisterViewModel-gegevens, geeft de standaardrol 'Guest' en stuurt een activatielink naar het emailadres van de gebruiker.
 		/// </summary>
-
+		/// <param name="model">Verwijst naar de ingevulde gegevens die werden doorgeeven aan het RegisterViewModel.</param>
+		/// <returns>/Views/Accounts/Register met een bericht dat de gebruiker zijn emailadres moet activeren of zijn gegevens juist moet ingeven.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(RegisterViewModel model)
@@ -140,8 +156,10 @@ namespace GreenManager_Web.Controllers
 		}
 
 		/// <summary>
-		/// Deze methode wordt aangeroepen wanneer de gebruiker op de link in zijn email klikt.
+		/// Deze methode wordt aangeroepen wanneer de gebruiker op de link in zijn email klikt. Het zet de EmailConfirmed van de gebruiker op True zodat hij zich kan aanmelden via /Accounts/Login.
 		/// </summary>
+		/// <returns>/Views/Accounts/Login</returns>
+
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -154,7 +172,7 @@ namespace GreenManager_Web.Controllers
 			var result = await _userManager.ConfirmEmailAsync(user, token);
 			if (result.Succeeded)
 			{
-				// Succes! Stuur ze naar de inlogpagina
+				// Succes! Stuur de gebruiker naar de inlogpagina
 				return RedirectToAction("Login", "Accounts");
 			}
 
@@ -163,6 +181,10 @@ namespace GreenManager_Web.Controllers
 
 
 		// POST: /Accounts/Logout
+		/// <summary>
+		/// Meldt de gebruiker af.
+		/// </summary>
+		/// <returns>/Views/Home/Index</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Logout()
@@ -172,6 +194,10 @@ namespace GreenManager_Web.Controllers
 		}
 
 		// GET: /Accounts/AccessDenied
+		/// <summary>
+		/// Toont de Toegang Beperkt-pagina aan gebruikers die een actie proberen uit te voeren waarvoor zij niet de juiste rechten hebben.
+		/// </summary>
+		/// <returns>/Views/Accounts/AccessDenied</returns>
 		[HttpGet]
 		public IActionResult AccessDenied()
 		{

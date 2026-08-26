@@ -17,7 +17,7 @@ namespace GreenManager_Web.Models
 		[Required(ErrorMessage = "LastNameRequired")]
 		public string LastName { get; set; } = string.Empty;
 
-		// --- Werknemers (Employee) gegevens ---
+		// Werknemers (Employee) gegevens ---
 		[Required(ErrorMessage = "JobTitleRequired")]
 		public string JobTitle { get; set; } = string.Empty;
 

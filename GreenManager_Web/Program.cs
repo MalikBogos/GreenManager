@@ -13,13 +13,16 @@ using System.Text;
 
 namespace GreenManager_Web
 {
+	/// <summary>
+	/// Dit is het startpunt van de applicatie waar alle services (Database, Identity, Jwt, Swagger, Middleware etc.) worden geconfigureerd.
+	/// </summary>
 	public class Program
 	{
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Gebruik serilog voor logging, textbestand in /Logs
+			// Gebruik serilog voor logging. Geeft informatie zowel in de console als in het textbestand in /Logs
 			Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).WriteTo.Console().WriteTo.File("Logs/info-log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 
 			builder.Host.UseSerilog();
@@ -46,10 +49,7 @@ namespace GreenManager_Web
 			.AddEntityFrameworkStores<GreenManagerDbContext>()
 			.AddDefaultTokenProviders();
 
-
-			
-
-			// Gebruikt voor beperking van toegang tot bepaalde rollen
+			// Gebruikt voor beperking van toegang tot specifieke pagina's voor bepaalde rollen
 			builder.Services.AddAuthorization(options =>
 			{
 				// Enkel toegankelijk voor gebruikers met rol 'Admin'
@@ -66,7 +66,7 @@ namespace GreenManager_Web
 			});
 
 
-			// Cookie-instelling
+			// Cookie-instelling voor het inloggen
 			builder.Services.ConfigureApplicationCookie(options =>
 			{
 				options.LoginPath = "/Accounts/Login";
@@ -75,7 +75,7 @@ namespace GreenManager_Web
 				options.SlidingExpiration = true;
 			});
 
-			// Localisation toevoegen, zoekt in folder /Resources
+			// Lokalisatie (meertaligheid) toevoegen, zoekt in folder /Resources
 			builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 			var supportedCultures = new[] { "nl", "en", "fr" };
@@ -92,17 +92,16 @@ namespace GreenManager_Web
 			};
 			});
 
-			// Gebruik van email confirmation
+			// Gebruik van email confirmation via mailtrap.io/MailKit
 			builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-			// Add services to the container. (+ AddRazorRuntimeCompilation)
+			// Add services to the container. (+ AddRazorRuntimeCompilation & Lokalisatie)
 			builder.Services.AddControllersWithViews()
 			.AddRazorRuntimeCompilation()
 			.AddViewLocalization()
 			.AddDataAnnotationsLocalization(options =>
 			{
-				options.DataAnnotationLocalizerProvider = (type, factory) =>
-					factory.Create(typeof(SharedResource));
+				options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResource));
 			});
 
 
@@ -112,10 +111,7 @@ namespace GreenManager_Web
 			// MAUI koppeling
 			builder.Services.AddEndpointsApiExplorer();
 
-			// Default Swagger configuratie
-			//builder.Services.AddSwaggerGen();
-
-			// JWT
+			// JWT, wordt gebruikt voor beveiliging tussen het Web project en de MAUI app
 			builder.Services.AddAuthentication()
 			.AddJwtBearer(options =>
 			{
@@ -127,8 +123,7 @@ namespace GreenManager_Web
 					ValidateIssuerSigningKey = true,
 					ValidIssuer = builder.Configuration["Jwt:Issuer"],
 					ValidAudience = builder.Configuration["Jwt:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(
-						Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
 				};
 			});
 
@@ -151,6 +146,10 @@ namespace GreenManager_Web
 				});
 			});
 
+
+			// ------------------------------------------------
+
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -161,21 +160,18 @@ namespace GreenManager_Web
 				app.UseHsts();
 			} else
 			{
-				// Swagger documentatie-pagina
+				// Toont de Swagger pagina in development
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
 
 			app.UseHttpsRedirection();
-
-			// Ajax?
-
 			app.UseRouting();
 
-			// Localisation
+			// Lokalisatie
 			app.UseRequestLocalization(app.Services.GetRequiredService<Microsoft.Extensions.Options.IOptions<RequestLocalizationOptions>>().Value);
 
-			// Activatie inlog + rechten
+			// Activatie aanmeldin + rechten
 			app.UseAuthentication();
 			app.UseAuthorization();
 

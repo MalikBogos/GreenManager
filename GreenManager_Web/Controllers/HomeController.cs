@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace GreenManager_Web.Controllers
 {
+	/// <summary>
+	/// Beheert de Home/Dashboard-pagina waar de gebruiker belandt bij het inloggen alsook de Error-pagina.
+	/// </summary>
 	public class HomeController : Controller
 	{
 		private readonly GreenManagerDbContext _context;
@@ -16,6 +19,10 @@ namespace GreenManager_Web.Controllers
 			_context = context;
 		}
 
+		/// <summary>
+		/// Toont een Dashboard met statistieken aan gebruikers met de rol 'Admin' of 'Employee', anders de Toegang Beperkt-pagina.
+		/// </summary>
+		/// <returns>/Views/Home/Index met statistieken of een Toegang Beperkt-pagina</returns>
 		public async Task<IActionResult> Index()
 		{
 			// Doe de berekeningen enkel als de gebruiker een medewerker of admin is
@@ -37,6 +44,7 @@ namespace GreenManager_Web.Controllers
 			return View();
 		}
 
+		// Toont de algemene foutpagina als er een exception optreedt.
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{

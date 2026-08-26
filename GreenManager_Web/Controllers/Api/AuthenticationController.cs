@@ -49,7 +49,7 @@ namespace GreenManager_Web.Controllers.Api
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
 
-				// Haal de JWT Key op uit je usersecrets/appsettings.json
+				// Haal de JWT Key op uit de usersecrets/appsettings.json
 				var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
 
 				var token = new JwtSecurityToken(

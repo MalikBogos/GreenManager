@@ -7,7 +7,7 @@ using Models.Data;
 using Models.Entities;
 
 /// <summary>
-/// Beheert de pagina's voor de CRUD-acties op /projects. Alleen gebruikers met de rol 'Admin' en 'Employee' mogen deze acties uitvoeren, anders wordt de gebruiker doorverwezen naar de 'toegang beperkt' pagina (/Accounts/AccessDenied).
+/// Beheert de pagina's voor de CRUD-acties op /Projects (Projecten). Alleen gebruikers met de rol 'Admin' en 'Employee' mogen deze acties uitvoeren, anders wordt de gebruiker doorverwezen naar de 'toegang beperkt' pagina (/Accounts/AccessDenied).
 /// </summary>
 [Authorize(Policy = "EmployeeAccess")]
 public class ProjectsController : Controller
@@ -21,9 +21,9 @@ public class ProjectsController : Controller
 
     // GET: PROJECTS
 	/// <summary>
-	/// Toont een overzicht van alle, niet soft-deleted projecten. Include(p => p.Customer) wordt gebruikt om de klantnaam geassocieerd met het project weer te geven.
+	/// Toont een overzicht van alle, niet soft-deleted projecten. Include(p => p.Customer) wordt gebruikt om de klantnaam geassocieerd met het Project weer te geven.
 	/// </summary>
-	/// <returns>/Views/Projects/Index.cshtml met een overzicht van actieve projecten.</returns>
+	/// <returns>/Views/Projects/Index met een overzicht van actieve projecten.</returns>
     public async Task<IActionResult> Index()    
     {
 		// Laad enkel de projecten die niet op IsDeleted = true staan;
@@ -34,10 +34,10 @@ public class ProjectsController : Controller
 
 	// GET: PROJECTS/Details/{Id}
 	/// <summary>
-	/// Toont een overzicht met alle details van een specifiek, niet soft-deleted project. Include(p => p.Customer) wordt gebruikt om de klantnaam geassocieerd met het project weer te geven.
+	/// Toont een overzicht met alle details van een specifiek, niet soft-deleted Project. Include(p => p.Customer) wordt gebruikt om de klantnaam geassocieerd met het Project weer te geven.
 	/// </summary>
 	/// <param name="id">Verwijst naar Id in de Projects database-tabel van het specifieke project dat werd opgehaald.</param>
-	/// <returns>/Views/Projects/Details/{Id} of een 404NotFound-pagina indien het project niet bestaat.</returns>
+	/// <returns>/Views/Projects/Details/{Id} of een 404NotFound-pagina indien het Project niet bestaat.</returns>
 	public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -80,6 +80,7 @@ public class ProjectsController : Controller
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Create(ProjectCreateViewModel model)
 	{
+		// Kijkt na of alle verplichte velden van het ProjectViewModel zijn ingevuld, anders wordt deze code overgeslaan.
 		if (ModelState.IsValid)
 		{
 			// Maak een echt databank-object op basis van het ProjectCreateViewModel
@@ -110,8 +111,8 @@ public class ProjectsController : Controller
 	/// <summary>
 	/// Toont een formulier om een bestaand Project te bewerken en laadt alle gekoppelde data (Customer, ProjectEmployees, ProjectMaterials, WorkLogs) van het Project (.Include(p => p.?)).
 	/// </summary>
-	/// <param name="id">Verwijst naar het Id in de Projects database-tabel van het specifieke project dat werd opgehaald voor het bewerk-formulier.</param>
-	/// <returns>/Views/Projects/Edit/{Id} of een 404NotFound-pagina indien het project niet bestaat.</returns>
+	/// <param name="id">Verwijst naar het Id in de Projects database-tabel van het specifieke Project dat werd opgehaald voor het bewerk-formulier.</param>
+	/// <returns>/Views/Projects/Edit/{Id} of een 404NotFound-pagina indien het Project niet bestaat.</returns>
 	public async Task<IActionResult> Edit(int? id)
 	{
 		if (id == null) return NotFound();
@@ -154,13 +155,13 @@ public class ProjectsController : Controller
 		return View(vm);
 	}
 
-	// POST: PROJECTS/Edit/
+	// POST: PROJECTS/Edit/{Id}
 	/// <summary>
 	/// Verwerkt /Projects/Edit/{Id} om een Project te bewerken. Past het UpdatedAt veld aan.
 	/// </summary>
-	/// <param name="id">Verwijst naar Id in de Projects database-tabel van het specifieke project dat werd bewerkt.</param>
-	/// <param name="model">Verwijst naar een ProjectEditViewModel instantie met de ingevulde formuliergegevens (wordt gebruikt om overposting te voorkomen).</param>
-	/// <returns>/Views/Projects/Edit/{Id}</returns>
+	/// <param name="id">Verwijst naar Id in de Projects database-tabel van het specifieke Project dat werd bewerkt.</param>
+	/// <param name="model">Verwijst naar een ProjectEditViewModel instantie met de bewerkbare formuliergegevens (wordt gebruikt om overposting te voorkomen).</param>
+	/// <returns>/Views/Projects/Index of /Views/Projects/Edit/{Id} indien er een fout is opgetreden.</returns>
 	[HttpPost]
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Edit(int? id, ProjectEditViewModel model)
@@ -219,7 +220,7 @@ public class ProjectsController : Controller
 	public async Task<IActionResult> AddProjectMaterial(int ProjectId, int MaterialId, decimal Quantity)
 	{
 		var material = await _context.Materials.FindAsync(MaterialId);
-		if (material != null && Quantity <= material.StockQuantity)
+		if (material != null && Quantity <= material.StockQuantity) // Controleer of er voldoende voorraad is. Redirect anders terug naar dezelfde pagina.
 		{
 			material.StockQuantity -= Quantity; // Verminder voorraad
 			_context.ProjectMaterials.Add(new ProjectMaterial { ProjectId = ProjectId, MaterialId = MaterialId, Quantity = Quantity });
@@ -244,7 +245,7 @@ public class ProjectsController : Controller
 		var employee = await _context.Employees.FindAsync(EmployeeId);
 		if (employee != null)
 		{
-			_context.WorkLogs.Add(new WorkLog { ProjectId = ProjectId, EmployeeId = EmployeeId, WorkDate = WorkDate, HoursWorked = HoursWorked, TaskDescription = TaskDescription, HourlyWageAtTime = employee.HourlyWage });
+			_context.WorkLogs.Add(new WorkLog { ProjectId = ProjectId, EmployeeId = EmployeeId, WorkDate = WorkDate, HoursWorked = HoursWorked, TaskDescription = TaskDescription, HourlyWageAtTime = employee.HourlyWage }); // HourlyWageAtTime wordt opgeslagen met HourlyWage om te voorkomen dat loonkosten gekoppeld aan het project gewijzigd worden indien het loon v/d Employee wijzigt.
 			await _context.SaveChangesAsync();
 		}
 		return RedirectToAction(nameof(Edit), new { id = ProjectId });
@@ -296,7 +297,7 @@ public class ProjectsController : Controller
 	/// Toont een bevestigingspagina die alleen toegankelijk is voor gebruikers met de rol 'Admin' voor het verwijderen (soft-delete) van een specifiek Project.
 	/// </summary>
 	/// <param name="id">Verwijst naar het Id van het Project dat verwijderd moet worden.</param>
-	/// <returns>/Views/Projects/Delete/{Id}/404NotFound-pagina indien het project niet bestaat/de AccessDenied-pagina indien de gebruiker niet genoeg rechten heeft.</returns>
+	/// <returns>/Views/Projects/Delete/{Id}/404NotFound-pagina indien het project niet bestaat of de AccessDenied-pagina indien de gebruiker niet genoeg rechten heeft.</returns>
 	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> Delete(int? id)
     {
@@ -337,10 +338,5 @@ public class ProjectsController : Controller
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
-    }
-
-    private bool ProjectExists(int? id)
-    {
-        return _context.Projects.Any(e => e.Id == id);
     }
 }

@@ -3,15 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenManager_Web.Controllers
 {
+	/// <summary>
+	/// Beheert de weergavetaal van de applicatie voor de huidige gebruiker door middel van cookies.
+	/// </summary>
 	public class LanguageController : Controller
 	{
-		//private readonly GreenManagerDbContext _context;
-
-		//public LanguageController(GreenManagerDbContext context)
-		//{
-		//	_context = context;
-		//}
-
+		// POST: /Language/SetLanguage
+		/// <summary>
+		/// Bewaart de gekozen cultuur/taal in een cookie voor de duur van 1 jaar en laadt de pagina opnieuw.
+		/// </summary>
+		/// <param name="culture">De culture-code (nl/fr/en) van de gekozen taal.</param>
+		/// <param name="returnUrl">De pagina waarnaar de gebruiker teruggestuurd moet worden nadat de taal is gewijzigd.</param>
 		[HttpPost]
 		public IActionResult SetLanguage(string culture, string returnUrl)
 		{

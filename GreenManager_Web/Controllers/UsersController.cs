@@ -8,9 +8,10 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers
 {
-    // Controller gebruikt voor /Users/ (Gegevensbeheer, rollenbeheer etc. van gebruikers)
-    // Zorgt ervoor dat enkel Admins deze acties kunnen uitvoeren
-    [Authorize(Policy = "AdminOnly")]
+	/// <summary>
+	/// Beheert gebruikers op de /Users pagina om accounts te blokkeren of van rol te wijzigen. Alleen gebruikers met de rol 'Admin' mogen deze acties uitvoeren, anders wordt de gebruiker doorverwezen naar de 'toegang beperkt' pagina (/Accounts/AccessDenied).
+	/// </summary>
+	[Authorize(Policy = "AdminOnly")]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,9 +23,12 @@ namespace GreenManager_Web.Controllers
             _roleManager = roleManager;
         }
 
-        // GET: /Users
-        // Toont alle (niet verwijderde) 'users' met gegevens en rol
-        public async Task<IActionResult> Index()
+		// GET: /Users
+		/// <summary>
+		/// Toont een overzicht van alle, niet-verwijderde gebruikers met hun huidige rol en blokkeringsstatus.
+		/// </summary>
+		/// <returns>/Views/Users/Index</returns>
+		public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
             var model = new List<UserViewModel>();
@@ -47,9 +51,13 @@ namespace GreenManager_Web.Controllers
             return View(model);
         }
 
-        // GET: /Users/Edit/5
-        // Opent het bewerkingsformulier en toont de gegevens van de gekozen gebruiker (email, rol, IsBlocked status)
-        public async Task<IActionResult> Edit(string id)
+		// GET: /Users/Edit/{Id}
+		/// <summary>
+		/// Toont het bewerkingsformulier van een specifieke gebruiker om de rol of blokkeringsstatus aan te passen.
+		/// </summary>
+		/// <param name="id">Verwijst naar het Identity Id van de op te halen gebruiker.</param>
+		/// <returns>/Views/Users/Edit/{Id} of een 404NotFound-pagina indien de gebruiker niet bestaat.</returns>
+		public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
 
@@ -72,9 +80,13 @@ namespace GreenManager_Web.Controllers
             return View(model);
         }
 
-        // POST: /Users/Edit/5
-        // Past de IsBlocked status aan, controleert of de gebruiker een andere rol heeft gekozen dan hij momenteel heeft (en past deze aan indien wel), anders gaat hij terug naar de index
-        [HttpPost]
+		// POST: /Users/Edit/{Id}
+		/// <summary>
+		/// Verwerkt /Users/Edit/{Id} om de rol of de blokkeringsstatus van een gebruiker aan te passen in de database.
+		/// </summary>
+		/// <param name="model">>Verwijst naar de bewerkte gegevens die werden doorgeeven aan het UserViewModel.</param>
+		/// <returns>Redirect naar /Views/Users/Index bij succes, of herlaadt de pagina indien er een fout optreedt.</returns>
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserViewModel model)
         {
@@ -87,7 +99,7 @@ namespace GreenManager_Web.Controllers
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null) return NotFound();
 
-            // Past de gegevens van het account aan
+            // Past de blokkeringsstatus van het account aan
             user.IsBlocked = model.IsBlocked;
 
             await _userManager.UpdateAsync(user);

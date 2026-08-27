@@ -7,6 +7,7 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers.Api
 {
+	[Authorize(Policy = "EmployeeAccess")]
 	[Route("api/[controller]")]
 	[ApiController]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -49,6 +50,7 @@ namespace GreenManager_Web.Controllers.Api
 		}
 
 		// DELETE: api/Materials/5
+		[Authorize(Policy = "AdminOnly")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteMaterial(int id)
 		{

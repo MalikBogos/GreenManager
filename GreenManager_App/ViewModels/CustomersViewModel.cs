@@ -33,10 +33,29 @@ namespace GreenManager_App.ViewModels
 		[ObservableProperty] public partial string NewCity { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewNotes { get; set; } = string.Empty;
 
+		// Filter
+		private List<Customer> _allCustomers = new List<Customer>();
+		public List<string> FilterOptions { get; } = new List<string> { "Alle Klanten", "Bedrijven", "Particulieren" };
+
+		[ObservableProperty]
+		public partial string SelectedFilter { get; set; }
+
+
+
+
+
+
+
 		public CustomersViewModel(ApiService apiService, IServiceProvider serviceProvider)
 		{
 			_apiService = apiService;
 			_serviceProvider = serviceProvider;
+			SelectedFilter = "Alle Klanten"; // Standaard filter instellen
+		}
+
+		partial void OnSelectedFilterChanged(string value)
+		{
+			ApplyFilter();
 		}
 
 		[RelayCommand]
@@ -47,11 +66,15 @@ namespace GreenManager_App.ViewModels
 			{
 				IsBusy = true;
 				var data = await _apiService.GetCustomersAsync();
-				Customers.Clear();
+
 				if (data != null)
 				{
-					foreach (var customer in data) Customers.Add(customer);
+					// Sla alle data op in de backup-lijst
+					_allCustomers = data.ToList();
 				}
+
+				// Pas direct het filter toe om de UI-lijst te vullen
+				ApplyFilter();
 			}
 			catch (Exception ex)
 			{
@@ -60,6 +83,27 @@ namespace GreenManager_App.ViewModels
 			finally
 			{
 				IsBusy = false;
+			}
+		}
+
+
+		private void ApplyFilter()
+		{
+			Customers.Clear();
+			var filtered = _allCustomers.AsEnumerable();
+
+			if (SelectedFilter == "Bedrijven")
+			{
+				filtered = filtered.Where(c => !string.IsNullOrWhiteSpace(c.CompanyName));
+			}
+			else if (SelectedFilter == "Particulieren")
+			{
+				filtered = filtered.Where(c => string.IsNullOrWhiteSpace(c.CompanyName));
+			}
+
+			foreach (var customer in filtered)
+			{
+				Customers.Add(customer);
 			}
 		}
 

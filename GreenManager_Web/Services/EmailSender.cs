@@ -6,7 +6,7 @@ using MimeKit;
 namespace GreenManager_Web.Services
 {
     /// <summary>
-    /// Service voor het versturen van e-mails via MailKit
+    /// Service voor het versturen van emails via MailKit die worden gebruikt voor het activeren/bevestigen van een emailadres. Het maakt gebruik van IEmailSender, een interface van ASP.NET CORE Identity die wordt gebruikt voor het versturen van emails met bepaalde configuraties.
     /// </summary>
     public class EmailSender : IEmailSender
     {
@@ -19,17 +19,24 @@ namespace GreenManager_Web.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Stelt een email samen op basis van de gegevens uit de configuratie (usersecrets of appsettings.json) en verstuurt dezen via een SMTP server (Mailtrap.io).
+        /// </summary>
+        /// <param name="email">Verwijst naar het emailadres van de ontvanger.</param>
+        /// <param name="subject">Verwijst naar het onderwerp van de te sturen email.</param>
+        /// <param name="htmlMessage">Verwijst naar de inhoud van de email (HTML-tekst).</param>
+        /// <returns>Een voltooide Task zodra de verzending is geslaagd of gefaald.</returns>
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var emailMessage = new MimeMessage();
             
-            // Gegevens ophalen uit configuratie + backup gegevens indien er informatie ontbreekt
+            // Gegevens ophalen uit configuratie + backup gegevens indien er informatie ontbreekt.
             string senderName = _config["EmailSettings:SenderName"] ?? "GreenManager";
             string senderEmail = _config["EmailSettings:SenderEmail"] ?? "test@test.com";
             string mailServer = _config["EmailSettings:MailServer"] ?? "";
             int mailPort = int.Parse(_config["EmailSettings:MailPort"] ?? "2525");
             
-            // Haal de gebruikersnaam op (voor Mailtrap.io), of val terug op het e-mailadres
+            // Haal de gebruikersnaam op (voor Mailtrap.io), of val terug op het emailadres.
             string senderUsername = _config["EmailSettings:SenderUsername"] ?? senderEmail;
             
             // Gebruik het wachtwoord (uit usersecrets)
@@ -50,7 +57,7 @@ namespace GreenManager_Web.Services
 					// Verbinden en mail versturen via MailKit
 					await client.ConnectAsync(mailServer, mailPort, SecureSocketOptions.StartTls);
 
-					// Hier loggen we in met de unieke Mailtrap Username in plaats van het e-mailadres
+					// Hier loggen we in met de unieke Mailtrap Username in plaats van het emailadres.
 					await client.AuthenticateAsync(senderUsername, senderPassword);
 
 					await client.SendAsync(emailMessage);

@@ -9,6 +9,7 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers.Api
 {
+	[Authorize(Policy = "AdminOnly")]
 	[Route("api/[controller]")]
 	[ApiController]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

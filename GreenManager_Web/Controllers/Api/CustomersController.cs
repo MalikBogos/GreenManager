@@ -10,6 +10,7 @@ namespace GreenManager_Web.Controllers.Api
 	/// <summary>
 	/// REST API Controller voor het ophalen van klanten voor de MAUI mobiele applicatie, beveiligd met JWT tokens
 	/// </summary>
+	[Authorize(Policy = "EmployeeAccess")]
 	[Route("api/[controller]")]
 	[ApiController]
 	// Hier vertellen we ASP.NET dat we JWT gebruiken voor de API, niet de website cookies
@@ -118,6 +119,7 @@ namespace GreenManager_Web.Controllers.Api
 		/// DELETE: api/Customers/5
 		/// Verwijdert (soft delete) een klant via MAUI
 		/// </summary>
+		[Authorize(Policy = "AdminOnly")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCustomer(int id)
 		{

@@ -1,31 +1,36 @@
 ﻿using Models.Entities;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using Models.DTOs;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace GreenManager_App.Services
 {
-    public class ApiService
-    {
-        private readonly HttpClient _httpClient;
-        private string _jwtToken = string.Empty;
+	public class ApiService
+	{
+		private readonly HttpClient _httpClient;
+		private string _jwtToken = string.Empty;
+		private static readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-        public ApiService()
-        {
+		public ApiService()
+		{
 #if DEBUG
 			var handler = new HttpsClientHandlerService();
 			_httpClient = new HttpClient(handler.GetPlatformMessageHandler());
 #else
-            _httpClient = new HttpClient();
+			_httpClient = new HttpClient();
 #endif
+			// Controleer op welk platform de app draait en stel de juiste URL in
+			string baseUrl = DeviceInfo.Platform == DevicePlatform.Android
+				? "https://10.0.2.2:7086/"
+				: "https://localhost:7086/";
 
-			// 10.0.2.2 is de manier waarop de Android Emulator met het https project communiceert
-			_httpClient.BaseAddress = new Uri("https://10.0.2.2:7086/"); 
-        }
+			_httpClient.BaseAddress = new Uri(baseUrl);
+		}
+
 
 		/// <summary>
-		/// Controleert bij het opstarten van de app of er nog een geldig token is opgeslagen in SecureStorage
+		/// Controleert bij het opstarten van de app of er nog een geldig token is opgeslagen in SecureStorage.
 		/// </summary>
 		public async Task<bool> InitializeAutoLoginAsync()
 		{
@@ -42,353 +47,161 @@ namespace GreenManager_App.Services
 		}
 
 		public async Task<bool> LoginAsync(string email, string password)
-        {
-            try
-            {
-                var loginData = new { Email = email, Password = password, RememberMe = true };
-                var json = JsonSerializer.Serialize(loginData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+		{
+			try
+			{
+				var loginData = new { Email = email, Password = password, RememberMe = true };
+				var response = await _httpClient.PostAsJsonAsync("api/authentication/login", loginData);
 
-                var response = await _httpClient.PostAsync("api/authentication/login", content);
+				if (response.IsSuccessStatusCode)
+				{
+					var result = await response.Content.ReadAsStringAsync();
+					using var doc = JsonDocument.Parse(result);
+					_jwtToken = doc.RootElement.GetProperty("token").GetString() ?? "";
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-                    using var doc = JsonDocument.Parse(result);
-                    _jwtToken = doc.RootElement.GetProperty("token").GetString() ?? "";
-
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _jwtToken);
+					_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _jwtToken);
 
                     // Sla het token op voor de volgende inlog
 					await SecureStorage.Default.SetAsync("jwt_token", _jwtToken);
 					return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+				}
+				return false;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
-		// ---------------------------- Customers
-
-		/// <summary>
-		/// Haalt de actieve klanten op via de API, met gebruik van het JWT-token.
-		/// </summary>
+		// Customers
 		public async Task<List<Customer>> GetCustomersAsync()
-		{
-			// Toon een lege lijst indien het JWT token ongeldig is
-			if (string.IsNullOrEmpty(_jwtToken))
-			{
-				return new List<Customer>();
-			}
+			=> await GetAsync<List<Customer>>("api/Customers") ?? new();
 
-			try
-			{
-				// Stuur een verzoek naar /Api/Customers
-				var response = await _httpClient.GetAsync("api/Customers");
+		public Task<bool> CreateCustomerAsync(Customer newCustomer)
+			=> PostAsync("api/Customers", newCustomer);
 
-				if (response.IsSuccessStatusCode)
-				{
-					string jsonResult = await response.Content.ReadAsStringAsync();
+		public Task<bool> UpdateCustomerAsync(int id, Customer customer)
+			=> PutAsync($"api/Customers/{id}", customer);
 
-					// Zet de JSON tekst om in een C# Lijst van Customers
-					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-					var customers = JsonSerializer.Deserialize<List<Customer>>(jsonResult, options);
+		public Task<bool> DeleteCustomerAsync(int id)
+			=> DeleteAsync($"api/Customers/{id}");
 
-					// Geef de lijst terug. Als 'customers' null is, geef dan een nieuwe lege lijst terug.
-					return customers ?? new List<Customer>();
-				}
-			}
-			catch (Exception ex)
-			{
-				// Als het ophalen van gegevens faalt, tonen we de foutmelding in de console ipv. een applicatiecrash
-				Console.WriteLine($"Fout in GetCustomersAsync(): {ex.Message}");
-			}
-
-			// Geef een lege lijst terug indien er iets mis ging
-			return new List<Customer>();
-		}
-
-		/// <summary>
-		/// Stuurt een nieuwe klant naar de API om opgeslagen te worden
-		/// </summary>
-		public async Task<bool> CreateCustomerAsync(Customer newCustomer)
-		{
-			try
-			{
-				// Zet het C# Klant object om naar JSON-tekst
-				var json = JsonSerializer.Serialize(newCustomer);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-				// Stuur een POST verzoek naar de ASP.NET API
-				var response = await _httpClient.PostAsync("api/Customers", content);
-
-				// Geeft True terug als de server succesvol antwoordt
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Fout bij toevoegen van klant: {ex.Message}");
-				return false;
-			}
-		}
-
-		public async Task<bool> UpdateCustomerAsync(int id, Customer customer)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(customer);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PutAsync($"api/Customers/{id}", content);
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Fout in UpdateCustomerAsync: {ex.Message}");
-				return false;
-			}
-		}
-
-		public async Task<bool> DeleteCustomerAsync(int id)
-		{
-			try
-			{
-				var response = await _httpClient.DeleteAsync($"api/Customers/{id}");
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Fout in DeleteCustomerAsync: {ex.Message}");
-				return false;
-			}
-		}
-
-
-
-		// ------------------------------ Projects
-
+		// Projects
 		public async Task<List<ProjectDto>> GetProjectsAsync()
-		{
-			try
-			{
-				if (string.IsNullOrEmpty(_jwtToken)) return new List<ProjectDto>();
+			=> await GetAsync<List<ProjectDto>>("api/Projects") ?? new();
 
-				var response = await _httpClient.GetAsync("api/Projects");
-				if (response.IsSuccessStatusCode)
-				{
-					string jsonResult = await response.Content.ReadAsStringAsync();
-					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-					var projects = JsonSerializer.Deserialize<List<ProjectDto>>(jsonResult, options);
-					return projects ?? new List<ProjectDto>();
-				}
-				return new List<ProjectDto>();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in GetProjectsAsync: {ex}");
-				return new List<ProjectDto>();
-			}
-		}
+		public Task<bool> CreateProjectAsync(ProjectRequestDto newProject)
+			=> PostAsync("api/Projects", newProject);
 
-		public async Task<bool> CreateProjectAsync(ProjectRequestDto newProject)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(newProject);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PostAsync("api/Projects", content);
+		public Task<bool> UpdateProjectAsync(int id, ProjectRequestDto updatedProject)
+			=> PutAsync($"api/Projects/{id}", updatedProject);
 
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in CreateProjectAsync: {ex}");
-				return false;
-			}
-		}
+		public Task<bool> DeleteProjectAsync(int id)
+			=> DeleteAsync($"api/Projects/{id}");
 
-		public async Task<bool> UpdateProjectAsync(int id, ProjectRequestDto updatedProject)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(updatedProject);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PutAsync($"api/Projects/{id}", content);
-
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in UpdateProjectAsync: {ex.Message}");
-				return false;
-			}
-		}
-
-		public async Task<bool> DeleteProjectAsync(int id)
-		{
-			try
-			{
-				var response = await _httpClient.DeleteAsync($"api/Projects/{id}");
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in DeleteProjectAsync: {ex.Message}");
-				return false;
-			}
-		}
-
-
-
-
-		// ------------------------------ Materials
-
-
+		// Materials
 		public async Task<List<Material>> GetMaterialsAsync()
-		{
-			try
-			{
-				if (string.IsNullOrEmpty(_jwtToken)) return new List<Material>();
+			=> await GetAsync<List<Material>>("api/Materials") ?? new();
 
-				var response = await _httpClient.GetAsync("api/Materials");
-				if (response.IsSuccessStatusCode)
-				{
-					string jsonResult = await response.Content.ReadAsStringAsync();
-					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-					var materials = JsonSerializer.Deserialize<List<Material>>(jsonResult, options);
-					return materials ?? new List<Material>();
-				}
-				return new List<Material>();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in GetMaterialsAsync: {ex.Message}");
-				return new List<Material>();
-			}
-		}
+		public Task<bool> CreateMaterialAsync(Material newMaterial)
+			=> PostAsync("api/Materials", newMaterial);
 
-		public async Task<bool> CreateMaterialAsync(Material newMaterial)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(newMaterial);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PostAsync("api/Materials", content);
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in CreateMaterialAsync: {ex.Message}");
-				return false;
-			}
-		}
+		public Task<bool> UpdateMaterialAsync(int id, Material material)
+			=> PutAsync($"api/Materials/{id}", material);
 
-		public async Task<bool> UpdateMaterialAsync(int id, Material material)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(material);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PutAsync($"api/Materials/{id}", content);
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in UpdateMaterialAsync: {ex.Message}");
-				return false;
-			}
-		}
+		public Task<bool> DeleteMaterialAsync(int id)
+			=> DeleteAsync($"api/Materials/{id}");
 
-		public async Task<bool> DeleteMaterialAsync(int id)
-		{
-			try
-			{
-				var response = await _httpClient.DeleteAsync($"api/Materials/{id}");
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in DeleteMaterialAsync: {ex.Message}");
-				return false;
-			}
-		}
-
-
-		// ------------------------------- Employees
-
+		// Employees
 		public async Task<List<EmployeeDto>> GetEmployeesAsync()
+			=> await GetAsync<List<EmployeeDto>>("api/Employees") ?? new();
+
+		public Task<bool> CreateEmployeeAsync(EmployeeRequestDto newEmployee)
+			=> PostAsync("api/Employees", newEmployee);
+
+		public Task<bool> UpdateEmployeeAsync(int id, EmployeeRequestDto employee)
+			=> PutAsync($"api/Employees/{id}", employee);
+
+		public Task<bool> DeleteEmployeeAsync(int id)
+			=> DeleteAsync($"api/Employees/{id}");
+
+		/// <summary>
+		/// Haalt een object of lijst van type T op via GET, met de standaard foutafhandeling
+		/// en JWT-controle die voorheen in elke Get...Async-methode herhaald werd.
+		/// </summary>
+		private async Task<T?> GetAsync<T>(string endpoint)
 		{
+			if (string.IsNullOrEmpty(_jwtToken)) return default;
+
 			try
 			{
-				if (string.IsNullOrEmpty(_jwtToken)) return new List<EmployeeDto>();
-
-				var response = await _httpClient.GetAsync("api/Employees");
+				var response = await _httpClient.GetAsync(endpoint);
 				if (response.IsSuccessStatusCode)
 				{
-					string jsonResult = await response.Content.ReadAsStringAsync();
-					var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-					var employees = JsonSerializer.Deserialize<List<EmployeeDto>>(jsonResult, options);
-					return employees ?? new List<EmployeeDto>();
+					return await response.Content.ReadFromJsonAsync<T>(_jsonOptions);
 				}
-				return new List<EmployeeDto>();
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in GetEmployeesAsync: {ex}");
-				return new List<EmployeeDto>();
+				Console.WriteLine($"Fout bij GET {endpoint}: {ex.Message}");
 			}
+
+			return default;
 		}
 
-		public async Task<bool> CreateEmployeeAsync(EmployeeRequestDto newEmployee)
+		/// <summary>
+		/// Verstuurt een object via POST en geeft terug of dit gelukt is.
+		/// </summary>
+		private async Task<bool> PostAsync<T>(string endpoint, T payload)
 		{
 			try
 			{
-				var json = JsonSerializer.Serialize(newEmployee);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PostAsync("api/Employees", content);
+				var response = await _httpClient.PostAsJsonAsync(endpoint, payload);
 				return response.IsSuccessStatusCode;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in CreateEmployeeAsync: {ex}");
-				return false;
-			}
-		}
-
-		public async Task<bool> UpdateEmployeeAsync(int id, EmployeeRequestDto employee)
-		{
-			try
-			{
-				var json = JsonSerializer.Serialize(employee);
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PutAsync($"api/Employees/{id}", content);
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in UpdateEmployeeAsync: {ex}");
-				return false;
-			}
-		}
-
-		public async Task<bool> DeleteEmployeeAsync(int id)
-		{
-			try
-			{
-				var response = await _httpClient.DeleteAsync($"api/Employees/{id}");
-				return response.IsSuccessStatusCode;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in DeleteEmployeeAsync: {ex}");
+				Console.WriteLine($"Fout bij POST {endpoint}: {ex.Message}");
 				return false;
 			}
 		}
 
 		/// <summary>
-		/// Logt de gebruiker uit door het token te verwijderen
+		/// Verstuurt een object via PUT en geeft terug of dit gelukt is.
+		/// </summary>
+		private async Task<bool> PutAsync<T>(string endpoint, T payload)
+		{
+			try
+			{
+				var response = await _httpClient.PutAsJsonAsync(endpoint, payload);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout bij PUT {endpoint}: {ex.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Verwijdert een record via DELETE en geeft terug of dit gelukt is.
+		/// </summary>
+		private async Task<bool> DeleteAsync(string endpoint)
+		{
+			try
+			{
+				var response = await _httpClient.DeleteAsync(endpoint);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout bij DELETE {endpoint}: {ex.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Logt de gebruiker uit door het token te verwijderen.
 		/// </summary>
 		public void Logout()
 		{

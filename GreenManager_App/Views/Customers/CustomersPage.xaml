@@ -6,20 +6,27 @@
              x:Name="RootPage"
              x:DataType="viewmodels:CustomersViewModel"
              Title="Klantenoverzicht">
-	<Grid RowDefinitions="Auto, *">
+
+	<Grid RowDefinitions="Auto, Auto, *">
 
 		<Button Grid.Row="0"
                 Text="+ Nieuwe Klant" 
                 Command="{Binding NavigateToAddCustomerCommand}" 
                 Padding="10,10,10,10"
-                Margin="15,15,15,0" 
+                Margin="15,15,15,5" 
                 BackgroundColor="DarkGreen" 
                 TextColor="White" />
 
-		<CollectionView Grid.Row="1" ItemsSource="{Binding Customers}">
+		<Picker Grid.Row="1" 
+                Title="Kies een filter..." 
+                ItemsSource="{Binding FilterOptions}" 
+                SelectedItem="{Binding SelectedFilter}" 
+                Margin="15,5,15,10" />
+
+		<CollectionView Grid.Row="2" ItemsSource="{Binding Customers}">
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="models:Customer">
-					<Border Margin="0,0,0,10" Padding="15" BackgroundColor="#F5F5F5">
+					<Border Margin="15,0,15,10" Padding="15" BackgroundColor="#F5F5F5">
 
 						<Border.GestureRecognizers>
 							<TapGestureRecognizer 
@@ -38,14 +45,11 @@
 			</CollectionView.ItemTemplate>
 		</CollectionView>
 
-		<ActivityIndicator Grid.Row="0" Grid.RowSpan="2"
+		<ActivityIndicator Grid.Row="0" Grid.RowSpan="3"
                            IsRunning="{Binding IsBusy}" 
                            IsVisible="{Binding IsBusy}" 
                            HorizontalOptions="Center" 
                            VerticalOptions="Center" 
                            Color="DarkGreen" />
 	</Grid>
-
 </ContentPage>
-	
-	

@@ -29,10 +29,13 @@ namespace GreenManager_Web.Controllers.Api
 			// Zoek de gebruiker in de database
 			var user = await _userManager.FindByEmailAsync(model.Email);
 
+
 			if (user == null)
 			{
 				return Unauthorized(new { message = "Emailadres of wachtwoord is onjuist" });
 			}
+
+			var userRoles = await _userManager.GetRolesAsync(user);
 
 			// Controleer het wachtwoord
 			if (await _userManager.CheckPasswordAsync(user, model.Password))
@@ -42,12 +45,18 @@ namespace GreenManager_Web.Controllers.Api
 					return Unauthorized(new { message = "Dit account is geblokkeerd of verwijderd." });
 
 
+
 				// Maak het JWT-token aan
 				var authClaims = new List<Claim>
 				{
 					new Claim(ClaimTypes.Name, user.UserName ?? ""),
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
+
+				foreach (var userRole in userRoles)
+				{
+					authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+				}
 
 				// Haal de JWT Key op uit de usersecrets/appsettings.json
 				var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));

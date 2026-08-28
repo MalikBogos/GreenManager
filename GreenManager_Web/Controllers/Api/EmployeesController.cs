@@ -9,6 +9,9 @@ using Models.Entities;
 
 namespace GreenManager_Web.Controllers.Api
 {
+	/// <summary>
+	/// REST API Controller voor CRUD-operations op werknemers (Employees) voor de MAUI applicatie, beveiligd met JWT tokens. Enkel gebruikers met de rol 'Admin' mogen deze acties uitvoeren.
+	/// </summary>
 	[Authorize(Policy = "AdminOnly")]
 	[Route("api/[controller]")]
 	[ApiController]
@@ -24,6 +27,11 @@ namespace GreenManager_Web.Controllers.Api
 			_userManager = userManager;
 		}
 
+		// GET: api/Employees
+		/// <summary>
+		/// Haalt alle niet soft-deleted werknemers op, in platte DTO-vorm met de gekoppelde gebruikersgegevens (naam, e-mail) samengevoegd in 1 object.
+		/// </summary>
+		/// <returns>200 OK met een lijst van EmployeeDto.</returns>
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployees()
 		{
@@ -53,6 +61,12 @@ namespace GreenManager_Web.Controllers.Api
 			return Ok(employees);
 		}
 
+		// POST: api/Employees
+		/// <summary>
+		/// Maakt een nieuwe werknemer aan. Maakt eerst een nieuwe ApplicationUser inlogaccount (met de rol Employee) via Identity en koppelt daaraan een nieuwe Employee met de specifieke Employee-gegevens.
+		/// </summary>
+		/// <param name="dto">De gegevens voor het nieuwe account en de nieuwe werknemer.</param>
+		/// <returns>200 OK bij succes, 400 Bad Request als het model ongeldig is of het account niet aangemaakt kon worden.</returns>
 		[HttpPost]
 		public async Task<IActionResult> PostEmployee([FromBody] EmployeeRequestDto dto)
 		{
@@ -94,6 +108,13 @@ namespace GreenManager_Web.Controllers.Api
 			return Ok();
 		}
 
+		// PUT: api/Employees/{Id}
+		/// <summary>
+		/// Werkt een bestaande werknemer bij, inclusief de naamgegevens van de gekoppelde ApplicationUser. Past UpdatedAt aan.
+		/// </summary>
+		/// <param name="id">Het Id van de werknemer die bijgewerkt wordt.</param>
+		/// <param name="dto">De bijgewerkte gegevens.</param>
+		/// <returns>204 No Content bij succes, 404 Not Found als de werknemer niet bestaat.</returns>
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutEmployee(int id, [FromBody] EmployeeRequestDto dto)
 		{
@@ -120,6 +141,12 @@ namespace GreenManager_Web.Controllers.Api
 			return NoContent();
 		}
 
+		// DELETE: api/Employees/{Id}
+		/// <summary>
+		/// Verwijdert (soft-delete) een werknemer.
+		/// </summary>
+		/// <param name="id">Het Id van de werknemer die verwijderd wordt.</param>
+		/// <returns>204 No Content bij succes, 404 Not Found als de werknemer niet bestaat.</returns>
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteEmployee(int id)
 		{

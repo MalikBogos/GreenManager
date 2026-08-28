@@ -8,12 +8,11 @@ using Models.Entities;
 namespace GreenManager_Web.Controllers.Api
 {
 	/// <summary>
-	/// REST API Controller voor het ophalen van klanten voor de MAUI mobiele applicatie, beveiligd met JWT tokens
+	/// REST API Controller voor CRUD-operations op klanten (Customers) voor de MAUI applicatie, beveiligd met JWT tokens. Enkel gebruikers met de rol 'Admin' en 'Employee' mogen deze acties uitvoeren. Enkel gebruikers met de rol 'Admin' mogen Deletes uitvoeren.
 	/// </summary>
 	[Authorize(Policy = "EmployeeAccess")]
 	[Route("api/[controller]")]
 	[ApiController]
-	// Hier vertellen we ASP.NET dat we JWT gebruiken voor de API, niet de website cookies
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class CustomersController : ControllerBase
 	{
@@ -24,10 +23,11 @@ namespace GreenManager_Web.Controllers.Api
 			_context = context;
 		}
 
+		// GET: api/Customers
 		/// <summary>
-		/// GET: api/Customers
-		/// Haalt een lijst op van alle actieve klanten in JSON formaat
+		/// Haalt alle niet soft-deleted klanten (Customers) op.
 		/// </summary>
+		/// <returns>200 OK met een lijst van Customers.</returns>
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
 		{
@@ -35,10 +35,12 @@ namespace GreenManager_Web.Controllers.Api
 			return await _context.Customers.Where(c => !c.IsDeleted).ToListAsync();
 		}
 
+		// GET: api/Customers/{Id}
 		/// <summary>
-		/// GET: api/Customers/5
-		/// Haalt de details van een specifieke klant op
+		/// Haalt de details van een specifieke, niet soft-deleted klant op.
 		/// </summary>
+		/// <param name="id">Het Id van de klant die opgehaald wordt.</param>
+		/// <returns>200 OK met de klantgegevens of 404 Not Found als de klant niet bestaat.</returns>
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetCustomer(int id)
 		{
@@ -66,10 +68,29 @@ namespace GreenManager_Web.Controllers.Api
 			return Ok(customer);
 		}
 
+		// POST: api/Customers
 		/// <summary>
-		/// PUT: api/Customers/5
-		/// Past een bestaande klant aan via MAUI
+		/// Maakt een nieuwe klant aan.
 		/// </summary>
+		/// <param name="customer">De klantgegevens om aan te maken.</param>
+		/// <returns>201 Created met de aangemaakte klant inclusief zijn toegekende Id.</returns>
+		[HttpPost]
+		public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+		{
+			_context.Customers.Add(customer);
+			await _context.SaveChangesAsync();
+
+			// Dit stuurt een '201 Created' succescode terug naar MAUI, inclusief de nieuwe ID
+			return CreatedAtAction(nameof(GetCustomers), new { id = customer.Id }, customer);
+		}
+
+		// PUT: api/Customers/{Id}
+		/// <summary>
+		/// Werkt een bestaande klant bij. Past UpdatedAt aan.
+		/// </summary>
+		/// <param name="id">Het Id van de klant die bijgewerkt wordt.</param>
+		/// <param name="customer">De bijgewerkte klantgegevens; customer.Id moet overeenkomen met id.</param>
+		/// <returns>204 No Content bij succes, 400 Bad Request als de Id's niet overeenkomen, 404 Not Found als de klant niet meer bestaat.</returns>
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutCustomer(int id, Customer customer)
 		{
@@ -100,25 +121,12 @@ namespace GreenManager_Web.Controllers.Api
 			return NoContent();
 		}
 
+		// DELETE: api/Customers/{Id}
 		/// <summary>
-		/// POST: api/Customers
-		/// Maakt een nieuwe klant aan via MAUI
+		/// Verwijdert (soft-delete) een klant. Enkel toegankelijk voor gebruikers met de rol Admin.
 		/// </summary>
-		[HttpPost]
-		public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
-		{
-			_context.Customers.Add(customer);
-			await _context.SaveChangesAsync();
-
-			// Dit stuurt een '201 Created' succescode terug naar MAUI, inclusief de nieuwe ID
-			return CreatedAtAction(nameof(GetCustomers), new { id = customer.Id }, customer);
-		}
-
-
-		/// <summary>
-		/// DELETE: api/Customers/5
-		/// Verwijdert (soft delete) een klant via MAUI
-		/// </summary>
+		/// <param name="id">Het Id van de klant die verwijderd wordt.</param>
+		/// <returns>204 No Content bij succes, 404 Not Found als de klant niet bestaat.</returns>
 		[Authorize(Policy = "AdminOnly")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCustomer(int id)
@@ -129,7 +137,7 @@ namespace GreenManager_Web.Controllers.Api
 				return NotFound();
 			}
 
-			// Soft-delete toepassen (we verwijderen het niet echt uit de database)
+			// Soft-delete toepassen (verwijdert niet echt uit de database)
 			customer.IsDeleted = true;
 			customer.DeletedAt = DateTime.UtcNow;
 			customer.DeletedReason = "Verwijderd via de mobiele app";

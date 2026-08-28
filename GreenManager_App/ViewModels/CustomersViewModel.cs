@@ -7,21 +7,29 @@ using GreenManager_App.Views.Customers;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// ViewModel voor de CustomersPage (MVVM). Beheert de CRUD-operations en filteren van klanten via de ApiService. Beheert ook de navigatie tussen de DashboardPage, het aanmaak-formulier (AddCustomerPage), de detailpagina (CustomerDetailsPage) en het bewerk-formulier (EditCustomerPage). Wordt gedeeld tussen meerdere pagina's via dependency injection.
+	/// </summary>
 	public partial class CustomersViewModel : ObservableObject
 	{
 		private readonly ApiService _apiService;
 		private readonly IServiceProvider _serviceProvider;
 
-		// --- OVERZICHT EIGENSCHAPPEN ---
+		/// <summary>
+		/// Gefilterde lijst van klanten gevuld met ApplyFilter. Gebonden aan UI via bindings.
+		/// </summary>
 		public ObservableCollection<Customer> Customers { get; set; } = new ObservableCollection<Customer>();
 
 		[ObservableProperty]
 		public partial bool IsBusy { get; set; }
 		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
 
+		/// <summary>
+		/// De klant die momenteel geselecteerd is voor de CRUD op een klant. Wordt gedeeld tussen de verschillende pagina's.
+		/// </summary>
 		[ObservableProperty] public partial Customer? SelectedCustomer { get; set; }
 
-		// --- NIEUWE KLANT EIGENSCHAPPEN ---
+		// Nieuwe klant eigenschappen. Dit zijn velden die via de Bindings op AddCustomerPage worden gebruikt om een nieuwe klant aan te maken.
 		[ObservableProperty] public partial string NewFirstName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewLastName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewCompanyName { get; set; } = string.Empty;
@@ -34,17 +42,20 @@ namespace GreenManager_App.ViewModels
 		[ObservableProperty] public partial string NewNotes { get; set; } = string.Empty;
 
 		// Filter
+		/// <summary>
+		/// De volledige lijst van klanten zoals laatst opgehaald via de API. Dient als bron voor ApplyFilter.
+		/// </summary>
 		private List<Customer> _allCustomers = new List<Customer>();
+		/// <summary>
+		/// De mogelijke filterwaarden die in de UI getoond worden.
+		/// </summary>
 		public List<string> FilterOptions { get; } = new List<string> { "Alle Klanten", "Bedrijven", "Particulieren" };
 
+		/// <summary>
+		/// De momenteel geselecteerde filter. Bij wijziging wordt automatisch ApplyFilter uitgevoerd.
+		/// </summary>
 		[ObservableProperty]
 		public partial string SelectedFilter { get; set; }
-
-
-
-
-
-
 
 		public CustomersViewModel(ApiService apiService, IServiceProvider serviceProvider)
 		{
@@ -53,11 +64,17 @@ namespace GreenManager_App.ViewModels
 			SelectedFilter = "Alle Klanten"; // Standaard filter instellen
 		}
 
+		/// <summary>
+		/// Wordt automatisch aangeroepen door de CommunityToolkit.Mvvm source generator wanneer SelectedFilter wijzigt en past het filter toe op de weergegeven lijst.
+		/// </summary>
 		partial void OnSelectedFilterChanged(string value)
 		{
 			ApplyFilter();
 		}
 
+		/// <summary>
+		/// Haalt alle klanten op via de API en slaat ze op in _allCustomers en past vervolgens de huidige filter toe om Customers te vullen. Doet niets als IsBusy == true.
+		/// </summary>
 		[RelayCommand]
 		public async Task LoadCustomersAsync()
 		{
@@ -86,7 +103,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
-
+		/// <summary>
+		/// Filtert _allCustomers op basis van SelectedFilter ("Alle Klanten", "Bedrijven" of "Particulieren", waarbij het onderscheid wordt gemaakt op basis van of CompanyName ingevuld is) en herbouwt Customers.
+		/// </summary>
 		private void ApplyFilter()
 		{
 			Customers.Clear();
@@ -106,9 +125,10 @@ namespace GreenManager_App.ViewModels
 				Customers.Add(customer);
 			}
 		}
-
-		// Opent AddCustomerPage
-
+		
+		/// <summary>
+		/// Navigeert van het klantenoverzicht (CustomersPage) naar de AddCustomerPage.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToAddCustomerAsync()
 		{
@@ -126,6 +146,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Valideert de ingevulde "Nieuwe klant"-velden en maakt bij succes een nieuwe klant aan via de API. Wist bij succes de invoervelden en navigeert terug naar het overzicht (CustomersPage).
+		/// </summary>
 		[RelayCommand]
         public async Task SaveCustomerAsync()
         {
@@ -169,6 +192,10 @@ namespace GreenManager_App.ViewModels
             }
         }
 
+		/// <summary>
+		/// Slaat de geselecteerde klant op in SelectedCustomer en navigeert naar de CustomerDetailsPage, die deze klant via de gedeelde ViewModel kan lezen.
+		/// </summary>
+		/// <param name="selected">De klant waarvan de details getoond moeten worden.</param>
 		[RelayCommand]
 		public async Task NavigateToDetailsAsync(Customer selected)
 		{
@@ -190,6 +217,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Navigeert naar de EditCustomerPage voor de klant die al in SelectedCustomer staat. Doet niets als er geen klant geselecteerd is.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToEditCustomerAsync()
 		{
@@ -205,10 +235,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToEditCustomerAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToEditCustomerAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert en werkt de gegevens van SelectedCustomer bij via de API. Navigeert bij succes terug, herlaadt de klantenlijst en stelt SelectedCustomer opnieuw in op de bijgewerkte versie van diezelfde klant.
+		/// </summary>
 		[RelayCommand]
 		public async Task UpdateCustomerAsync()
 		{
@@ -249,10 +282,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in UpdateCustomerAsync(): {ex}");
+				Console.WriteLine($"Fout in UpdateCustomerAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Vraagt bevestiging aan de gebruiker en verwijdert (soft-delete via de API) de klant in SelectedCustomer. Navigeert bij succes terug naar de CustomersPage en herlaadt de klantenlijst.
+		/// </summary>
 		[RelayCommand]
 		public async Task DeleteCustomerAsync()
 		{

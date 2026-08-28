@@ -6,19 +6,28 @@ using System.Collections.ObjectModel;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// ViewModel voor de EmployeesPage (MVVM). Beheert de CRUD-operations op werknemers via de ApiService. Beheert ook de navigatie tussen het werknemersoverzicht, het aanmaak-formulier (AddEmployeePage), de detailpagina (EmployeeDetailsPage) en het bewerk-formulier (EditEmployeePage). Wordt gedeeld tussen meerdere pagina's via dependency injection.
+	/// </summary>
 	public partial class EmployeesViewModel : ObservableObject
 	{
 		private readonly ApiService _apiService;
 		private readonly IServiceProvider _serviceProvider;
 
+		/// <summary>
+		/// Lijst van werknemers (in DTO-vorm), gebonden aan de UI via bindings.
+		/// </summary>
 		public ObservableCollection<EmployeeDto> Employees { get; set; } = new ObservableCollection<EmployeeDto>();
 
 		[ObservableProperty] public partial bool IsBusy { get; set; }
 		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
 
+		/// <summary>
+		/// De werknemer die momenteel geselecteerd is voor de CRUD op een werknemer. Wordt gedeeld tussen de verschillende pagina's.
+		/// </summary>
 		[ObservableProperty] public partial EmployeeDto? SelectedEmployee { get; set; }
 
-		// Properties voor het toevoegen van een nieuwe werknemer
+		// Properties voor het toevoegen van een nieuwe werknemer. Dit zijn velden die via de Bindings op AddEmployeePage worden gebruikt om een nieuwe werknemer aan te maken.
 		[ObservableProperty] public partial string NewFirstName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewLastName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewEmail { get; set; } = string.Empty;
@@ -38,6 +47,9 @@ namespace GreenManager_App.ViewModels
 			_serviceProvider = serviceProvider;
 		}
 
+		/// <summary>
+		/// Haalt alle actieve werknemers op via de API en slaat ze op in Employees. Doet niets als IsBusy == true.
+		/// </summary>
 		[RelayCommand]
 		public async Task LoadEmployeesAsync()
 		{
@@ -54,7 +66,7 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in LoadEmployeesAsync(): {ex}");
+				Console.WriteLine($"Fout in LoadEmployeesAsync(): {ex}");
 			}
 			finally
 			{
@@ -62,6 +74,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Herstelt alle "Nieuwe werknemer"-velden, stelt een willekeurig gegenereerd personeelsnummer in en navigeert naar de AddEmployeePage.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToAddEmployeeAsync()
 		{
@@ -84,10 +99,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToAddEmployeeAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToAddEmployeeAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert de ingevulde "Nieuwe werknemer"-velden, maakt daarmee een EmployeeRequestDto en maakt bij succes een nieuwe werknemer inclusief aanmeldingsaccount via de API. Navigeert terug naar het overzicht (EmployeesPage) bij succes.
+		/// </summary>
 		[RelayCommand]
 		public async Task SaveEmployeeAsync()
 		{
@@ -135,10 +153,14 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in SaveEmployeeAsync(): {ex}");
+				Console.WriteLine($"Fout in SaveEmployeeAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Slaat de geselecteerde werknemer op in SelectedEmployee en navigeert naar de EmployeeDetailsPage, die deze werknemer via de gedeelde ViewModel kan lezen.
+		/// </summary>
+		/// <param name="selected">De werknemer waarvan de details getoond moeten worden.</param>
 		[RelayCommand]
 		public async Task NavigateToDetailsAsync(EmployeeDto selected)
 		{
@@ -156,10 +178,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToDetailsAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToDetailsAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Navigeert naar de EditEmployeePage voor de werknemer die al in SelectedEmployee staat. Doet niets als er geen werknemer geselecteerd is.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToEditEmployeeAsync()
 		{
@@ -176,10 +201,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToEditEmployeeAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToEditEmployeeAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert en werkt de gegevens van SelectedEmployee bij via de API met EmployeeRequestDto. Navigeert bij succes terug, herlaadt de lijst en stelt SelectedEmployee opnieuw in op de bijgewerkte versie.
+		/// </summary>
 		[RelayCommand]
 		public async Task UpdateEmployeeAsync()
 		{
@@ -229,10 +257,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in UpdateEmployeeAsync(): {ex}");
+				Console.WriteLine($"Fout in UpdateEmployeeAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Vraagt bevestiging aan de gebruiker en verwijdert (soft-delete via de API) de werknemer in SelectedEmployee. Navigeert bij succes terug naar de EmployeesPage en herlaadt de werknemerslijst.
+		/// </summary>
 		[RelayCommand]
 		public async Task DeleteEmployeeAsync()
 		{
@@ -261,7 +292,7 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in DeleteEmployeeAsync(): {ex}");
+				Console.WriteLine($"Fout in DeleteEmployeeAsync(): {ex}");
 			}
 		}
 	}

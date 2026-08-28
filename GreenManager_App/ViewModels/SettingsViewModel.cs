@@ -4,6 +4,9 @@ using GreenManager_App.Services;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// Beheert de applicatie-instellingen en gebruikersacties waaronder het veilig afmelden van de sessie.
+	/// </summary>
 	public partial class SettingsViewModel : ObservableObject
 	{
 		private readonly ApiService _apiService;
@@ -15,18 +18,21 @@ namespace GreenManager_App.ViewModels
 			_serviceProvider = serviceProvider;
 		}
 
+		/// <summary>
+		/// Meldt de huidige gebruiker af door het JWT-token te verwijderen via de ApiService en overschrijft de navigatie-stack zodat de gebruiker terugkeert naar de inlogpagina.
+		/// </summary>
 		[RelayCommand]
 		public async Task LogoutAsync()
 		{
 			try
 			{
-				// Verwijder het token via de API service
+				// Verwijdert het token via de API service
 				_apiService.Logout();
 
 				var window = Application.Current?.Windows.FirstOrDefault();
 				if (window?.Page == null) return;
 
-				// Haal de loginpagina op en overschrijf de root-page, zodat de gebruiker niet terug kan via de 'back' knop
+				// Haalt de loginpagina op en overschrijft de root-page, zodat de gebruiker niet terug kan via de 'back' knop
 				var loginPage = _serviceProvider.GetRequiredService<Views.LoginPage>();
 				window.Page = new NavigationPage(loginPage);
 
@@ -34,7 +40,7 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in LogoutAsync(): {ex}");
+				Console.WriteLine($"Fout in LogoutAsync(): {ex}");
 			}
 		}
 	}

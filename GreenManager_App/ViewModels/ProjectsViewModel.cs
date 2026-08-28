@@ -7,17 +7,27 @@ using System.Collections.ObjectModel;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// ViewModel voor de ProjectsPage (MVVM). Beheert de CRUD-operations op projects en het koppelen van bestaande klanten via de ApiService. Beheert ook de navigatie tussen het projectenoverzicht (ProjectsPage), het aanmaak-formulier (AddProjectPage), de detailpagina (ProjectDetailsPage) en het bewerk-formulier (EditProjectsPae). Wordt gedeeld tussen meerdere pagina's via dependency injection.
+	/// </summary>
 	public partial class ProjectsViewModel : ObservableObject
 	{
 		private readonly ApiService _apiService;
 		private readonly IServiceProvider _serviceProvider;
 
+		/// <summary>
+		/// Lijst van projecten (in DTO-vorm), gebonden aan de UI via bindings.
+		/// </summary>
 		public ObservableCollection<ProjectDto> Projects { get; set; } = new ObservableCollection<ProjectDto>();
+		/// <summary>
+		/// Bevat een lijst van klanten bedoeld voor de dropdown (picker) op de Add/Edit-pagina's.
+		/// </summary>
 		public ObservableCollection<Customer> CustomersForPicker { get; set; } = new ObservableCollection<Customer>();
 
 		[ObservableProperty] public partial bool IsBusy { get; set; }
 		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
 
+		// Velden voor een nieuw project. Deze worden gebonden aan de UI in AddProjectPage.
 		[ObservableProperty] public partial string NewName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewDescription { get; set; } = string.Empty;
 		[ObservableProperty] public partial DateTime NewStartDate { get; set; } = DateTime.Today;
@@ -26,10 +36,18 @@ namespace GreenManager_App.ViewModels
 		[ObservableProperty] public partial string NewBudget { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewNotes { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Bevat de actieve klant die is gekozen uit de picker voor een nieuw aan te maken project.
+		/// </summary>
 		[ObservableProperty] public partial Customer? SelectedCustomerForNewProject { get; set; }
-		// Het geselecteerde project voor de Details en Edit pagina
+		/// <summary>
+		/// Het project dat momenteel geselecteerd is voor detailweergave of bewerking. Wordt gedeeld tussen de verschillende pagina's.
+		/// </summary>
 		[ObservableProperty] public partial ProjectDto? SelectedProject { get; set; }
 
+		/// <summary>
+		/// Bevat de actieve klant die is gekozen uit de picker bij het bewerken van een bestaand project om eraan gekoppeld te worden.
+		/// </summary>
 		[ObservableProperty] public partial Customer? SelectedCustomerForEdit { get; set; }
 
 		public ProjectsViewModel(ApiService apiService, IServiceProvider serviceProvider)
@@ -38,6 +56,9 @@ namespace GreenManager_App.ViewModels
 			_serviceProvider = serviceProvider;
 		}
 
+		/// <summary>
+		/// Haalt alle actieve projecten op via de API en slaat ze op in Projects. Doet niets als IsBusy == true.
+		/// </summary>
 		[RelayCommand]
 		public async Task LoadProjectsAsync()
 		{
@@ -54,7 +75,7 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in LoadProjectsAsync(): {ex}");
+				Console.WriteLine($"Fout in LoadProjectsAsync(): {ex}");
 			}
 			finally
 			{
@@ -62,6 +83,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Laadt de lijst van klanten voor de CustomersForPicker, herstelt alle "Nieuw project"-velden en navigeert naar de AddProjectPage.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToAddProjectAsync()
 		{
@@ -90,10 +114,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToAddProjectAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToAddProjectAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert de ingevulde "Nieuw project"-velden, maakt daarmee een ProjectRequestDto met status 'Quotation' en maakt bij succes een nieuw project aan via de API. Navigeert terug naar het overzicht (ProjectsPage) bij succes.
+		/// </summary>
 		[RelayCommand]
 		public async Task SaveProjectAsync()
 		{
@@ -138,10 +165,14 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in SaveProjectAsync(): {ex}");
+				Console.WriteLine($"Fout in SaveProjectAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Slaat het geselecteerde project op in SelectedProject en navigeert naar de ProjectDetailsPage, die dit project via de gedeelde ViewModel kan lezen.
+		/// </summary>
+		/// <param name="selected">Het project waarvan de details getoond moeten worden.</param>
 		[RelayCommand]
 		public async Task NavigateToDetailsAsync(ProjectDto selected)
 		{
@@ -160,42 +191,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToDetailsAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToDetailsAsync(): {ex}");
 			}
 		}
 
-		[RelayCommand]
-		public async Task DeleteProjectAsync()
-		{
-			try
-			{
-				if (SelectedProject == null) return;
-
-				var window = Application.Current?.Windows.FirstOrDefault();
-				if (window?.Page == null) return;
-
-				bool isConfirmed = await window.Page.DisplayAlertAsync("Verwijderen", $"Weet je zeker dat je {SelectedProject.Name} wilt verwijderen?", "Ja", "Nee");
-				if (!isConfirmed) return;
-
-				bool isSuccess = await _apiService.DeleteProjectAsync(SelectedProject.Id);
-
-				if (isSuccess)
-				{
-					await window.Page.Navigation.PopAsync();
-					SelectedProject = null;
-					await LoadProjectsAsync();
-				}
-				else
-				{
-					await window.Page.DisplayAlertAsync("Fout", "Project kon niet worden verwijderd.", "OK");
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in DeleteProjectAsync(): {ex}");
-			}
-		}
-
+		/// <summary>
+		/// Navigeert naar de EditProjectPage voor het project dat al in SelectedProject staat. Vult ook de CustomersForPicker en selecteert de momenteel gekoppelde klant.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToEditProjectAsync()
 		{
@@ -223,10 +225,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToEditProjectAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToEditProjectAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert en werkt de gegevens van SelectedProject bij met SelectedCustomerForEdit via de API. Navigeert bij succes terug, herlaadt de lijst en stelt SelectedProject opnieuw in op de bijgewerkte versie.
+		/// </summary>
 		[RelayCommand]
 		public async Task UpdateProjectAsync()
 		{
@@ -278,8 +283,45 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in UpdateProjectAsync(): {ex}");
+				Console.WriteLine($"Fout in UpdateProjectAsync(): {ex}");
 			}
 		}
+
+		/// <summary>
+		/// Vraagt bevestiging aan de gebruiker en verwijdert (soft-delete via de API) het project in SelectedProject. Navigeert bij succes terug naar de ProjectsPage en herlaadt de projectenlijst.
+		/// </summary>
+		[RelayCommand]
+		public async Task DeleteProjectAsync()
+		{
+			try
+			{
+				if (SelectedProject == null) return;
+
+				var window = Application.Current?.Windows.FirstOrDefault();
+				if (window?.Page == null) return;
+
+				bool isConfirmed = await window.Page.DisplayAlertAsync("Verwijderen", $"Weet je zeker dat je {SelectedProject.Name} wilt verwijderen?", "Ja", "Nee");
+				if (!isConfirmed) return;
+
+				bool isSuccess = await _apiService.DeleteProjectAsync(SelectedProject.Id);
+
+				if (isSuccess)
+				{
+					await window.Page.Navigation.PopAsync();
+					SelectedProject = null;
+					await LoadProjectsAsync();
+				}
+				else
+				{
+					await window.Page.DisplayAlertAsync("Fout", "Project kon niet worden verwijderd.", "OK");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Fout in DeleteProjectAsync(): {ex}");
+			}
+		}
+
+		
 	}
 }

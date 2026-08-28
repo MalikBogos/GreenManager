@@ -37,7 +37,7 @@
 	<data name="LastName" xml:space="preserve"><value>Achternaam</value></data>
 	<data name="Email" xml:space="preserve"><value>Emailadres</value></data>
 	<data name="Role" xml:space="preserve"><value>Rol</value></data>
-	<data name="IsBlocked" xml:space="preserve"><value>Geblokkerd</value></data>
+	<data name="IsBlocked" xml:space="preserve"><value>Geblokkeerd</value></data>
 	<data name="CompanyName" xml:space="preserve"><value>Bedrijfsnaam</value></data>
 	<data name="VATNumber" xml:space="preserve"><value>BTW-nummer</value></data>
 	<data name="PhoneNumber" xml:space="preserve"><value>Telefoonnummer</value></data>

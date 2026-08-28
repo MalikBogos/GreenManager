@@ -9,7 +9,9 @@ using System.Text;
 
 namespace GreenManager_Web.Controllers.Api
 {
-	// Dit vertelt het systeem dat dit een API is
+	/// <summary>
+	/// REST API Controller voor het aanmelden bij de MAUI app. Maakt bij een succesvolle aanmelding een JWT-token aan.
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AuthenticationController : ControllerBase
@@ -17,12 +19,22 @@ namespace GreenManager_Web.Controllers.Api
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IConfiguration _configuration;
 
+		/// <summary>
+		/// Dependency Injection van ASP.NET Identity en de configuratie voor JWT instellingen.
+		/// </summary>
+		/// <param name="userManager">De ASP.NET Identity UserManager voor gebruikers en wachtwoordcontrole.</param>
+		/// <param name="configuration">De applicatieconfiguratie, gebruikt om de JWT-instellingen op te halen.</param>
 		public AuthenticationController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
 		{
 			_userManager = userManager;
 			_configuration = configuration;
 		}
 
+		/// <summary>
+		/// Verifieert het emailadres en wachtwoord van een gebruiker en maakt een JWT-token aan met gebruikersnaam en rollen. Het JWT-token blijft 3 uur geldig.
+		/// </summary>
+		/// <param name="model">Verwijst naar een instantie van LoginViewModel met emailadres, wachtwoord en rememberme.</param>
+		/// <returns>200 OK met het JWT-token en vervaldatum indien geslaagd, anders een foutmelding.</returns>
 		[HttpPost("login")]
 		public async Task<IActionResult> Login([FromBody] LoginViewModel model)
 		{
@@ -37,7 +49,7 @@ namespace GreenManager_Web.Controllers.Api
 
 			var userRoles = await _userManager.GetRolesAsync(user);
 
-			// Controleer het wachtwoord
+			// Controleert het wachtwoord
 			if (await _userManager.CheckPasswordAsync(user, model.Password))
 			{
 
@@ -46,7 +58,7 @@ namespace GreenManager_Web.Controllers.Api
 
 
 
-				// Maak het JWT-token aan
+				// Stelt de Claims in
 				var authClaims = new List<Claim>
 				{
 					new Claim(ClaimTypes.Name, user.UserName ?? ""),
@@ -61,6 +73,7 @@ namespace GreenManager_Web.Controllers.Api
 				// Haal de JWT Key op uit de usersecrets/appsettings.json
 				var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
 
+				// Maak een nieuw token aan
 				var token = new JwtSecurityToken(
 					issuer: _configuration["Jwt:Issuer"],
 					audience: _configuration["Jwt:Audience"],
@@ -77,7 +90,7 @@ namespace GreenManager_Web.Controllers.Api
 				});
 			}
 
-			// Als inloggen mislukt, geef een "Niet Geautoriseerd" foutmelding (401)
+			// Als inloggen mislukt, geef een "Niet Geautoriseerd" foutmelding (401).
 			return Unauthorized(new { message = "E-mailadres of wachtwoord is onjuist." });
 		}
 	}

@@ -7,19 +7,28 @@ using GreenManager_App.Views.Materials;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// ViewModel voor de MaterialsPage (MVVM). Beheert de CRUD-operations op materiaal via de ApiService. Beheert ook de navigatie tussen het materiaaloverzicht (MaterialsPage), het aanmaak-formulier (AddMaterialPage), de detailpagina (MaterialDetailsPage) en het bewerk-formulier (EditMaterialPage). Wordt gedeeld tussen meerdere pagina's via dependency injection.
+	/// </summary>
 	public partial class MaterialsViewModel : ObservableObject
 	{
 		private readonly ApiService _apiService;
 		private readonly IServiceProvider _serviceProvider;
 
+		/// <summary>
+		/// Lijst van materiaal, gebonden aan de UI via bindings.
+		/// </summary>
 		public ObservableCollection<Material> Materials { get; set; } = new ObservableCollection<Material>();
 
 		[ObservableProperty] public partial bool IsBusy { get; set; }
 		[ObservableProperty] public partial string ErrorMessage { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Het materiaal dat momenteel geselecteerd is voor de CRUD op een materiaal. Wordt gedeeld tussen de verschillende pagina's.
+		/// </summary>
 		[ObservableProperty] public partial Material? SelectedMaterial { get; set; }
 
-		// Velden voor nieuw materiaal (strings voor veilige TryParse)
+		// Velden voor nieuw materiaal. Dit zijn velden die via de Bindings op AddMaterialPage worden gebruikt om een nieuw materiaal aan te maken.
 		[ObservableProperty] public partial string NewName { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewDescription { get; set; } = string.Empty;
 		[ObservableProperty] public partial string NewUnit { get; set; } = string.Empty;
@@ -33,6 +42,9 @@ namespace GreenManager_App.ViewModels
 			_serviceProvider = serviceProvider;
 		}
 
+		/// <summary>
+		/// Haalt al het materiaal op via de API en slaat ze op in Materials. Doet niets als IsBusy == true.
+		/// </summary>
 		[RelayCommand]
 		public async Task LoadMaterialsAsync()
 		{
@@ -57,6 +69,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Navigeert van het materiaaloverzicht (MaterialsPage) naar de AddMaterialPage.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToAddMaterialAsync()
 		{
@@ -75,6 +90,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Valideert de ingevulde "Nieuw materiaal"-velden en maakt bij succes een nieuw materiaal aan via de API. Wist bij succes de invoervelden en navigeert terug naar het overzicht (MaterialsPage).
+		/// </summary>
 		[RelayCommand]
 		public async Task SaveMaterialAsync()
 		{
@@ -125,6 +143,10 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Slaat het geselecteerde materiaal op in SelectedCustomer en navigeert naar de MaterialDetailsPage, die dit materiaal via de gedeelde ViewModel kan lezen.
+		/// </summary>
+		/// <param name="selected">Het materiaal waarvan de details getoond moeten worden.</param>
 		[RelayCommand]
 		public async Task NavigateToDetailsAsync(Material selected)
 		{
@@ -146,6 +168,9 @@ namespace GreenManager_App.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// Navigeert naar de EditMaterialPage voor het materiaal die al in SelectedMaterial staat. Doet niets als er geen materiaal geselecteerd is.
+		/// </summary>
 		[RelayCommand]
 		public async Task NavigateToEditMaterialAsync()
 		{
@@ -162,10 +187,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in NavigateToEditMaterialAsync(): {ex}");
+				Console.WriteLine($"Fout in NavigateToEditMaterialAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Valideert en werkt de gegevens van SelectedMaterial bij via de API. Navigeert bij succes terug, herlaadt de materiaallijst en stelt SelectedMaterial opnieuw in op de bijgewerkte versie van datzelfde materiaal.
+		/// </summary>
 		[RelayCommand]
 		public async Task UpdateMaterialAsync()
 		{
@@ -199,10 +227,13 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in UpdateMaterialAsync(): {ex}");
+				Console.WriteLine($"Fout in UpdateMaterialAsync(): {ex}");
 			}
 		}
 
+		/// <summary>
+		/// Vraagt bevestiging aan de gebruiker en verwijdert (soft-delete via de API) het materiaal in SelectedMaterial. Navigeert bij succes terug naar de MaterialsPage en herlaadt de materiaallijst.
+		/// </summary>
 		[RelayCommand]
 		public async Task DeleteMaterialAsync()
 		{
@@ -231,7 +262,7 @@ namespace GreenManager_App.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error in DeleteMaterialAsync(): {ex}");
+				Console.WriteLine($"Fout in DeleteMaterialAsync(): {ex}");
 			}
 		}
 	}

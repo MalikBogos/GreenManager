@@ -4,22 +4,38 @@ using GreenManager_App.Services;
 
 namespace GreenManager_App.ViewModels
 {
+	/// <summary>
+	/// ViewModel voor de LoginPage (MVVM). Beheert de aanmelding en authenticatie voor de MAUI app. Communiceert met de ApiService voor de aanmelding en het aanmaken van het JWT-token.
+	/// </summary>
     public partial class LoginViewModel : ObservableObject
     {
         private readonly ApiService _apiService;
         private readonly IServiceProvider _serviceProvider;
 
+		/// <summary>
+		/// Het ingevoerde emailadres, gebonden aan het invoerveld in de UI met Bindings.
+		/// </summary>
 		[ObservableProperty]
 		public partial string Email { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Het ingevoerde wachtwoord, gebonden aan het invoerveld in de UI met Bindings.
+		/// </summary>
 		[ObservableProperty]
 		public partial string Password { get; set; } = string.Empty;
 
+		/// <summary>
+		/// De foutmelding die getoond wordt als de aanmelding mislukt of de invoer ongeldig is.
+		/// </summary>
 		[ObservableProperty]
 		public partial string ErrorMessage { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Geeft aan of er momenteel een foutmelding getoond moet worden in de UI.
+		/// </summary>
 		[ObservableProperty]
 		public partial bool HasError { get; set; }
+
 
         public LoginViewModel(ApiService apiService, IServiceProvider serviceProvider)
         {
@@ -27,6 +43,9 @@ namespace GreenManager_App.ViewModels
             _serviceProvider = serviceProvider;
         }
 
+		/// <summary>
+		/// Valideert het emailadres en wachtwoord en probeert vervolgens aan te melden via de API. Navigeert naar DashboardPage bij succesvolle aanmelding en toont anders een foutmelding.
+		/// </summary>
 		[RelayCommand]
 		public async Task LoginAsync()
 		{

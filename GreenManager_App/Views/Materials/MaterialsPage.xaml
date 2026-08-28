@@ -5,7 +5,7 @@
              x:Class="GreenManager_App.Views.Materials.MaterialsPage"
              x:Name="RootPage"
              x:DataType="viewmodels:MaterialsViewModel"
-             Title="Materialen">
+             Title="Materiaal">
 
 	<Grid RowDefinitions="Auto, *">
 		<Button Grid.Row="0" Text="+ Nieuw Materiaal" Command="{Binding NavigateToAddMaterialCommand}" Padding="10" Margin="15,15,15,0" BackgroundColor="#81C784" TextColor="Black" />

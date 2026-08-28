@@ -9,6 +9,9 @@ using Models.Enums;
 
 namespace GreenManager_Web.Controllers.Api
 {
+	/// <summary>
+	/// REST API Controller voor CRUD-operations op projecten (Projects) voor de MAUI applicatie, beveiligd met JWT tokens. Enkel gebruikers met de rol 'Admin' en 'Employees' mogen deze acties uitvoeren. Enkel gebruikers met de rol 'Admin' mogen Deletes uitvoeren.
+	/// </summary>
 	[Authorize(Policy = "EmployeeAccess")]
 	[Route("api/[controller]")]
 	[ApiController]
@@ -23,6 +26,10 @@ namespace GreenManager_Web.Controllers.Api
 		}
 
 		// GET: api/Projects
+		/// <summary>
+		/// Haalt alle niet soft-deleted projecten op, in platte DTO-vorm met de naam van de gekoppelde klant samengevoegd in 1 object.
+		/// </summary>
+		/// <returns>200 OK met een lijst van ProjectDto.</returns>
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<ProjectDto>>> GetProjects()
 		{
@@ -50,6 +57,11 @@ namespace GreenManager_Web.Controllers.Api
 		}
 
 		// POST: api/Projects
+		/// <summary>
+		/// Maakt een nieuw project aan.
+		/// </summary>
+		/// <param name="dto">De projectgegevens. dto.Status moet overeenkomen met een geldige waarde van ProjectStatus Enum.</param>
+		/// <returns>200 OK bij succes, 400 Bad Request als het model ongeldig is.</returns>
 		[HttpPost]
 		public async Task<IActionResult> PostProject([FromBody] ProjectRequestDto dto)
 		{
@@ -75,7 +87,13 @@ namespace GreenManager_Web.Controllers.Api
 			return Ok(); // Status 200 OK
 		}
 
-		// PUT: api/Projects/5
+		// PUT: api/Projects/{Id}
+		/// <summary>
+		/// Werkt een bestaand project bij. Past UpdatedAt aan.
+		/// </summary>
+		/// <param name="id">Het Id van het project dat bijgewerkt wordt.</param>
+		/// <param name="dto">De bijgewerkte projectgegevens.</param>
+		/// <returns>204 No Content bij succes, 400 Bad Request bij een ongeldig model, 404 Not Found als het project niet bestaat.</returns>
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutProject(int id, [FromBody] ProjectRequestDto dto)
 		{
@@ -101,7 +119,12 @@ namespace GreenManager_Web.Controllers.Api
 			return NoContent();
 		}
 
-		// DELETE: api/Projects/5
+		// DELETE: api/Projects/{Id}
+		/// <summary>
+		/// Verwijdert (soft-delete) een project. Enkel toegankelijk voor gebruikers met de rol Admin.
+		/// </summary>
+		/// <param name="id">Het Id van het project dat verwijderd wordt.</param>
+		/// <returns>204 No Content bij succes, 404 Not Found als het project niet bestaat.</returns>
 		[Authorize(Policy = "AdminOnly")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProject(int id)

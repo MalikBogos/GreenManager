@@ -112,7 +112,7 @@
 			</TabItem>
 
 			<!-- TAB 3: MATERIAAL -->
-			<TabItem Header="Materialen" FontSize="14" FontWeight="SemiBold">
+			<TabItem Header="Materiaal" FontSize="14" FontWeight="SemiBold">
 				<Grid Margin="10">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
